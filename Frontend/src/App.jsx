@@ -1,9 +1,12 @@
 import "./App.css";
+import FoodSection from "./components/FoodSection";
+import FoodCard from "./components/FoodCard";
+import ImageExaple from "./assets/platillo-ejemplo.png";
 
 function App() {
   return (
     <>
-      <h1 className="text-2xl text-blue-700">App</h1>
+      <FoodSection />
     </>
   );
 }
