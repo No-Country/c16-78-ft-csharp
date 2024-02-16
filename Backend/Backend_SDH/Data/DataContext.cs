@@ -12,6 +12,7 @@ namespace Backend_SDH.Data
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<CookMethod> CookMethods { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Account> Accounts { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<RecipeIngredient> RecipeIngredients { get; set; }
 
