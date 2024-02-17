@@ -1,10 +1,11 @@
+import IngredientFilter from "./components/IngredientFilter";
 import "./App.css";
 
 function App() {
   return (
-    <>
-      <h1 className="text-2xl text-blue-700">App</h1>
-    </>
+    <div className="w-full">
+      <IngredientFilter />
+    </div>
   );
 }
 
