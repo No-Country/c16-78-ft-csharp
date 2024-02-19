@@ -4,6 +4,6 @@
     {
         public string Name { get; set; }
         public decimal Kcal {  get; set; }
-        public List<RecipeIngredient> RecipeIngredients { get; set; }
+        public List<RecipeIngredient>? RecipeIngredients { get; set; }
     }
 }
