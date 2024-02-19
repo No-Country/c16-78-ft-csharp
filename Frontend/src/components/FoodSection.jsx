@@ -9,7 +9,7 @@ const FoodSection = () => {
   ];
 
   return (
-    <section className="py-4 flex flex-col justify-center items-center max-w-screen-lg mx-auto">
+    <section className="py-4 flex flex-col justify-center items-center max-w-screen-lg mx-auto lg:w-2/3">
       <h1 className="text-3xl pb-4 text-textColor font-medium xl:text-xl xl:self-start">
         Puedes crear {information.length} platillos
       </h1>
