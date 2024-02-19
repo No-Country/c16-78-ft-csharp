@@ -8,6 +8,7 @@ export default {
         primary: "#00FF94",
         textColor: "#000369",
         textHint: "#BDBDC4",
+        green: "#00FF94",
       },
     },
   },
