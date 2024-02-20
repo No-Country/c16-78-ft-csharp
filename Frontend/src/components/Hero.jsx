@@ -1,3 +1,4 @@
+// HeroSection.js
 import React from "react";
 import taco from '../assets/taco.png'
 import cereza from '../assets/cereza.png'
@@ -8,59 +9,51 @@ import pasta from '../assets/pasta.png'
 
 const HeroSection = () => {
   return (
-    <section className="bg-green p-16 py-2">
-      <div className="max-w-screen-xl mx-auto flex flex-wrap items-center">
-        <div className=" p-14 w-full md:w-1/2 mb-8 md:mb-0">
-          <h3 className=" text-4xl md:text-4xl font-semibold text-navy mb-4">Crea platillos con los </h3>
-          <h3 className=" text-4xl md:text-4xl  font-semibold text-navy mb-4">ingredientes de tu nevera </h3>
-          
-          
-          <a href="#" className="inline-flex items-center justify-center text-2xl text-navy font-normal text-center rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 ">
-            Comienza a Cocinar
-          </a>
-        </div>
-        <div className="w-full md:w-1/2 flex justify-center pl-8">
-          <div className="grid grid-cols-2 gap-7  ">
-            {/* Columna 1 */}
-            <div className="bg-white  rounded-3xl shadow-md w-32 h-32">
-              
-              <img src={taco} alt="Card 1" className="" />              
-            </div>
+    <div className="flex flex-col md:flex-row bg-green text-navy p-8">
+      {/* Titulo a la izquierda */}
+      <div className="md:w-2/3 pl-16 mx-auto my-20">
+        <h1 className="text-4xl font-bold mb-4">Crea platillos con los </h1>
+        <h1 className="text-4xl font-bold mb-4">ingredientes de tu nevera</h1>
+        <p className="text-lg">
+          Comienza a Cocinar
+        </p>
+      </div>
 
-            <div className="bg-white  rounded-3xl shadow-md w-32 h-32">
-              
-              <img src={uva} alt="Card 2" className=" object-cover  rounded-md mx-auto" />
-              
-            </div>
+      {/* Columna de cards a la derecha */}
+      <div className="md:w-2/5 mt-4 md:mt-0 md:flex md:justify-between pr-6">
+        <div className="flex flex-row md:flex-row md:flex-wrap gap-6">
+          {/* Card 1 */}
+          <div className="bg-white p-4 rounded-3xl shadow mb-2 md:w-1/3">
+            <img src={taco} alt="Taco" className="w-full h-full object-cover" />
+          </div>
 
-            <div className="bg-white  rounded-3xl shadow-md w-32 h-32">
-              
-              <img src={cereza} alt="Card 3" className=" object-cover  rounded-md mx-auto" />
-              
-            </div>
+          {/* Card 2 */}
+          <div className="bg-white p-4 rounded-3xl shadow mb-2 md:w-1/3">
+            <img src={cereza} alt="Cereza" className="w-full h-full object-cover" />
+          </div>
 
-            {/* Columna 2 */}
-            <div className="bg-white  rounded-3xl shadow-md w-32 h-32">
-              
-              <img src={sushi} alt="Card 4" className=" object-cover  rounded-md mx-auto" />
-              
-            </div>
+          {/* Card 3 */}
+          <div className="bg-white p-4 rounded-3xl shadow mb-2 md:w-1/3">
+            <img src={frutilla} alt="Frutilla" className="w-full h-full object-cover" />
+          </div>
 
-            <div className="bg-white  rounded-3xl shadow-md w-32 h-32">
-              
-              <img src={pasta} alt="Card 5" className="bject-cover  rounded-md mx-auto" />
-              
-            </div>
+          {/* Card 4 */}
+          <div className="bg-white p-4 rounded-3xl shadow mb-2 md:w-1/3">
+            <img src={uva} alt="Uva" className="w-full h-full object-cover" />
+          </div>
 
-            <div className="bg-white  rounded-3xl shadow-md w-32 h-32">
-              
-              <img src={frutilla} alt="Card 6" className="object-cover  rounded-md mx-auto" />
-              
-            </div>
+          {/* Card 5 */}
+          <div className="bg-white p-4 rounded-3xl shadow mb-2 md:w-1/3">
+            <img src={sushi} alt="Sushi" className="w-full h-full object-cover" />
+          </div>
+
+          {/* Card 6 */}
+          <div className="bg-white p-4 rounded-3xl shadow mb-2 md:w-1/3">
+            <img src={pasta} alt="Pasta" className="w-full h-full object-cover" />
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
