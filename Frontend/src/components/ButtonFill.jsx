@@ -3,7 +3,7 @@ import React from "react";
 const ButtonFill = ({ children, url }) => {
   return (
     <button
-      className="bg-primary rounded-md py-2 px-4 hover:brightness-90"
+      className="bg-primary rounded-md py-2 px-4 hover:brightness-90 w-fit"
       onClick={() => {
         window.location.href = url;
       }}

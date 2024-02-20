@@ -9,12 +9,12 @@ const FoodSection = () => {
   ];
 
   return (
-    <section className="py-4 flex flex-col justify-center items-center max-w-screen-lg mx-auto lg:w-2/3">
-      <h1 className="text-3xl pb-4 text-textColor font-medium xl:text-xl xl:self-start">
+    <section className=" flex-1 p-4 overflow-hidden">
+      <h1 className="text-3xl text-center pb-4 text-textColor font-medium lg:text-xl lg:text-start">
         Puedes crear {information.length} platillos
       </h1>
-      <div className="flex flex-wrap gap-4 items-center justify-center">
-        {information?.map((item) => {
+      <div className="flex flex-row flex-wrap gap-4 justify-center lg:flex-col lg:max-w-screen-xl">
+        {information.map((item) => {
           return (
             <FoodCard
               key={item}
