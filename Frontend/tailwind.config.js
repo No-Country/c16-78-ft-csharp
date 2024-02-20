@@ -5,10 +5,16 @@ export default {
     extend: {
       colors:{
         'green':'#00FF94',
-        'navy':'#000369',      
+        'navy':'#000369',     
+        'primary': "#00FF94",
+        'textColor': "#000369",
+        'textHint': "#BDBDC4",
+        'green': "#00FF94", 
       }
     },
     
+      
+   
   },
   plugins: [],
 };
