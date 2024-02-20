@@ -10,7 +10,10 @@ export default {
         'textColor': "#000369",
         'textHint': "#BDBDC4",
         'green': "#00FF94", 
-      }
+      },
+      fontFamily: {
+        'plus-jakarta-sans': ['Plus Jakarta Sans', 'sans-serif'],
+      },
     },
     
       

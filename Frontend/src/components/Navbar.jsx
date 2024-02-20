@@ -8,7 +8,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-green border-gray-200 sticky">
+    <nav className="bg-green border-gray-200 font-plus-jakarta-sans">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-8">
         <a src="" className="flex items-center space-x-3 rtl:space-x-reverse">
           <span className="self-center text-md font-bold whitespace-nowrap text-navy ml-14">ZEROWASTE</span>
