@@ -9,9 +9,9 @@ const Navbar = () => {
 
   return (
     <nav className="bg-green border-gray-200 ">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <span className="self-center text-md font-semibold whitespace-nowrap text-navy ml-14">ZEROWASTE</span>
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-8">
+        <a src="" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <span className="self-center text-md font-bold whitespace-nowrap text-navy ml-14">ZEROWASTE</span>
         </a>
         <button
           data-collapse-toggle="navbar-default"
@@ -27,7 +27,7 @@ const Navbar = () => {
           </svg>
         </button>
         <div className={`w-full md:block md:w-auto ${isMenuOpen ? "block" : "hidden"}`} id="navbar-default">
-          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 text-navy mr-10">
+          <ul className="font-bold flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 text-navy mr-10">
             <li>
               <a href="#" className="block py-2 px-3  md:p-0 hover:text-blue-800 transition duration-300 ease-in-out ">
                 Únete
