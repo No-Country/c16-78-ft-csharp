@@ -65,7 +65,7 @@ const FoodSection = () => {
   };
 
   return (
-    <section className=" flex-1 p-4 overflow-hidden lg:rounded-tr-3xl bg-white">
+    <section className=" flex-1 2xl:flex 2xl:flex-col 2xl:items-center 2xl:justify-center p-4 overflow-hidden lg:rounded-tr-3xl bg-white">
       <h1
         ref={title}
         className="text-base md:text-3xl text-center pb-4 text-textColor font-medium lg:text-xl lg:text-start"
