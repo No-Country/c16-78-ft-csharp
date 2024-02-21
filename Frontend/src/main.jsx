@@ -5,7 +5,7 @@ import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <div className="text-textColor">
+    <div className="text-textColor bg-green">
       <App />
     </div>
   </React.StrictMode>,

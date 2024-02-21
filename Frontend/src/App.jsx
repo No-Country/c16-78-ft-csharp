@@ -9,17 +9,17 @@ import Footer from "./components/Footer";
 function App() {
   return (
     <>
-    <Navbar />
-    <HeroSection />
-    <div className="w-10/12 lg:w-full mx-auto lg:flex lg:flex-row rounded-t-lg">
-      <IngredientFilter />
-      <FoodSection />
-    </div>
-    <Footer />
+      <Navbar />
+      <HeroSection />
+      <div className="lg:w-full mx-auto lg:flex lg:flex-row">
+        <IngredientFilter />
+        <FoodSection />
+      </div>
+      <Footer />
       <h1 className="text-2xl text-blue-700">App</h1>
     </>
 
-  
+
   );
 }
 
