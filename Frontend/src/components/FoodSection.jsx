@@ -84,15 +84,17 @@ const FoodSection = () => {
             />
           );
         })}
-        <Pager
-          numberOfPages={numberOfPages}
-          currentPage={currentPage}
-          disablePrevious={disablePrevious}
-          disableNext={disableNext}
-          prevPage={prevPage}
-          nextPage={nextPage}
-          setPage={setPage}
-        />
+        <div className="w-full">
+          <Pager
+            numberOfPages={numberOfPages}
+            currentPage={currentPage}
+            disablePrevious={disablePrevious}
+            disableNext={disableNext}
+            prevPage={prevPage}
+            nextPage={nextPage}
+            setPage={setPage}
+          />
+        </div>
       </div>
     </section>
   );
