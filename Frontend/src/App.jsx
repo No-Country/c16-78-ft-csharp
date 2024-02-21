@@ -16,10 +16,7 @@ function App() {
         <FoodSection />
       </div>
       <Footer />
-      <h1 className="text-2xl text-blue-700">App</h1>
     </>
-
-
   );
 }
 
