@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend_SDH.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class CookMethodController : ControllerBase
     {
         private readonly ICookMethodService _cookMethodService;
@@ -14,11 +16,18 @@ namespace Backend_SDH.Controllers
             _cookMethodService = cookMethodService;
         }
 
-        [HttpGet("GetCookMethods")]
+        [HttpGet]
 
-        public async Task<ActionResult<ServiceResponse<List<CookMethodDto>>>> Get()
+        public async Task<ActionResult<ServiceResponse<List<CookMethodDto>>>> GetCookMethods()
         {
             return Ok(await _cookMethodService.GetCookMethods());
+        }
+
+        [HttpPost]
+
+        public async Task<ActionResult<ServiceResponse<CookMethodDto>>> AddCookMethod(CookMethodDto newCookMethod)
+        {
+            return Ok(await _cookMethodService.AddCookMethod(newCookMethod));
         }
     }
 }
