@@ -9,7 +9,7 @@ import pasta from '../assets/pasta.png'
 
 const HeroSection = () => {
   return (
-    <div className="flex flex-col md:flex-row bg-green text-navy p-8">
+    <div className="flex flex-col md:flex-row bg-green text-navy p-8 font-plus-jakarta-sans">
       {/* Titulo a la izquierda */}
       <div className="md:w-2/3 pl-16 mx-auto my-20">
         <h1 className="text-4xl font-bold mb-4">Crea platillos con los </h1>
