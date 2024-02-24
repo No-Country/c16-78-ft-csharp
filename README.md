@@ -34,7 +34,7 @@ para planificar y preparar comidas deliciosas utilizando lo que ya tienen en su 
 ## Equipo: c16-78-ft-csharp
 | Diciplina               | Nombre                                                                                 |País |
 |:------------------------ |:------------------------------------------------------------------------------------------- |:---|
-|UX/UI| [Isabel Martinez](https://github.com/...)| Mexico|
+|UX/UI| [Javier Campos](https://github.com/...)| Mexico|
 |FrontEnd - React| [Jason Morales](https://github.com/jasonmrr)| Mexico|
 |FrontEnd - React| [Nahuel Benitez](https://github.com/...)| Argentina|
 |FrontEnd - React| [Matias Campos](https://github.com/2022matias)| Argentina|
