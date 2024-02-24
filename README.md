@@ -51,13 +51,13 @@ para planificar y preparar comidas deliciosas utilizando lo que ya tienen en su 
 2. **Instalación de dependencias y uso**:
 En la carpeta del proyecto, instala las dependencias tanto para el frontend como para el backend.
  ```bash
-cd tu-proyecto/frontend
+cd c16-78-ft-csharp/frontend
 npm install
 npm start
 
 ```
  ```bash
-cd tu-proyecto/backend
+cd c16-78-ft-csharp/backend
 dotnet restore
 dotnet run
 ```
