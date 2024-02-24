@@ -46,19 +46,22 @@ para planificar y preparar comidas deliciosas utilizando lo que ya tienen en su 
 
 1. **Clonar el Repositorio:**
    ```bash
-   `git clone https://github.com/nombre/tu-proyecto.git`
+   git clone https://github.com/nombre/tu-proyecto.git
 
 2. **Instalación de dependencias y uso**:
 En la carpeta del proyecto, instala las dependencias tanto para el frontend como para el backend.
-`cd tu-proyecto/frontend`
-`npm install`
-`npm start`
+ ```bash
+cd tu-proyecto/frontend
+npm install
+npm start
 
-`cd tu-proyecto/backend`
-`dotnet restore`
-`dotnet run`
+```
+ ```bash
+cd tu-proyecto/backend
+dotnet restore
+dotnet run
+```
 
 3. **Acceder a la Aplicación:**
 Abre tu navegador y visita http://localhost:3000 
-
 
