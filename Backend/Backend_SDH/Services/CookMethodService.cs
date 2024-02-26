@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Backend_SDH.Data;
-using Backend_SDH.Dtos;
+using Backend_SDH.Dtos.CookMethodDtos;
 using Backend_SDH.Models;
 using Backend_SDH.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -21,10 +21,9 @@ namespace Backend_SDH.Services
             _dataContext = dataContext;
         }
 
-        public async Task<ServiceResponse<CookMethodDto>> AddCookMethod([FromBody]CookMethodDto newCookMethod)
+        public async Task<ServiceResponse<CookMethodDto>> AddCookMethod([FromBody] CookMethodDto newCookMethod)
         {
             var serviceResponse = new ServiceResponse<CookMethodDto>();
-
             try
             {
                 var addCookMethod = _mapper.Map<CookMethod>(newCookMethod);
@@ -41,6 +40,62 @@ namespace Backend_SDH.Services
                 serviceResponse.Success = false;
                 serviceResponse.Message = ex.Message;
             }
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<List<CookMethodDto>>> DeleteCookMethod(int id)
+        {
+            var serviceResponse = new ServiceResponse<List<CookMethodDto>>();
+
+            try
+            {
+                var dbCookMethod = await _dataContext.CookMethods.FirstOrDefaultAsync(c => c.Id == id);
+                if (dbCookMethod == null)
+                {
+                    throw new Exception($"CookMethod id '{id}' was not found.");
+                }
+
+                _dataContext.CookMethods.Remove(dbCookMethod);
+
+                await _dataContext.SaveChangesAsync();
+
+                serviceResponse.Data = await _dataContext.CookMethods.ProjectTo<CookMethodDto>(_mapper.ConfigurationProvider)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<CookMethodDto>> EditCookMethod(int id, CookMethodDto updatedCookMethod)
+        {
+            var serviceResponse = new ServiceResponse<CookMethodDto>();
+
+            try
+            {
+                var dbCookMethod = await _dataContext.CookMethods.AsTracking()
+                    .FirstOrDefaultAsync(c => c.Id == id);
+                if (dbCookMethod == null)
+                {
+                    throw new Exception($"Cook Method Id '{id}' was not found.");
+                }
+
+                _mapper.Map(updatedCookMethod, dbCookMethod);
+                await _dataContext.SaveChangesAsync();
+
+                serviceResponse.Data = await _dataContext.CookMethods.ProjectTo<CookMethodDto>(_mapper.ConfigurationProvider)
+                    .FirstOrDefaultAsync(c => c.Id == id);
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
             return serviceResponse;
         }
 

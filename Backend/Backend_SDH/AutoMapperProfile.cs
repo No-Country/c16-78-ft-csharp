@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Backend_SDH.Dtos;
+using Backend_SDH.Dtos.CookMethodDtos;
 using Backend_SDH.Models;
 
 namespace Backend_SDH
