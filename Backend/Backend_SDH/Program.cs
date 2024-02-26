@@ -1,6 +1,5 @@
+using Backend_SDH;
 using Backend_SDH.Data;
-using Backend_SDH.Services;
-using Backend_SDH.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,8 +12,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddAutoMapper(typeof(Program).Assembly);
-builder.Services.AddScoped<ICookMethodService, CookMethodService>();
+builder.Services.AddCustomServices();
 
 var app = builder.Build();
 

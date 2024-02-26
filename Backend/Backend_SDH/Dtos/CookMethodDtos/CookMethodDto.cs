@@ -1,4 +1,4 @@
-﻿namespace Backend_SDH.Dtos
+﻿namespace Backend_SDH.Dtos.CookMethodDtos
 {
     public class CookMethodDto
     {

@@ -12,6 +12,8 @@ namespace Backend_SDH.Data.Configuration
             builder.Property(x => x.Email).IsRequired().HasMaxLength(255);
             builder.Property(x => x.UserRoleId).IsRequired();
             builder.Property(x => x.Password).IsRequired();
+            builder.HasMany(x => x.Recipes).WithOne(x => x.User);
+            builder.HasMany(x => x.FavouriteRecipes).WithMany(x => x.Users).UsingEntity("UsersFavouriteRecipes");
         }
     }
 }

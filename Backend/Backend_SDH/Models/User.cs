@@ -7,5 +7,7 @@
         public string Password { get; set; }
         public UserRole UserRole { get; set; }
         public int UserRoleId { get; set; }
+        public List<Recipe> Recipes { get; set; }
+        public List<Recipe> FavouriteRecipes { get; set; }
     }
 }
