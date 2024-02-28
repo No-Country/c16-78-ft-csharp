@@ -1,12 +1,10 @@
 import React from "react";
 
-const ButtonFill = ({ children, url }) => {
+const ButtonFill = ({ children, addClass, onClick }) => {
   return (
     <button
-      className="bg-primary rounded-md py-2 px-4 hover:brightness-90 w-fit"
-      onClick={() => {
-        window.location.href = url;
-      }}
+      className={`bg-primary rounded-md py-2 px-4 hover:brightness-90 w-fit ${addClass}`}
+      onClick={onClick}
     >
       {children}
     </button>

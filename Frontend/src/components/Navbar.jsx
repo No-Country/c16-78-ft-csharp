@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -10,11 +11,14 @@ const Navbar = () => {
   return (
     <nav className="bg-green border-gray-200 font-plus-jakarta-sans">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-8">
-        <a src="" className="flex items-center space-x-3 rtl:space-x-reverse">
+        <Link
+          to="/"
+          className="flex items-center space-x-3 rtl:space-x-reverse"
+        >
           <span className="self-center text-md font-bold whitespace-nowrap text-navy ml-14">
             ZEROWASTE
           </span>
-        </a>
+        </Link>
         <button
           data-collapse-toggle="navbar-default"
           type="button"
@@ -48,20 +52,20 @@ const Navbar = () => {
         >
           <ul className="font-bold flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 text-navy mr-10">
             <li>
-              <a
-                href="#"
+              <Link
+                to="/register"
                 className="block py-2 px-3  md:p-0 hover:text-blue-800 transition duration-300 ease-in-out "
               >
                 Únete
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/login"
                 className="block py-2 px-3  md:p-0 hover:text-blue-800 transition duration-300 ease-in-out "
               >
                 Iniciar Sesión
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
