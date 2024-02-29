@@ -10,10 +10,14 @@ export default {
         textColor: "#000369",
         textHint: "#BDBDC4",
         green: "#00FF94",
-        "background-modal": "#00000070",
+        "background-modal": "#00000090",
+        "background-card": "#f5f6f9",
       },
       fontFamily: {
         "plus-jakarta-sans": ["Plus Jakarta Sans", "sans-serif"],
+      },
+      screens: {
+        xsm: "450px",
       },
     },
   },
