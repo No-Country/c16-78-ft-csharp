@@ -68,6 +68,7 @@ const Register = () => {
         </form>
       </article>
       <Footer/>
+
     </main>
   )
 }

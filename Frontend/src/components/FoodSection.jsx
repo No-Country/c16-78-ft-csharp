@@ -146,7 +146,7 @@ const FoodSection = () => {
     <section className=" flex-1 2xl:flex 2xl:flex-col 2xl:items-center 2xl:justify-start p-4 overflow-hidden lg:rounded-tr-3xl bg-white">
       <h1
         ref={title}
-        className="text-base md:text-3xl text-center pb-4 text-textColor font-medium lg:text-xl lg:text-start"
+        className="text-base md:text-3xl text-center pb-4 font-medium lg:text-xl lg:text-start"
       >
         Puedes crear {information.length} platillos
       </h1>

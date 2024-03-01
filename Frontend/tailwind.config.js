@@ -4,12 +4,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        green: "#00FF94",
-        navy: "#000369",
-        primary: "#00FF94",
-        textColor: "#000369",
-        textHint: "#BDBDC4",
-        green: "#00FF94",
+        primary: "#70a8e4", // Azul principal
+        secondary: "#000369", // Azul Obscuro Anterior
+        textHint: "#BDBDC4", // Gris
         "background-modal": "#00000090",
         "background-card": "#f5f6f9",
       },

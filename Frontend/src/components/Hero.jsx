@@ -1,59 +1,78 @@
 // HeroSection.js
 import React from "react";
-import taco from '../assets/taco.png'
-import cereza from '../assets/cereza.png'
-import frutilla from '../assets/fresa.png'
-import uva from '../assets/uva.png'
-import sushi from '../assets/sushi.png'
-import pasta from '../assets/pasta.png'
+import { FaArrowRight } from "react-icons/fa";
+import taco from "../assets/taco.png";
+import cereza from "../assets/cereza.png";
+import frutilla from "../assets/fresa.png";
+import uva from "../assets/uva.png";
+import sushi from "../assets/sushi.png";
+import pasta from "../assets/pasta.png";
+
+const previewItems = [
+  {
+    title: "taco",
+    icon: taco,
+  },
+  {
+    title: "cereza",
+    icon: cereza,
+  },
+  {
+    title: "frutilla",
+    icon: frutilla,
+  },
+  {
+    title: "uva",
+    icon: uva,
+  },
+  {
+    title: "sushi",
+    icon: sushi,
+  },
+  {
+    title: "pasta",
+    icon: pasta,
+  },
+];
 
 const HeroSection = () => {
   return (
-    <div className="flex flex-col md:flex-row bg-green text-navy p-8 font-plus-jakarta-sans">
+    <section className="bg-primary flex flex-col md:flex-row md:justify-between max-w-screen-2xl mx-auto px-4 2xl:px-16 my-8 md:my-12 lg:my-16 2xl:my-20">
       {/* Titulo a la izquierda */}
-      <div className="md:w-2/3 pl-16 mx-auto my-20">
-        <h1 className="text-4xl font-bold mb-4">Crea platillos con los </h1>
-        <h1 className="text-4xl font-bold mb-4">ingredientes de tu nevera</h1>
-        <p className="text-lg">
-          Comienza a Cocinar
-        </p>
-      </div>
-
+      <article className="md:mt-12 flex flex-col md:w-1/2 text-center md:text-start">
+        <h2 className="text-white text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-bold">
+          Crea platillos con los
+        </h2>
+        <h1 className="text-white text-3xl md:text-6xl lg:text-8xl font-bold mb-8">
+          ingredientes de tu nevera
+        </h1>
+        <a
+          href="#cooking-section"
+          className="text-secondary font-bold text-lg flex flex-row items-center justify-center md:justify-start gap-2 hover:text-white duration-200 ease-in-out"
+        >
+          <span className="text-lg mb-1">Comienza a Cocinar</span>
+          <span>
+            <FaArrowRight />
+          </span>
+        </a>
+      </article>
       {/* Columna de cards a la derecha */}
-      <div className="md:w-2/5 mt-4 md:mt-0 md:flex md:justify-between pr-6">
-        <div className="flex flex-row md:flex-row md:flex-wrap gap-6">
-          {/* Card 1 */}
-          <div className="bg-white p-4 rounded-3xl shadow mb-2 md:w-1/3">
-            <img src={taco} alt="Taco" className="w-full h-full object-cover" />
-          </div>
-
-          {/* Card 2 */}
-          <div className="bg-white p-4 rounded-3xl shadow mb-2 md:w-1/3">
-            <img src={cereza} alt="Cereza" className="w-full h-full object-cover" />
-          </div>
-
-          {/* Card 3 */}
-          <div className="bg-white p-4 rounded-3xl shadow mb-2 md:w-1/3">
-            <img src={frutilla} alt="Frutilla" className="w-full h-full object-cover" />
-          </div>
-
-          {/* Card 4 */}
-          <div className="bg-white p-4 rounded-3xl shadow mb-2 md:w-1/3">
-            <img src={uva} alt="Uva" className="w-full h-full object-cover" />
-          </div>
-
-          {/* Card 5 */}
-          <div className="bg-white p-4 rounded-3xl shadow mb-2 md:w-1/3">
-            <img src={sushi} alt="Sushi" className="w-full h-full object-cover" />
-          </div>
-
-          {/* Card 6 */}
-          <div className="bg-white p-4 rounded-3xl shadow mb-2 md:w-1/3">
-            <img src={pasta} alt="Pasta" className="w-full h-full object-cover" />
-          </div>
-        </div>
-      </div>
-    </div>
+      <article className="mt-12 md:mt-0 grid grid-cols-6 md:grid-cols-2 gap-2 md:gap-4">
+        {previewItems.map((item, index) => {
+          return (
+            <div key={item.title} className="bg-white rounded-xl shadow-xl">
+              <img
+                src={item.icon}
+                alt={item.title}
+                className={`md:w-36 md:h-36 ${index === 5 ? "scale-125" : ""} ${
+                  index === 4 ? "scale-150" : ""
+                }`}
+              />
+            </div>
+          );
+        })}
+      </article>
+    </section>
   );
 };
 

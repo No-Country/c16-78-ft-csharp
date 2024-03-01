@@ -3,7 +3,7 @@ import ButtonFill from "./ButtonFill";
 
 const FoodCard = ({ item, openCard }) => {
   return (
-    <article className=" text-textColor w-auto sm:w-72 bg-white border border-textHint rounded-3xl overflow-hidden lg:flex lg:w-auto">
+    <article className="w-auto sm:w-72 bg-white border border-textHint rounded-3xl overflow-hidden lg:flex lg:w-auto">
       <figure className="w-full h-48 overflow-hidden flex items-center lg:w-64 lg:h-36 lg:rounded-3xl">
         <img
           className="w-full h-full object-cover"

@@ -6,15 +6,18 @@ import FoodSection from "./components/FoodSection";
 import Footer from "./components/Footer";
 function App() {
   return (
-    <>
+    <main className="bg-primary font-plus-jakarta-sans">
       <Navbar />
       <HeroSection />
-      <div className="lg:w-full mx-auto lg:flex lg:flex-row">
+      <section
+        id="cooking-section"
+        className="lg:w-full mx-auto lg:flex lg:flex-row"
+      >
         <IngredientFilter />
         <FoodSection />
-      </div>
+      </section>
       <Footer />
-    </>
+    </main>
   );
 }
 
