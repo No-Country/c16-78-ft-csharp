@@ -105,7 +105,7 @@ const IngredientFilter = () => {
                     ))}
                 </ul>
                 <button className="absolute right-8 lg:right-auto text-sm md:text-base" onClick={handleDeleteArray}>Eliminar todos los ingredientes</button>
-                <ButtonFill addclass="absolute bottom-24" onClick={handleOpenAddMenuPopup}>Agregar tu propio menu</ButtonFill>
+                <ButtonFill addClass="absolute bottom-24" onClick={handleOpenAddMenuPopup}>Agregar tu propio menu</ButtonFill>
             </div >
             {showAddMenuPopup && <div className="fixed inset-0 bg-black bg-opacity-50 z-50">
                 <form onSubmit={handleSubmit} className="w-8/12 h-4/6 bg-white absolute rounded-xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col gap-y-4">
@@ -137,7 +137,7 @@ const IngredientFilter = () => {
                         onChange={(e) => setFormData({ ...formData, imagen: e.target.value })}
                         minLength={2}
                         required />
-                    <ButtonFill type="submit" addclass="mx-auto mb-4">Agregar</ButtonFill>
+                    <ButtonFill type="submit" addClass="mx-auto mb-4">Agregar</ButtonFill>
                 </form>
             </div >}
         </>
