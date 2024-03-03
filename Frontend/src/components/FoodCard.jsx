@@ -14,7 +14,7 @@ const FoodCard = ({ item, openCard }) => {
       <div className="p-4 flex-1 flex flex-col">
         <div className="flex justify-between items-center">
           <h3 className="font-medium text-2xl">{item.name}</h3>
-          <time className="text-textHint text-base">{item.time}</time>
+          <time className="text-textHint text-base">{item.minutes}</time>
         </div>
         <div className="w-full justify-start items-center overflow-hidden pb-4">
           <p className="text-base font-normal overflow-hidden whitespace-nowrap overflow-ellipsis lg:line-clamp-1 lg:whitespace-normal">

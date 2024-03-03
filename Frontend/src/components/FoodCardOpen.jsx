@@ -3,15 +3,16 @@ import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
 import { TfiClose } from "react-icons/tfi";
 import Toster from "../assets/cooking-icons/toaster.png";
+import UpdateMenu from "./UpdateMenu";
+import DeleteMenu from "./DeleteMenu";
 
-const FoodCardOpen = ({ item, cardOpen, closeCard }) => {
+const FoodCardOpen = ({ item, cardOpen, closeCard, setInformationSlice }) => {
   const [favorite, setFavorite] = useState(false);
 
   return (
     <section
-      className={`fixed top-0 left-0 w-full min-h-svh flex lg:justify-center lg:items-center bg-background-modal ${
-        cardOpen ? "flex" : "hidden"
-      }`}
+      className={`fixed top-0 left-0 xsm:p-4 w-full h-svh overflow-scroll xsm:h-full xsm:justify-center xsm:items-center bg-background-modal ${cardOpen ? "flex" : "hidden"
+        }`}
     >
       <article className="bg-white w-full h-svh lg:h-auto overflow-scroll flex flex-col max-w-screen-xl lg:flex-row lg:m-4 lg:rounded-3xl lg:overflow-hidden">
         <figure className="relative h-56 xsm:h-64 sm:h-80 md:h-96 lg:h-128 lg:w-128">
@@ -27,9 +28,8 @@ const FoodCardOpen = ({ item, cardOpen, closeCard }) => {
             <TfiClose />
           </button>
           <button
-            className={`text-3xl xsm:text-4xl absolute top-2 xsm:top-4 right-2 xsm:right-4 ${
-              favorite ? "text-red-600" : "text-white"
-            }  hover:text-red-400 ease-in-out transition-all`}
+            className={`text-2xl xsm:text-4xl absolute top-1 xsm:top-4 right-1 xsm:right-4 ${favorite ? "text-red-600" : "text-white"
+              }  hover:text-red-400 ease-in-out transition-all`}
             onClick={() => {
               setFavorite((prev) => !prev);
             }}
@@ -59,7 +59,7 @@ const FoodCardOpen = ({ item, cardOpen, closeCard }) => {
                 </li>
               </ul>
             </div>
-            <time className="text-textHint text-base ml-2">{item.time}</time>
+            <time className="text-textHint text-base ml-2">{item.minutes}</time>
           </header>
           <div className="flex flex-col lg:pb-0 flex-1 justify-start">
             <p className="text-base font-light xsm:line-clamp-2 xl:line-clamp-none">
@@ -75,8 +75,12 @@ const FoodCardOpen = ({ item, cardOpen, closeCard }) => {
                 Porciones: <span className="font-bold">{item.portion}</span>
               </p>
             </div>
-            <h4 className="text-2xl font-bold">Ingredientes</h4>
+            <h4 className="text-2xl">Ingredientes</h4>
             {cardOpen && <Ingredients list={item.recipeIngredients} />}
+          </div>
+          <div className="flex justify-around">
+            <UpdateMenu item={item} />
+            <DeleteMenu setInformationSlice={setInformationSlice} closeCard={closeCard} item={item} />
           </div>
         </div>
       </article>

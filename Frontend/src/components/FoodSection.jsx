@@ -22,7 +22,7 @@ const FoodSection = () => {
       description: "Lavar las verduras, cortarlas y condimentar a gusto",
       cookMethodName: "No requiere cocción",
       portion: 1,
-      time: "15 - 20 min",
+      minutes: "15 - 20 min",
       recipeIngredients: [
         {
           ingredientName: "Tomate",
@@ -144,6 +144,7 @@ const FoodSection = () => {
         item={itemSelected}
         cardOpen={cardOpen}
         closeCard={closeCard}
+        setInformationSlice={setInformationSlice}
       />
     </section>
   );
