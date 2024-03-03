@@ -170,6 +170,7 @@ const FoodSection = () => {
         item={itemSelected}
         cardOpen={cardOpen}
         closeCard={closeCard}
+        setInformationSlice={setInformationSlice}
       />
     </section>
   );

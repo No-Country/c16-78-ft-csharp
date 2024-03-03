@@ -49,7 +49,8 @@ const IngredientFilter = () => {
                         <li className="flex bg-gray-100 lg:bg-white px-2 rounded-lg gap-x-3 py-1 md:py-2 text-sm md:text-base" key={index}><RxCross2 className="self-center" onClick={handleDeleteIngredient} />{ingredient}</li>
                     ))}
                 </ul>
-                <button className="absolute right-8 lg:right-auto text-sm md:text-base" onClick={handleDeleteArray}>Eliminar todos los ingredientes</button>
+                <ButtonFill type="buttom" addClass="absolute right-8 lg:right-auto text-sm md:text-base" onClick={handleDeleteArray}>Eliminar todos los ingredientes</ButtonFill>
+                {/* <button className="absolute right-8 lg:right-auto text-sm md:text-base" onClick={handleDeleteArray}>Eliminar todos los ingredientes</button> */}
                 <AddMenu />
             </div >
             {showAddMenuPopup && <div className="fixed inset-0 bg-black bg-opacity-50 z-50">

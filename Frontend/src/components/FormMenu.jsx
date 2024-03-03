@@ -7,7 +7,6 @@ const Form = ({ showAddMenuPopup, setShowAddMenuPopup, formData, setFormData, ha
             {showAddMenuPopup && <div className="fixed inset-0 bg-black bg-opacity-50 z-50">
                 <form onSubmit={handleSubmit} className="w-10/12 h-5/6 md:w-8/12 md:h-4/6 bg-white absolute rounded-xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col gap-y-4">
                     <button className="bg-gray-100 px-2 py-1 rounded-lg  absolute right-0" onClick={() => {
-                        setShowAddMenuPopup(false);
                         setFormData({
                             nombre: "",
                             descripción: "",
@@ -16,6 +15,7 @@ const Form = ({ showAddMenuPopup, setShowAddMenuPopup, formData, setFormData, ha
                             calorias: "",
                             imagen: ""
                         })
+                        setShowAddMenuPopup(false);
                     }}>Cerrar</button>
                     <h2 className="text-center text-base md:text-xl font-bold mt-4">{formData.nombre === "" ? "Agrega tu propio menu" : "Actualiza el menu"}</h2>
                     <input className="px-2 py-1 rounded-lg bg-gray-100 w-11/12 mx-auto text-sm sm:text-base"

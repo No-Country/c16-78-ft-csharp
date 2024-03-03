@@ -3,6 +3,7 @@ import ButtonFill from "./ButtonFill";
 import FormMenu from "./FormMenu";
 
 const UpdateMenu = ({ item }) => {
+    // console.log(item)
 
     const [showAddMenuPopup, setShowAddMenuPopup] = useState(false);
     const [formData, setFormData] = useState({

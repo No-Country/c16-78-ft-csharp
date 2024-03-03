@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
-import ButtonFill from "./ButtonFill";
 import { TfiClose } from "react-icons/tfi";
 import Toster from "../assets/cooking-icons/toaster.png";
 import UpdateMenu from "./UpdateMenu";
+import DeleteMenu from "./DeleteMenu";
 
-const FoodCardOpen = ({ item, cardOpen, closeCard }) => {
+const FoodCardOpen = ({ item, cardOpen, closeCard, setInformationSlice }) => {
   const [favorite, setFavorite] = useState(false);
+
+  // function handleDeleteMenu(item) {
+  //   setInformationSlice((prev) =>
+  //     prev.filter((menu) => menu.foodId !== item.foodId)
+  //   );
+  //   closeCard();
+  // }
+
 
   return (
     <section
@@ -85,7 +93,7 @@ const FoodCardOpen = ({ item, cardOpen, closeCard }) => {
           </div>
           <div className="flex justify-around">
             <UpdateMenu item={item} />
-            <ButtonFill>Eliminar</ButtonFill>
+            <DeleteMenu setInformationSlice={setInformationSlice} closeCard={closeCard} item={item} />
           </div>
         </div>
       </article>

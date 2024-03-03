@@ -72,7 +72,7 @@ const AddMenu = () => {
 
     return (
         <>
-            <ButtonFill addClass="absolute bottom-24" onClick={handleOpenAddMenuPopup}>Agregar tu propio menu</ButtonFill>
+            <ButtonFill addClass="mt-20 lg:absolute lg:bottom-24" onClick={handleOpenAddMenuPopup}>Agregar tu propio menu</ButtonFill>
             <FormMenu showAddMenuPopup={showAddMenuPopup}
                 setShowAddMenuPopup={setShowAddMenuPopup}
                 formData={formData}
