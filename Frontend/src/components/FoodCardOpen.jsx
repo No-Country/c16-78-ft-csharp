@@ -4,15 +4,15 @@ import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
 import ButtonFill from "./ButtonFill";
 import { TfiClose } from "react-icons/tfi";
 import Toster from "../assets/cooking-icons/toaster.png";
+import UpdateMenu from "./UpdateMenu";
 
 const FoodCardOpen = ({ item, cardOpen, closeCard }) => {
   const [favorite, setFavorite] = useState(false);
 
   return (
     <section
-      className={`fixed top-0 left-0 xsm:p-4 w-full h-svh overflow-scroll xsm:h-full xsm:justify-center xsm:items-center bg-background-modal ${
-        cardOpen ? "flex" : "hidden"
-      }`}
+      className={`fixed top-0 left-0 xsm:p-4 w-full h-svh overflow-scroll xsm:h-full xsm:justify-center xsm:items-center bg-background-modal ${cardOpen ? "flex" : "hidden"
+        }`}
     >
       <article className="text-black w-full xsm:w-auto bg-background-card xsm:rounded-3xl overflow-hidden flex flex-col md:flex-row md:w-auto md:max-w-screen-lg">
         <figure className="relative overflow-hidden flex items-center md:rounded-3xl">
@@ -28,9 +28,8 @@ const FoodCardOpen = ({ item, cardOpen, closeCard }) => {
             <TfiClose />
           </button>
           <button
-            className={`text-2xl xsm:text-4xl absolute top-1 xsm:top-4 right-1 xsm:right-4 ${
-              favorite ? "text-red-600" : "text-white"
-            }  hover:text-red-400 ease-in-out transition-all`}
+            className={`text-2xl xsm:text-4xl absolute top-1 xsm:top-4 right-1 xsm:right-4 ${favorite ? "text-red-600" : "text-white"
+              }  hover:text-red-400 ease-in-out transition-all`}
             onClick={() => {
               setFavorite((prev) => !prev);
             }}
@@ -83,6 +82,10 @@ const FoodCardOpen = ({ item, cardOpen, closeCard }) => {
                 );
               })}
             </ul>
+          </div>
+          <div className="flex justify-around">
+            <UpdateMenu item={item} />
+            <ButtonFill>Eliminar</ButtonFill>
           </div>
         </div>
       </article>

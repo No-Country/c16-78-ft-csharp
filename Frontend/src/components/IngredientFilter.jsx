@@ -2,6 +2,7 @@ import { FaSearch } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import { useState } from "react";
 import ButtonFill from "./ButtonFill";
+import AddMenu from "./AddMenu";
 
 const IngredientFilter = () => {
 
@@ -32,62 +33,6 @@ const IngredientFilter = () => {
         setIngredients(ingredients.filter(ingredient => ingredient !== ingredientToDelete));
     }
 
-    function handleOpenAddMenuPopup() {
-        setShowAddMenuPopup(true);
-    }
-
-    function handleIngredientChange(e) {
-        const ingredientInput = e.target.value;
-        const isValid = /^[^,]+(, [^,]+)*$/.test(ingredientInput);
-
-        if (isValid) {
-            setFormData({ ...formData, ingredientes: ingredientInput });
-        } else {
-            setFormData({ ...formData, ingredientes: ingredientInput });
-            alert("Ingresa los ingredientes separados por coma y espacio.");
-        }
-    }
-
-    function handleUrlChange(e) {
-        const urlInput = e.target.value;
-        const isValidUrl = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(urlInput);
-
-        if (isValidUrl) {
-            setFormData({ ...formData, imagen: urlInput });
-        } else {
-            setFormData({ ...formData, imagen: urlInput });
-            alert("Ingresa una URL válida que comience con 'http://' o 'https://'.");
-        }
-    }
-
-
-    function handleSubmit(e) {
-        e.preventDefault()
-        const { nombre, descripción, cocción, ingredientes, calorias, imagen } = formData;
-        if (!nombre.trim() || !descripción.trim() || !cocción.trim() || !ingredientes.trim() || !calorias.trim() || !imagen.trim()) {
-            alert("Completa todos los campos antes de enviar el formulario.");
-            return;
-        }
-        const ingredientsValid = /^[^,]+(, [^,]+)*$/.test(formData.ingredientes);
-
-        if (!ingredientsValid) {
-            alert("Ingresa los ingredientes separados por coma y espacio correctamente.");
-            e.target.ingredientes.focus();
-            return;
-        }
-
-        setShowAddMenuPopup(false)
-        console.log(formData)
-        setFormData({
-            nombre: "",
-            descripción: "",
-            cocción: "",
-            ingredientes: "",
-            calorias: "",
-            imagen: ""
-
-        })
-    }
 
     return (
         <>
@@ -105,7 +50,7 @@ const IngredientFilter = () => {
                     ))}
                 </ul>
                 <button className="absolute right-8 lg:right-auto text-sm md:text-base" onClick={handleDeleteArray}>Eliminar todos los ingredientes</button>
-                <ButtonFill addClass="absolute bottom-24" onClick={handleOpenAddMenuPopup}>Agregar tu propio menu</ButtonFill>
+                <AddMenu />
             </div >
             {showAddMenuPopup && <div className="fixed inset-0 bg-black bg-opacity-50 z-50">
                 <form onSubmit={handleSubmit} className="w-8/12 h-4/6 bg-white absolute rounded-xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col gap-y-4">
@@ -137,7 +82,7 @@ const IngredientFilter = () => {
                         onChange={(e) => setFormData({ ...formData, imagen: e.target.value })}
                         minLength={2}
                         required />
-                    <ButtonFill type="submit" addClass="mx-auto mb-4">Agregar</ButtonFill>
+                    <ButtonFill type="buttom" addClass="mx-auto mb-4">Agregar</ButtonFill>
                 </form>
             </div >}
         </>
