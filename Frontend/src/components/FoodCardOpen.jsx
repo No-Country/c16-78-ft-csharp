@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
-import ButtonFill from "./ButtonFill";
 import { TfiClose } from "react-icons/tfi";
 import Toster from "../assets/cooking-icons/toaster.png";
 
@@ -18,8 +17,8 @@ const FoodCardOpen = ({ item, cardOpen, closeCard }) => {
         <figure className="relative h-56 xsm:h-64 sm:h-80 md:h-96 lg:h-128 lg:w-128">
           <img
             className="h-full w-full object-cover lg:rounded-3xl"
-            src={item.imageSrc}
-            alt={item.title}
+            src={item.imgUrl}
+            alt={item.name}
           />
           <button
             className="text-2xl xsm:text-3xl absolute top-2 xsm:top-4 left-2 xsm:left-4 text-white hover:text-red-500 ease-in-out transition-all"
@@ -41,8 +40,11 @@ const FoodCardOpen = ({ item, cardOpen, closeCard }) => {
         <div className="flex flex-col p-4 md:h-auto flex-1 lg:h-128">
           <header className="flex justify-between lg:items-center">
             <div className="lg:flex justify-center items-center">
-              <h3 className="font-semibold text-3xl">{item.title}</h3>
+              <h3 className="font-semibold text-3xl">{item.name}</h3>
               <ul className="flex lg:pl-2 pb-4 md:pb-0 text-xl text-yellow-500">
+                <li>
+                  <IoStar />
+                </li>
                 <li>
                   <IoStar />
                 </li>
@@ -55,9 +57,6 @@ const FoodCardOpen = ({ item, cardOpen, closeCard }) => {
                 <li>
                   <IoStarHalf />
                 </li>
-                <li>
-                  <IoStarOutline />
-                </li>
               </ul>
             </div>
             <time className="text-textHint text-base ml-2">{item.time}</time>
@@ -67,25 +66,17 @@ const FoodCardOpen = ({ item, cardOpen, closeCard }) => {
               {item.description}
             </p>
             <span className="h-0.5 bg-textHint mt-2"></span>
-            <div className="flex items-center pt-2">
-              <img src={Toster} alt="Metodo de coccion" className="w-10 h-10" />
+            <div className="flex flex-col pt-2">
               <p className="ml-2 text-lg italic">
-                Método de coccion: <span className="font-bold">Tostador</span>
+                Método de coccion:{" "}
+                <span className="font-bold">{item.cookMethodName}</span>
+              </p>
+              <p className="ml-2 text-lg italic">
+                Porciones: <span className="font-bold">{item.portion}</span>
               </p>
             </div>
-            <h4 className="text-2xl">Ingredientes</h4>
-            <ul className="flex flex-col h-32 lg:h-20 flex-wrap mb-4">
-              {item.ingredients?.map((item, index) => {
-                return (
-                  <li key={index} className="ml-1">
-                    <p className="italic font-light">- {item}</p>
-                  </li>
-                );
-              })}
-            </ul>
-            <ButtonFill addClass="mt-auto w-full lg:w-fit">
-              Modificar platillo
-            </ButtonFill>
+            <h4 className="text-2xl font-bold">Ingredientes</h4>
+            {cardOpen && <Ingredients list={item.recipeIngredients} />}
           </div>
         </div>
       </article>
@@ -93,4 +84,42 @@ const FoodCardOpen = ({ item, cardOpen, closeCard }) => {
   );
 };
 
+const Ingredients = ({ list }) => {
+  const [primaries, setPrimaries] = useState([]);
+  const [secondaries, setSecondaries] = useState([]);
+
+  useEffect(() => {
+    const primaries = list.filter((item) => item.isMain);
+    const secondaries = list.filter((item) => !item.isMain);
+    setPrimaries(primaries);
+    setSecondaries(secondaries);
+  }, []);
+
+  return (
+    <>
+      <p className="text-lg">Principales</p>
+      <ul className="flex flex-col max-h-32 lg:max-h-20 flex-wrap mb-4 italic">
+        {primaries?.map((ingredient, index) => {
+          return (
+            <li key={index} className="pl-1">
+              - <span>{ingredient.ingredientQuantity}</span>{" "}
+              <span className="italic">{ingredient.ingredientName}</span>
+            </li>
+          );
+        })}
+      </ul>
+      <p className="text-lg">Secundarios</p>
+      <ul className="flex flex-col max-h-32 lg:max-h-20 flex-wrap mb-4 italic">
+        {secondaries?.map((ingredient, index) => {
+          return (
+            <li key={index} className="pl-1">
+              - <span>{ingredient.ingredientQuantity}</span>{" "}
+              <span className="italic">{ingredient.ingredientName}</span>
+            </li>
+          );
+        })}
+      </ul>
+    </>
+  );
+};
 export default FoodCardOpen;
