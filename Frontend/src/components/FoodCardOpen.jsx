@@ -9,14 +9,6 @@ import DeleteMenu from "./DeleteMenu";
 const FoodCardOpen = ({ item, cardOpen, closeCard, setInformationSlice }) => {
   const [favorite, setFavorite] = useState(false);
 
-  // function handleDeleteMenu(item) {
-  //   setInformationSlice((prev) =>
-  //     prev.filter((menu) => menu.foodId !== item.foodId)
-  //   );
-  //   closeCard();
-  // }
-
-
   return (
     <section
       className={`fixed top-0 left-0 xsm:p-4 w-full h-svh overflow-scroll xsm:h-full xsm:justify-center xsm:items-center bg-background-modal ${cardOpen ? "flex" : "hidden"
