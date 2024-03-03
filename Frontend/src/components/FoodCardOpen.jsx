@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
-import ButtonFill from "./ButtonFill";
 import { TfiClose } from "react-icons/tfi";
 import Toster from "../assets/cooking-icons/toaster.png";
 
@@ -10,25 +9,25 @@ const FoodCardOpen = ({ item, cardOpen, closeCard }) => {
 
   return (
     <section
-      className={`fixed top-0 left-0 xsm:p-4 w-full h-svh overflow-scroll xsm:h-full xsm:justify-center xsm:items-center bg-background-modal ${
+      className={`fixed top-0 left-0 w-full min-h-svh flex lg:justify-center lg:items-center bg-background-modal ${
         cardOpen ? "flex" : "hidden"
       }`}
     >
-      <article className="text-black w-full xsm:w-auto bg-background-card xsm:rounded-3xl overflow-hidden flex flex-col md:flex-row md:w-auto md:max-w-screen-lg">
-        <figure className="relative overflow-hidden flex items-center md:rounded-3xl">
+      <article className="bg-white w-full h-svh lg:h-auto overflow-scroll flex flex-col max-w-screen-xl lg:flex-row lg:m-4 lg:rounded-3xl lg:overflow-hidden">
+        <figure className="relative h-56 xsm:h-64 sm:h-80 md:h-96 lg:h-128 lg:w-128">
           <img
-            className="w-full h-80 md:h-96 md:w-96 object-cover"
-            src={item.imageSrc}
-            alt={item.title}
+            className="h-full w-full object-cover lg:rounded-3xl"
+            src={item.imgUrl}
+            alt={item.name}
           />
           <button
-            className="text-xl xsm:text-3xl absolute top-1 xsm:top-4 left-1 xsm:left-4 text-white hover:text-red-500 ease-in-out transition-all"
+            className="text-2xl xsm:text-3xl absolute top-2 xsm:top-4 left-2 xsm:left-4 text-white hover:text-red-500 ease-in-out transition-all"
             onClick={closeCard}
           >
             <TfiClose />
           </button>
           <button
-            className={`text-2xl xsm:text-4xl absolute top-1 xsm:top-4 right-1 xsm:right-4 ${
+            className={`text-3xl xsm:text-4xl absolute top-2 xsm:top-4 right-2 xsm:right-4 ${
               favorite ? "text-red-600" : "text-white"
             }  hover:text-red-400 ease-in-out transition-all`}
             onClick={() => {
@@ -38,11 +37,14 @@ const FoodCardOpen = ({ item, cardOpen, closeCard }) => {
             {favorite ? <MdFavorite /> : <MdFavoriteBorder />}
           </button>
         </figure>
-        <div className="p-4 flex-1 flex flex-col xsm:max-h-full sm:max-h-none">
+        <div className="flex flex-col p-4 md:h-auto flex-1 lg:h-128">
           <header className="flex justify-between lg:items-center">
             <div className="lg:flex justify-center items-center">
-              <h3 className="font-semibold text-3xl">{item.title}</h3>
+              <h3 className="font-semibold text-3xl">{item.name}</h3>
               <ul className="flex lg:pl-2 pb-4 md:pb-0 text-xl text-yellow-500">
+                <li>
+                  <IoStar />
+                </li>
                 <li>
                   <IoStar />
                 </li>
@@ -55,34 +57,26 @@ const FoodCardOpen = ({ item, cardOpen, closeCard }) => {
                 <li>
                   <IoStarHalf />
                 </li>
-                <li>
-                  <IoStarOutline />
-                </li>
               </ul>
             </div>
             <time className="text-textHint text-base ml-2">{item.time}</time>
           </header>
-          <div className="flex flex-col">
+          <div className="flex flex-col lg:pb-0 flex-1 justify-start">
             <p className="text-base font-light xsm:line-clamp-2 xl:line-clamp-none">
               {item.description}
             </p>
             <span className="h-0.5 bg-textHint mt-2"></span>
-            <div className="flex items-center pt-2">
-              <img src={Toster} alt="Metodo de coccion" className="w-10 h-10" />
+            <div className="flex flex-col pt-2">
               <p className="ml-2 text-lg italic">
-                Método de coccion: <span className="font-bold">Tostador</span>
+                Método de coccion:{" "}
+                <span className="font-bold">{item.cookMethodName}</span>
+              </p>
+              <p className="ml-2 text-lg italic">
+                Porciones: <span className="font-bold">{item.portion}</span>
               </p>
             </div>
-            <h4 className="text-2xl">Ingredientes</h4>
-            <ul className="flex flex-col h-44 xsm:h-32 flex-wrap mb-4">
-              {item.ingredients?.map((item, index) => {
-                return (
-                  <li key={index}>
-                    <p className="italic font-light">- {item}</p>
-                  </li>
-                );
-              })}
-            </ul>
+            <h4 className="text-2xl font-bold">Ingredientes</h4>
+            {cardOpen && <Ingredients list={item.recipeIngredients} />}
           </div>
         </div>
       </article>
@@ -90,4 +84,42 @@ const FoodCardOpen = ({ item, cardOpen, closeCard }) => {
   );
 };
 
+const Ingredients = ({ list }) => {
+  const [primaries, setPrimaries] = useState([]);
+  const [secondaries, setSecondaries] = useState([]);
+
+  useEffect(() => {
+    const primaries = list.filter((item) => item.isMain);
+    const secondaries = list.filter((item) => !item.isMain);
+    setPrimaries(primaries);
+    setSecondaries(secondaries);
+  }, []);
+
+  return (
+    <>
+      <p className="text-lg">Principales</p>
+      <ul className="flex flex-col max-h-32 lg:max-h-20 flex-wrap mb-4 italic">
+        {primaries?.map((ingredient, index) => {
+          return (
+            <li key={index} className="pl-1">
+              - <span>{ingredient.ingredientQuantity}</span>{" "}
+              <span className="italic">{ingredient.ingredientName}</span>
+            </li>
+          );
+        })}
+      </ul>
+      <p className="text-lg">Secundarios</p>
+      <ul className="flex flex-col max-h-32 lg:max-h-20 flex-wrap mb-4 italic">
+        {secondaries?.map((ingredient, index) => {
+          return (
+            <li key={index} className="pl-1">
+              - <span>{ingredient.ingredientQuantity}</span>{" "}
+              <span className="italic">{ingredient.ingredientName}</span>
+            </li>
+          );
+        })}
+      </ul>
+    </>
+  );
+};
 export default FoodCardOpen;

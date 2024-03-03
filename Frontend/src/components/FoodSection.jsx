@@ -16,71 +16,41 @@ const FoodSection = () => {
 
   const information = [
     {
-      foodId: "123kdsafa",
-      imageSrc: ImageExample,
-      title: "Avocado Toast",
-      description:
-        "Delicioso pan tostado con puré de aguacate, aderezado con sal, pimienta y un chorrito de aceite de oliva. Perfecto para un desayuno saludable y lleno de sabor.",
-      preparationType: "Preparación: Untar",
+      id: 3,
+      imgUrl: ImageExample,
+      name: "Ensalada",
+      description: "Lavar las verduras, cortarlas y condimentar a gusto",
+      cookMethodName: "No requiere cocción",
+      portion: 1,
       time: "15 - 20 min",
-      ingredients: [
-        "Pan tostado",
-        "Aguacate",
-        "Sal",
-        "Pimienta",
-        "Aceite de oliva",
-        "Pan tostado",
-        "Aguacate",
-        "Sal",
-        "Pimienta",
-        "Aceite de oliva",
+      recipeIngredients: [
+        {
+          ingredientName: "Tomate",
+          isMain: true,
+          ingredientQuantity: "1",
+        },
+        {
+          ingredientName: "Aceite de oliva",
+          isMain: false,
+          ingredientQuantity: "A gusto",
+        },
+        {
+          ingredientName: "Lechuga",
+          isMain: true,
+          ingredientQuantity: "450gr",
+        },
+        {
+          ingredientName: "Sal",
+          isMain: false,
+          ingredientQuantity: "A gusto",
+        },
+        {
+          ingredientName: "Pimienta",
+          isMain: false,
+          ingredientQuantity: "A gusto",
+        },
       ],
     },
-    {
-      foodId: "as9d87f",
-      imageSrc: ImageExample,
-      title: "Egg Benedict",
-      description:
-        "Clásico desayuno compuesto por un muffin inglés tostado, lonchas de jamón cocido, huevos escalfados y una deliciosa salsa holandesa. Una combinación irresistible para comenzar el día.",
-      preparationType: "Preparación: Cocer",
-      time: "20 - 25 min",
-      ingredients: [
-        "Muffin inglés",
-        "Jamón cocido",
-        "Huevos",
-        "Salsa holandesa",
-      ],
-    },
-    {
-      foodId: "3i3jfi3",
-      imageSrc: ImageExample,
-      title: "Pancakes",
-      description:
-        "Esponjosos panqueques preparados con una mezcla de harina, huevo, leche y un toque de vainilla. Ideales para un desayuno reconfortante y delicioso.",
-      preparationType: "Preparación: Batir",
-      time: "10 - 15 min",
-      ingredients: ["Harina", "Huevo", "Leche", "Vainilla"],
-    },
-    {
-      foodId: "94urjf",
-      imageSrc: ImageExample,
-      title: "Greek Salad",
-      description:
-        "Ensalada fresca y saludable compuesta por lechuga, tomate, pepino, cebolla roja, aceitunas y queso feta. Aderezada con aceite de oliva y vinagre balsámico.",
-      preparationType: "Preparación: Picar",
-      time: "10 min",
-      ingredients: [
-        "Lechuga",
-        "Tomate",
-        "Pepino",
-        "Cebolla roja",
-        "Aceitunas",
-        "Queso feta",
-        "Aceite de oliva",
-        "Vinagre balsámico",
-      ],
-    },
-    // Resto de los objetos con sus respectivos ingredientes
   ];
 
   useEffect(() => {
@@ -101,7 +71,11 @@ const FoodSection = () => {
     }
     if (currentPage === 1) {
       setDisablePrevious(true);
-      setDisableNext(false);
+      if (numberOfPages > 1) {
+        setDisableNext(false);
+      } else {
+        setDisableNext(true);
+      }
     } else if (currentPage > 1 && currentPage < numberOfPages) {
       setDisablePrevious(false);
       setDisableNext(false);
@@ -150,7 +124,7 @@ const FoodSection = () => {
       >
         Puedes crear {information.length} platillos
       </h1>
-      <div className="flex flex-row flex-wrap gap-4 justify-center lg:flex-col lg:max-w-screen-xl">
+      <div className="flex flex-row flex-wrap gap-4 justify-center lg:flex-col lg:max-w-screen-xl w-full">
         {informationSlice.map((item, index) => {
           return <FoodCard key={index + 1} item={item} openCard={openCard} />;
         })}
