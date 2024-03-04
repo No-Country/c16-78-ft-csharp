@@ -6,9 +6,7 @@ import FoodSection from "./components/FoodSection";
 import Footer from "./components/Footer";
 import { useState } from "react";
 function App() {
-
   const [ingredientsFilter, setIngredientsFilter] = useState([]);
-  console.log(ingredientsFilter);
 
   function handleIngredientsFilter(newIngredient) {
     setIngredientsFilter(newIngredient);

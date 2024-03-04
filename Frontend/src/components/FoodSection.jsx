@@ -13,6 +13,7 @@ const FoodSection = ({ ingredientsFilter }) => {
   const [disablePrevious, setDisablePrevious] = useState(true);
   const [disableNext, setDisableNext] = useState(false);
   const [informationSlice, setInformationSlice] = useState([]);
+  const [informationLength, setInformationLength] = useState(0);
 
   const information = [
     {
@@ -51,16 +52,45 @@ const FoodSection = ({ ingredientsFilter }) => {
         },
       ],
     },
+    {
+      id: 4,
+      imgUrl: ImageExample,
+      name: "Ensalada",
+      description: "Lavar las verduras, cortarlas y condimentar a gusto",
+      cookMethodName: "No requiere cocción",
+      portion: 1,
+      minutes: "15 - 20 min",
+      recipeIngredients: [
+        {
+          ingredientName: "Aceite de oliva",
+          isMain: false,
+          ingredientQuantity: "A gusto",
+        },
+        {
+          ingredientName: "Lechuga",
+          isMain: true,
+          ingredientQuantity: "450gr",
+        },
+        {
+          ingredientName: "Sal",
+          isMain: false,
+          ingredientQuantity: "A gusto",
+        },
+        {
+          ingredientName: "Pimienta",
+          isMain: false,
+          ingredientQuantity: "A gusto",
+        },
+      ],
+    },
   ];
 
   const [filteredInformationSlice, setFilteredInformationSlice] = useState([]);
 
   useEffect(() => {
-
     const filteredSlice = informationSlice.filter((item) => {
-
-      const recipeIngredientNames = item.recipeIngredients.map(
-        (ingredient) => ingredient.ingredientName.toLowerCase()
+      const recipeIngredientNames = item.recipeIngredients.map((ingredient) =>
+        ingredient.ingredientName.toLowerCase()
       );
 
       const ingredientsFilterLower = ingredientsFilter.map((ingredient) =>
@@ -76,8 +106,8 @@ const FoodSection = ({ ingredientsFilter }) => {
     });
 
     setFilteredInformationSlice(filteredSlice);
+    setInformationLength(filteredSlice.length);
   }, [ingredientsFilter, informationSlice]);
-
 
   useEffect(() => {
     const numberOfInformationPages = Math.ceil(information.length / 20);
@@ -148,7 +178,7 @@ const FoodSection = ({ ingredientsFilter }) => {
         ref={title}
         className="text-base md:text-3xl text-center pb-4 font-medium lg:text-xl lg:text-start"
       >
-        Puedes crear {information.length} platillos
+        Puedes crear {informationLength} platillos
       </h1>
       <div className="flex flex-row flex-wrap gap-4 justify-center lg:flex-col lg:max-w-screen-xl w-full">
         {filteredInformationSlice.map((item, index) => {
