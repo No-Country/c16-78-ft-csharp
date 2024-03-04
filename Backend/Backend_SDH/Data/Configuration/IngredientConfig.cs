@@ -9,7 +9,6 @@ namespace Backend_SDH.Data.Configuration
         public void Configure(EntityTypeBuilder<Ingredient> builder)
         {
             builder.Property(x => x.Name).IsRequired().HasMaxLength(255);
-            builder.Property(x => x.Kcal).IsRequired().HasPrecision(18, 2);
         }
     }
 }

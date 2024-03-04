@@ -3,6 +3,7 @@ using Backend_SDH.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend_SDH.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240229172742_Remove_UserRoleTable")]
+    partial class Remove_UserRoleTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,9 +74,6 @@ namespace Backend_SDH.Migrations
                     b.Property<int>("CookMethodId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CookingMinutes")                        
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -82,14 +82,13 @@ namespace Backend_SDH.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("KcalTotal")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
-
-                    b.Property<int>("Portion")
-                        .HasMaxLength(4)
-                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -150,6 +149,21 @@ namespace Backend_SDH.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("UsersFavouriteRecipes", b =>
+                {
+                    b.Property<int>("FavouriteRecipesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("FavouriteRecipesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("UsersFavouriteRecipes");
+                });
+
             modelBuilder.Entity("Backend_SDH.Models.Recipe", b =>
                 {
                     b.HasOne("Backend_SDH.Models.CookMethod", "CookMethod")
@@ -186,6 +200,21 @@ namespace Backend_SDH.Migrations
                     b.Navigation("Ingredient");
 
                     b.Navigation("Recipe");
+                });
+
+            modelBuilder.Entity("UsersFavouriteRecipes", b =>
+                {
+                    b.HasOne("Backend_SDH.Models.Recipe", null)
+                        .WithMany()
+                        .HasForeignKey("FavouriteRecipesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Backend_SDH.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Backend_SDH.Models.Ingredient", b =>

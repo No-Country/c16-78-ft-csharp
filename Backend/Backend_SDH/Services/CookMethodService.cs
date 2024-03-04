@@ -131,5 +131,22 @@ namespace Backend_SDH.Services
             }
             return serviceResponse;
         }
+
+        public ServiceResponse<bool> CookMethodExists(int id)
+        {
+            var serviceResponse = new ServiceResponse<bool>();
+
+            try
+            {
+                serviceResponse.Data = _dataContext.CookMethods.Any(c => c.Id == id);
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
     }
 }
