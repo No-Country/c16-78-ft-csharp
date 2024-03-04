@@ -1,15 +1,15 @@
 import ButtonFill from "./ButtonFill";
 
-const Form = ({ showAddMenuPopup, setShowAddMenuPopup, formData, setFormData, handleIngredientChange, handleUrlChange, handleSubmit }) => {
+const Form = ({ showAddMenuPopup, setShowAddMenuPopup, formData, setFormData, handleIngredientChange, handleUrlChange, handleSubmit, text, setText }) => {
 
     const formatIngredients = () => {
         const ingredients = formData?.recipeIngredients;
         if (Array.isArray(ingredients)) {
             return ingredients.map(ingredient => ingredient.ingredientName).join(', ');
         }
-        return "";
+        return
     }
-    console.log(formData.recipeIngredients);
+
     return (
         <>
             {showAddMenuPopup && <div className="fixed inset-0 bg-black bg-opacity-50 z-50">
@@ -26,7 +26,7 @@ const Form = ({ showAddMenuPopup, setShowAddMenuPopup, formData, setFormData, ha
                         })
                         setShowAddMenuPopup(false);
                     }}>Cerrar</button>
-                    <h2 className="text-center text-base md:text-xl font-bold mt-4">{formData.name === "" ? "Agrega tu propio menu" : "Actualiza el menu"}</h2>
+                    <h2 className="text-center text-base md:text-xl font-bold mt-4">{text === "agregar" ? "Agrega tu propio menu" : "Actualiza el menu"}</h2>
                     <input className="px-2 py-1 rounded-lg bg-gray-100 w-11/12 mx-auto text-sm sm:text-base"
                         placeholder="Escribe el  del menu"
                         value={formData.name}
@@ -41,8 +41,8 @@ const Form = ({ showAddMenuPopup, setShowAddMenuPopup, formData, setFormData, ha
                         onChange={handleIngredientChange}
                         minLength={2}
                         required></textarea>
-                    <input className="px-2 py-1 rounded-lg bg-gray-100 w-11/12 mx-auto text-sm sm:text-base" placeholder="Total de calorias" value={formData.portion} onChange={(e) => setFormData({ ...formData, portion: e.target.value })} minLength={2} required />
-                    <input className="px-2 py-1 rounded-lg bg-gray-100 w-11/12 mx-auto text-sm sm:text-base" placeholder="Tiempo" value={formData.minutes} onChange={(e) => setFormData({ ...formData, minutes: e.target.value })} minLength={1} required />
+                    <input className="px-2 py-1 rounded-lg bg-gray-100 w-11/12 mx-auto text-sm sm:text-base" placeholder="Total de calorias" value={formData.portion} onChange={(e) => setFormData({ ...formData, portion: e.target.value })} minLength={1} required />
+                    <input className="px-2 py-1 rounded-lg bg-gray-100 w-11/12 mx-auto text-sm sm:text-base" placeholder="Tiempo" value={formData.minutes} onChange={(e) => setFormData({ ...formData, minutes: e.target.value })} required />
                     <input className="px-2 py-1 rounded-lg bg-gray-100 w-11/12 mx-auto text-sm sm:text-base"
                         placeholder="Escribe la url de la imagen"
                         value={formData.imgUrl || ""}
@@ -50,7 +50,7 @@ const Form = ({ showAddMenuPopup, setShowAddMenuPopup, formData, setFormData, ha
                         onChange={(e) => setFormData({ ...formData, imgUrl: e.target.value })}
                         minLength={2}
                         required />
-                    <ButtonFill type="buttom" addClass="mx-auto mb-4">{formData.name === "" ? "Agregar" : "Actualizar"}</ButtonFill>
+                    <ButtonFill type="buttom" addClass="mx-auto mb-4">{text === "agregar" ? "Agregar" : "Actualizar"}</ButtonFill>
                 </form>
             </div >}
         </>

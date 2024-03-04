@@ -5,6 +5,7 @@ import FormMenu from "./FormMenu";
 const AddMenu = () => {
 
     const [showAddMenuPopup, setShowAddMenuPopup] = useState(false);
+    const [text, setText] = useState("agregar");
     const [formData, setFormData] = useState({
         name: "",
         description: "",
@@ -34,32 +35,37 @@ const AddMenu = () => {
     function handleUrlChange(e) {
         const urlInput = e.target.value;
         const isValidUrl = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(urlInput);
+        console.log(isValidUrl)
+        console.log(formData.imgUrl)
 
-        if (isValidUrl) {
-            setFormData({ ...formData, imgUrl: urlInput });
-        } else {
-            setFormData({ ...formData, imgUrl: urlInput });
+        if (!isValidUrl) {
             alert("Ingresa una URL válida que comience con 'http://' o 'https://'.");
+            return;
         }
     }
 
     function handleSubmit(e) {
         e.preventDefault()
         const { name, description, cookMethodName, recipeIngredients, portion, imgUrl, minutes } = formData;
-        if (!name.trim() || !description.trim() || !cookMethodName.trim() || recipeIngredients || !portion.trim() || !imgUrl.trim() || !minutes.trim()) {
-            alert("Completa todos los campos antes de enviar el formulario.");
-            return;
-        }
-        const ingredientsValid = /^[^,]+(, [^,]+)*$/.test(formData.recipeIngredients);
+        console.log(formData)
 
-        if (!ingredientsValid) {
-            alert("Ingresa los ingredientes separados por coma y espacio correctamente.");
-            e.target.recipeIngredients.focus();
+        const isValidUrl = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(formData.imgUrl);
+        if (!isValidUrl) {
+            alert("Ingresa una URL válida que comience con 'http://' o 'https://'.");
             return;
         }
+
+
+
+        // const ingredientsValid = /^[^,]+(, [^,]+)*$/.test(formData.recipeIngredients);
+
+        // if (!ingredientsValid) {
+        //     alert("Ingresa los ingredientes separados por coma y espacio correctamente.");
+        //     e.target.recipeIngredients.focus();
+        //     return;
+        // }
 
         setShowAddMenuPopup(false)
-        console.log(formData)
         setFormData({
             name: "",
             description: "",
@@ -80,7 +86,8 @@ const AddMenu = () => {
                 setFormData={setFormData}
                 handleIngredientChange={handleIngredientChange}
                 handleUrlChange={handleUrlChange}
-                handleSubmit={handleSubmit} />
+                handleSubmit={handleSubmit}
+                text={text} />
         </>
     );
 }

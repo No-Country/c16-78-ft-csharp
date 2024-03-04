@@ -5,6 +5,7 @@ import FormMenu from "./FormMenu";
 const UpdateMenu = ({ item }) => {
 
     const [showAddMenuPopup, setShowAddMenuPopup] = useState(false);
+    const [text, setText] = useState("");
     const [formData, setFormData] = useState({
         name: "",
         description: "",
@@ -53,18 +54,24 @@ const UpdateMenu = ({ item }) => {
         }
     }
 
+
     function handleSubmit(e) {
         e.preventDefault()
         const { name, description, cookMethodName, recipeIngredients, portion, imgUrl, minutes } = formData;
-        if (!name.trim() || !description.trim() || !cookMethodName.trim() || !recipeIngredients || !portion.trim() || !imgUrl.trim() || !minutes.trim()) {
+        if (!name.trim() || !description.trim() || !cookMethodName.trim() || recipeIngredients === "" || !portion || !imgUrl.trim() || !minutes.trim()) {
             alert("Completa todos los campos antes de enviar el formulario.");
             return;
         }
         const ingredientsValid = /^[^,]+(, [^,]+)*$/.test(formData.recipeIngredients);
-
+        console.log(formData.recipeIngredients)
         if (!ingredientsValid) {
             alert("Ingresa los ingredientes separados por coma y espacio correctamente.");
             e.target.recipeIngredients.focus();
+            return;
+        }
+        const isValidUrl = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(formData.imgUrl);
+        if (!isValidUrl) {
+            alert("Ingresa una URL válida que comience con 'http://' o 'https://'.");
             return;
         }
 
@@ -92,7 +99,8 @@ const UpdateMenu = ({ item }) => {
                 handleIngredientChange={handleIngredientChange}
                 handleUrlChange={handleUrlChange}
                 handleSubmit={handleSubmit}
-                item={item} />
+                item={item}
+                text={text} />
         </>
     );
 }
