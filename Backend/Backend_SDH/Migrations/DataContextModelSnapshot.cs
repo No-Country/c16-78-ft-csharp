@@ -71,7 +71,7 @@ namespace Backend_SDH.Migrations
                     b.Property<int>("CookMethodId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CookingMinutes")                        
+                    b.Property<int>("CookingMinutes")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -88,7 +88,6 @@ namespace Backend_SDH.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<int>("Portion")
-                        .HasMaxLength(4)
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
