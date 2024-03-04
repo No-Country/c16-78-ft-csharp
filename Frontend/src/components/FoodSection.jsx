@@ -4,7 +4,7 @@ import ImageExample from "../assets/platillo-ejemplo.png";
 import Pager from "./Pager";
 import FoodCardOpen from "./FoodCardOpen";
 
-const FoodSection = () => {
+const FoodSection = ({ ingredientsFilter }) => {
   const title = useRef(null);
   const [cardOpen, setCardOpen] = useState(false);
   const [itemSelected, setItemSelected] = useState({});
@@ -52,6 +52,32 @@ const FoodSection = () => {
       ],
     },
   ];
+
+  const [filteredInformationSlice, setFilteredInformationSlice] = useState([]);
+
+  useEffect(() => {
+
+    const filteredSlice = informationSlice.filter((item) => {
+
+      const recipeIngredientNames = item.recipeIngredients.map(
+        (ingredient) => ingredient.ingredientName.toLowerCase()
+      );
+
+      const ingredientsFilterLower = ingredientsFilter.map((ingredient) =>
+        ingredient.toLowerCase()
+      );
+
+      return (
+        ingredientsFilterLower.length === 0 ||
+        ingredientsFilterLower.every((ingredient) =>
+          recipeIngredientNames.includes(ingredient)
+        )
+      );
+    });
+
+    setFilteredInformationSlice(filteredSlice);
+  }, [ingredientsFilter, informationSlice]);
+
 
   useEffect(() => {
     const numberOfInformationPages = Math.ceil(information.length / 20);
@@ -125,7 +151,7 @@ const FoodSection = () => {
         Puedes crear {information.length} platillos
       </h1>
       <div className="flex flex-row flex-wrap gap-4 justify-center lg:flex-col lg:max-w-screen-xl w-full">
-        {informationSlice.map((item, index) => {
+        {filteredInformationSlice.map((item, index) => {
           return <FoodCard key={index + 1} item={item} openCard={openCard} />;
         })}
         <div className="w-full">

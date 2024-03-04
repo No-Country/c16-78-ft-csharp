@@ -20,11 +20,10 @@ const AddMenu = () => {
         setShowAddMenuPopup(true);
     }
 
+
     function handleIngredientChange(e) {
         const ingredientInput = e.target.value;
-        const isValid = /^[^,]+(, [^,]+)*$/.test(ingredientInput);
-
-        if (isValid) {
+        if (ingredientInput) {
             setFormData({ ...formData, recipeIngredients: ingredientInput });
         } else {
             setFormData({ ...formData, recipeIngredients: ingredientInput });
