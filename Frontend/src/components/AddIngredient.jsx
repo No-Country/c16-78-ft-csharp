@@ -36,7 +36,8 @@ function AddIngredient({ handleAddIngredients, recipeIngredients }) {
     }
   };
 
-  const handleDeleteRow = (index) => {
+  const handleDeleteRow = (e, index) => {
+    e.preventDefault()
     if (index !== 0) {
       setIngredients((prevIngredients) =>
         prevIngredients.filter((_, i) => i !== index)
@@ -45,7 +46,7 @@ function AddIngredient({ handleAddIngredients, recipeIngredients }) {
   };
 
   return (
-    <div className="px-2 py-1 rounded-lg bg-gray-100 w-11/12 text-sm sm:text-base mx-auto">
+    <div className="px-2 py-1 rounded-lg bg-gray-100 w-11/12 text-sm sm:text-base mx-auto h-[450px] overflow-y-auto">
       <div className="flex justify-center gap-4 items-center mb-2">
         <p>Selecciona los ingredientes</p>
         <button
@@ -104,7 +105,7 @@ function AddIngredient({ handleAddIngredients, recipeIngredients }) {
                 {index !== 0 && (
                   <button
                     className="hover:text-primary duration-150 ease-in-out"
-                    onClick={() => handleDeleteRow(index)}
+                    onClick={(e) => handleDeleteRow(e, index)}
                   >
                     <FaTrash />
                   </button>
@@ -114,7 +115,7 @@ function AddIngredient({ handleAddIngredients, recipeIngredients }) {
           ))}
         </tbody>
       </table>
-      <div className="w-full flex justify-center">
+      {/* <div className="w-full flex justify-center">
         <button
           className="mt-4"
           onClick={(event) => {
@@ -123,7 +124,7 @@ function AddIngredient({ handleAddIngredients, recipeIngredients }) {
         >
           Aceptar cambios
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

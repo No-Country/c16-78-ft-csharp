@@ -11,6 +11,9 @@ function App() {
   function handleIngredientsFilter(newIngredient) {
     setIngredientsFilter(newIngredient);
   }
+
+
+
   return (
     <main className="bg-primary font-plus-jakarta-sans">
       <Navbar />
