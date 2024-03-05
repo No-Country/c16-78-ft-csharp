@@ -3,6 +3,7 @@ using Backend_SDH.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend_SDH.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240303204957_Add_CookingMinutes_to_Recipes")]
+    partial class Add_CookingMinutes_to_Recipes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,6 +75,7 @@ namespace Backend_SDH.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("CookingMinutes")
+                        .HasMaxLength(4)
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -88,6 +92,7 @@ namespace Backend_SDH.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<int>("Portion")
+                        .HasMaxLength(4)
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")

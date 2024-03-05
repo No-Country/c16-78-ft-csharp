@@ -10,5 +10,6 @@ namespace Backend_SDH.Services.Interfaces
         Task<ServiceResponse<CookMethodDto>> EditCookMethod(int id, CookMethodDto updatedCookMethod);
         Task<ServiceResponse<List<CookMethodDto>>> DeleteCookMethod(int id);
         ServiceResponse<bool> NameExists(string name, int id = 0);
+        ServiceResponse<bool> CookMethodExists(int id);
     }
 }

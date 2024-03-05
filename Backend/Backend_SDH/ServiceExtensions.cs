@@ -9,6 +9,8 @@ namespace Backend_SDH
         {
             services.AddAutoMapper(typeof(Program).Assembly);
             services.AddScoped<ICookMethodService, CookMethodService>();
+            services.AddScoped<IRecipeService, RecipeService>();
+            services.AddScoped<IIngredientService, IngredientService>();
         }
     }
 }
