@@ -2,7 +2,7 @@ import { useState } from "react";
 import ButtonFill from "./ButtonFill";
 import FormMenu from "./FormMenu";
 
-const AddMenu = () => {
+const AddMenu = ({ handleAddMenu }) => {
   const [showAddMenuPopup, setShowAddMenuPopup] = useState(false);
   const [text, setText] = useState("agregar");
   const [formData, setFormData] = useState({
@@ -17,6 +17,7 @@ const AddMenu = () => {
 
   function handleOpenAddMenuPopup() {
     setShowAddMenuPopup(true);
+    document.body.style.overflow = "hidden";
   }
 
   // function handleIngredientChange(e) {
@@ -43,8 +44,6 @@ const AddMenu = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    e.stopPropagation();
-
     const {
       name,
       description,
@@ -53,10 +52,8 @@ const AddMenu = () => {
       portion,
       imgUrl,
       minutes,
+      id,
     } = formData;
-
-    console.log(formData);
-
     const isValidUrl = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(
       formData.imgUrl
     );
@@ -64,17 +61,7 @@ const AddMenu = () => {
       alert("Ingresa una URL válida que comience con 'http://' o 'https://'.");
       return;
     }
-
-    // const ingredientsValid = /^[^,]+(, [^,]+)*$/.test(formData.recipeIngredients);
-
-    // if (!ingredientsValid) {
-    //     alert("Ingresa los ingredientes separados por coma y espacio correctamente.");
-    //     e.target.recipeIngredients.focus();
-    //     return;
-    // }
-
-    //setShowAddMenuPopup(false);
-
+    handleAddMenu(formData);
     setFormData({
       name: "",
       description: "",
@@ -83,6 +70,8 @@ const AddMenu = () => {
       portion: "",
       imgUrl: "",
     });
+    setShowAddMenuPopup(false);
+    document.body.style.overflow = "auto";
   }
 
   return (

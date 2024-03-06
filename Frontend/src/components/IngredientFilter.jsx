@@ -3,10 +3,8 @@ import { RxCross2 } from "react-icons/rx";
 import { useState } from "react";
 import ButtonFill from "./ButtonFill";
 import AddMenu from "./AddMenu";
-
-const IngredientFilter = ({ handleIngredientsFilter }) => {
+const IngredientFilter = ({ handleIngredientsFilter, handleAddMenu }) => {
   const [ingredients, setIngredients] = useState([]);
-
   function handleEnterPress(e) {
     if (e.key === "Enter" && e.target.value.trim() !== "") {
       setIngredients([...ingredients, e.target.value]);
@@ -14,7 +12,6 @@ const IngredientFilter = ({ handleIngredientsFilter }) => {
       e.target.value = "";
     }
   }
-
   function handleDeleteIngredient(e) {
     const ingredientToDelete = e.target.parentElement.textContent.trim();
     setIngredients((prevIngredients) =>
@@ -24,12 +21,10 @@ const IngredientFilter = ({ handleIngredientsFilter }) => {
       prevIngredients.filter((ingredient) => ingredient !== ingredientToDelete)
     );
   }
-
   function handleDeleteArray() {
     setIngredients([]);
     handleIngredientsFilter([]);
   }
-
   return (
     <>
       <div className="py-6 lg:w-1/3 px-8 bg-white lg:bg-gray-100 lg:h-screen lg:sticky lg:top-0 rounded-t-3xl lg:rounded-tr-none">
@@ -68,10 +63,9 @@ const IngredientFilter = ({ handleIngredientsFilter }) => {
         >
           Eliminar todos los ingredientes
         </ButtonFill>
-        <AddMenu />
+        <AddMenu handleAddMenu={handleAddMenu} />
       </div>
     </>
   );
 };
-
 export default IngredientFilter;

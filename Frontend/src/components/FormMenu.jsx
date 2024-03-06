@@ -64,6 +64,7 @@ const Form = ({
                   minutes: "",
                 });
                 setShowAddMenuPopup(false);
+                document.body.style.overflow = "auto";
               }}
             >
               <TfiClose />

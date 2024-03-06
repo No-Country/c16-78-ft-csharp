@@ -3,8 +3,16 @@ import FoodCard from "./FoodCard";
 import ImageExample from "../assets/platillo-ejemplo.png";
 import Pager from "./Pager";
 import FoodCardOpen from "./FoodCardOpen";
+import { v4 as uuidv4 } from "uuid";
 
-const FoodSection = ({ ingredientsFilter }) => {
+const FoodSection = ({
+  ingredientsFilter,
+  addMenu,
+  handleUpdateMenu,
+  updateMenu,
+  handleDeleteMenu,
+  deleteMenu,
+}) => {
   const title = useRef(null);
   const [cardOpen, setCardOpen] = useState(false);
   const [itemSelected, setItemSelected] = useState({});
@@ -14,8 +22,7 @@ const FoodSection = ({ ingredientsFilter }) => {
   const [disableNext, setDisableNext] = useState(false);
   const [informationSlice, setInformationSlice] = useState([]);
   const [informationLength, setInformationLength] = useState(0);
-
-  const information = [
+  const [information, setInformation] = useState([
     {
       id: 3,
       imgUrl: ImageExample,
@@ -83,9 +90,43 @@ const FoodSection = ({ ingredientsFilter }) => {
         },
       ],
     },
-  ];
+  ]);
 
   const [filteredInformationSlice, setFilteredInformationSlice] = useState([]);
+
+  useEffect(() => {
+    if (addMenu && Object.keys(addMenu).length > 0) {
+      const formattedAddMenu = {
+        id: uuidv4(),
+        imgUrl: addMenu.imgUrl || "",
+        name: addMenu.name || "",
+        description: addMenu.description || "",
+        cookMethodName: addMenu.cookMethodName || "",
+        portion: addMenu.portion || "",
+        minutes: addMenu.minutes || "",
+        recipeIngredients: addMenu.recipeIngredients || [],
+      };
+
+      setInformation((prev) => [...prev, formattedAddMenu]);
+    }
+  }, [addMenu]);
+
+  useEffect(() => {
+    setInformation((prev) => {
+      const updatedInformation = prev.map((item) =>
+        item.id === updateMenu.id ? updateMenu : item
+      );
+      setCardOpen(false);
+
+      return updatedInformation;
+    });
+  }, [updateMenu]);
+
+  useEffect(() => {
+    setInformation((prev) => prev.filter((menu) => menu.id !== deleteMenu));
+    setCardOpen(false);
+    document.body.style.overflow = "auto";
+  }, [deleteMenu]);
 
   useEffect(() => {
     const filteredSlice = informationSlice.filter((item) => {
@@ -107,12 +148,12 @@ const FoodSection = ({ ingredientsFilter }) => {
 
     setFilteredInformationSlice(filteredSlice);
     setInformationLength(filteredSlice.length);
-  }, [ingredientsFilter, informationSlice]);
+  }, [ingredientsFilter, informationSlice, addMenu, information, deleteMenu]);
 
   useEffect(() => {
     const numberOfInformationPages = Math.ceil(information.length / 20);
     setNumberOfPages(numberOfInformationPages);
-  }, [information]);
+  }, [information, addMenu, deleteMenu]);
 
   useEffect(() => {
     if (currentPage <= numberOfPages) {
@@ -139,7 +180,7 @@ const FoodSection = ({ ingredientsFilter }) => {
       setDisableNext(true);
       setDisablePrevious(false);
     }
-  }, [currentPage, numberOfPages]);
+  }, [currentPage, numberOfPages, addMenu, information, deleteMenu]);
 
   const prevPage = () => {
     setCurrentPage((prev) => prev - 1);
@@ -201,6 +242,8 @@ const FoodSection = ({ ingredientsFilter }) => {
         cardOpen={cardOpen}
         closeCard={closeCard}
         setInformationSlice={setInformationSlice}
+        handleUpdateMenu={handleUpdateMenu}
+        handleDeleteMenu={handleDeleteMenu}
       />
     </section>
   );

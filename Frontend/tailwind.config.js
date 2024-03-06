@@ -16,9 +16,6 @@ export default {
       screens: {
         xsm: "450px",
       },
-      height: {
-        128: "32rem",
-      },
     },
   },
   plugins: [],

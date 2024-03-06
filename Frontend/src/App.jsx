@@ -7,9 +7,24 @@ import Footer from "./components/Footer";
 import { useState } from "react";
 function App() {
   const [ingredientsFilter, setIngredientsFilter] = useState([]);
+  const [addMenu, setAddMenu] = useState([]);
+  const [updateMenu, setUpdateMenu] = useState([]);
+  const [deleteMenu, setDeleteMenu] = useState([]);
 
   function handleIngredientsFilter(newIngredient) {
     setIngredientsFilter(newIngredient);
+  }
+
+  function handleAddMenu(formData) {
+    setAddMenu(formData);
+  }
+
+  function handleUpdateMenu(formData) {
+    setUpdateMenu(formData);
+  }
+
+  function handleDeleteMenu(id) {
+    setDeleteMenu(id);
   }
 
 
@@ -22,8 +37,13 @@ function App() {
         id="cooking-section"
         className="lg:w-full mx-auto lg:flex lg:flex-row"
       >
-        <IngredientFilter handleIngredientsFilter={handleIngredientsFilter} />
-        <FoodSection ingredientsFilter={ingredientsFilter} />
+        <IngredientFilter handleIngredientsFilter={handleIngredientsFilter} handleAddMenu={handleAddMenu} />
+        <FoodSection ingredientsFilter={ingredientsFilter}
+          addMenu={addMenu}
+          handleUpdateMenu={handleUpdateMenu}
+          updateMenu={updateMenu}
+          handleDeleteMenu={handleDeleteMenu}
+          deleteMenu={deleteMenu} />
       </section>
       <Footer />
     </main>
