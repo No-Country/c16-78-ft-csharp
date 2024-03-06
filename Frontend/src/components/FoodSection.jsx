@@ -4,7 +4,7 @@ import ImageExample from "../assets/platillo-ejemplo.png";
 import Pager from "./Pager";
 import FoodCardOpen from "./FoodCardOpen";
 
-const FoodSection = ({ ingredientsFilter }) => {
+const FoodSection = ({ ingredientsFilter, addMenu }) => {
   const title = useRef(null);
   const [cardOpen, setCardOpen] = useState(false);
   const [itemSelected, setItemSelected] = useState({});
@@ -14,8 +14,7 @@ const FoodSection = ({ ingredientsFilter }) => {
   const [disableNext, setDisableNext] = useState(false);
   const [informationSlice, setInformationSlice] = useState([]);
   const [informationLength, setInformationLength] = useState(0);
-
-  const information = [
+  const [information, setInformation] = useState([
     {
       id: 3,
       imgUrl: ImageExample,
@@ -83,9 +82,26 @@ const FoodSection = ({ ingredientsFilter }) => {
         },
       ],
     },
-  ];
+  ]);
 
   const [filteredInformationSlice, setFilteredInformationSlice] = useState([]);
+
+  useEffect(() => {
+    if (addMenu && Object.keys(addMenu).length > 0) {
+      const formattedAddMenu = {
+        id: information.length + 1,
+        imgUrl: addMenu.imgUrl || "",
+        name: addMenu.name || "",
+        description: addMenu.description || "",
+        cookMethodName: addMenu.cookMethodName || "",
+        portion: addMenu.portion || "",
+        minutes: addMenu.minutes || "",
+        recipeIngredients: addMenu.recipeIngredients || [],
+      };
+
+      setInformation((prev) => [...prev, formattedAddMenu]);
+    }
+  }, [addMenu]);
 
   useEffect(() => {
     const filteredSlice = informationSlice.filter((item) => {
@@ -107,12 +123,12 @@ const FoodSection = ({ ingredientsFilter }) => {
 
     setFilteredInformationSlice(filteredSlice);
     setInformationLength(filteredSlice.length);
-  }, [ingredientsFilter, informationSlice]);
+  }, [ingredientsFilter, informationSlice, addMenu, information]);
 
   useEffect(() => {
     const numberOfInformationPages = Math.ceil(information.length / 20);
     setNumberOfPages(numberOfInformationPages);
-  }, [information]);
+  }, [information, addMenu]);
 
   useEffect(() => {
     if (currentPage <= numberOfPages) {
@@ -139,7 +155,7 @@ const FoodSection = ({ ingredientsFilter }) => {
       setDisableNext(true);
       setDisablePrevious(false);
     }
-  }, [currentPage, numberOfPages]);
+  }, [currentPage, numberOfPages, addMenu, information]);
 
   const prevPage = () => {
     setCurrentPage((prev) => prev - 1);

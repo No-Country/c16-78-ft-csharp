@@ -2,7 +2,7 @@ import { useState } from "react";
 import ButtonFill from "./ButtonFill";
 import FormMenu from "./FormMenu";
 
-const AddMenu = () => {
+const AddMenu = ({ handleAddMenu }) => {
     const [showAddMenuPopup, setShowAddMenuPopup] = useState(false);
     const [text, setText] = useState("agregar");
     const [formData, setFormData] = useState({
@@ -32,8 +32,6 @@ const AddMenu = () => {
     function handleUrlChange(e) {
         const urlInput = e.target.value;
         const isValidUrl = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(urlInput);
-        console.log(isValidUrl);
-        console.log(formData.imgUrl);
 
         if (!isValidUrl) {
             alert("Ingresa una URL válida que comience con 'http://' o 'https://'.");
@@ -52,7 +50,7 @@ const AddMenu = () => {
             imgUrl,
             minutes,
         } = formData;
-        console.log(formData);
+        handleAddMenu(formData)
 
         const isValidUrl = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(
             formData.imgUrl

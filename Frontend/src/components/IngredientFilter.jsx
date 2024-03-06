@@ -4,7 +4,7 @@ import { useState } from "react";
 import ButtonFill from "./ButtonFill";
 import AddMenu from "./AddMenu";
 
-const IngredientFilter = ({ handleIngredientsFilter }) => {
+const IngredientFilter = ({ handleIngredientsFilter, handleAddMenu }) => {
     const [ingredients, setIngredients] = useState([]);
 
     function handleEnterPress(e) {
@@ -68,7 +68,7 @@ const IngredientFilter = ({ handleIngredientsFilter }) => {
                 >
                     Eliminar todos los ingredientes
                 </ButtonFill>
-                <AddMenu />
+                <AddMenu handleAddMenu={handleAddMenu} />
             </div>
         </>
     );
