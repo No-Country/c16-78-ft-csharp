@@ -3,6 +3,7 @@ using Backend_SDH.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend_SDH.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240219223512_Add_Configs")]
+    partial class Add_Configs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,8 +50,9 @@ namespace Backend_SDH.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("IsMain")
-                        .HasColumnType("bit");
+                    b.Property<decimal>("Kcal")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -71,33 +75,22 @@ namespace Backend_SDH.Migrations
                     b.Property<int>("CookMethodId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CookingMinutes")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImgUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("KcalTotal")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int>("Portion")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CookMethodId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Recipes");
                 });
@@ -110,10 +103,9 @@ namespace Backend_SDH.Migrations
                     b.Property<int>("IngredientId")
                         .HasColumnType("int");
 
-                    b.Property<string>("IngredientQuantity")
-                        .IsRequired()
+                    b.Property<decimal>("IngredientQuantity")
                         .HasPrecision(18, 2)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("RecipeId", "IngredientId");
 
@@ -144,9 +136,32 @@ namespace Backend_SDH.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserRoleId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("UserRoleId");
+
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Backend_SDH.Models.UserRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("Backend_SDH.Models.Recipe", b =>
@@ -157,15 +172,7 @@ namespace Backend_SDH.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Backend_SDH.Models.User", "User")
-                        .WithMany("Recipes")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("CookMethod");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Backend_SDH.Models.RecipeIngredient", b =>
@@ -187,6 +194,17 @@ namespace Backend_SDH.Migrations
                     b.Navigation("Recipe");
                 });
 
+            modelBuilder.Entity("Backend_SDH.Models.User", b =>
+                {
+                    b.HasOne("Backend_SDH.Models.UserRole", "UserRole")
+                        .WithMany()
+                        .HasForeignKey("UserRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserRole");
+                });
+
             modelBuilder.Entity("Backend_SDH.Models.Ingredient", b =>
                 {
                     b.Navigation("RecipeIngredients");
@@ -195,11 +213,6 @@ namespace Backend_SDH.Migrations
             modelBuilder.Entity("Backend_SDH.Models.Recipe", b =>
                 {
                     b.Navigation("RecipeIngredients");
-                });
-
-            modelBuilder.Entity("Backend_SDH.Models.User", b =>
-                {
-                    b.Navigation("Recipes");
                 });
 #pragma warning restore 612, 618
         }
