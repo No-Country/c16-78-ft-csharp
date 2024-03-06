@@ -90,6 +90,25 @@ namespace Backend_SDH.Services
             return serviceResponse;
         }
 
+        public async Task<ServiceResponse<List<GetRecipeDto>>> GetAllRecipes()
+        {
+            var serviceResponse = new ServiceResponse<List<GetRecipeDto>>();
+
+            try
+            {
+                serviceResponse.Data = await _dataContext.Recipes
+                    .ProjectTo<GetRecipeDto>(_mapper.ConfigurationProvider)
+                    .ToListAsync();
+            }
+            catch(Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
+
         public async Task<ServiceResponse<List<RecipePreviewDto>>> GetRecipesPreview()
         {
             var serviceResponse = new ServiceResponse<List<RecipePreviewDto>>();

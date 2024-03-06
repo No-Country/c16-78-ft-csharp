@@ -22,6 +22,12 @@ namespace Backend_SDH.Controllers
         }
 
         [HttpGet]
+        public async Task<ActionResult<ServiceResponse<List<GetRecipeDto>>>> GetAllRecipes()
+        {
+            return Ok(await _recipeService.GetAllRecipes());
+        }
+
+        [HttpGet("GetRecipesPreview")]
         public async Task<ActionResult<ServiceResponse<List<RecipePreviewDto>>>> GetRecipesPreview()
         {
             return Ok(await _recipeService.GetRecipesPreview());
