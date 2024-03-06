@@ -1,4 +1,5 @@
-﻿using Backend_SDH.Models;
+﻿using Backend_SDH.Data.Configuration;
+using Backend_SDH.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend_SDH.Data
@@ -16,11 +17,9 @@ namespace Backend_SDH.Data
         public DbSet<RecipeIngredient> RecipeIngredients { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            //TODO: move configs to individual config files
-            //TODO: apply configurations to decimals and strings (max length)
-            modelBuilder.Entity<RecipeIngredient>().HasKey(x => new {x.RecipeId, x.IngredientId});
+        {            
             base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(RecipeIngredientConfig).Assembly);
         }
     }
 }

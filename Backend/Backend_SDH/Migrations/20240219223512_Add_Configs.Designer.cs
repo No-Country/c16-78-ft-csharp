@@ -3,6 +3,7 @@ using Backend_SDH.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend_SDH.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240219223512_Add_Configs")]
+    partial class Add_Configs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,10 +79,6 @@ namespace Backend_SDH.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImgUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("KcalTotal")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
@@ -89,14 +88,9 @@ namespace Backend_SDH.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CookMethodId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Recipes");
                 });
@@ -170,21 +164,6 @@ namespace Backend_SDH.Migrations
                     b.ToTable("UserRoles");
                 });
 
-            modelBuilder.Entity("UsersFavouriteRecipes", b =>
-                {
-                    b.Property<int>("FavouriteRecipesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("FavouriteRecipesId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("UsersFavouriteRecipes");
-                });
-
             modelBuilder.Entity("Backend_SDH.Models.Recipe", b =>
                 {
                     b.HasOne("Backend_SDH.Models.CookMethod", "CookMethod")
@@ -193,15 +172,7 @@ namespace Backend_SDH.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Backend_SDH.Models.User", "User")
-                        .WithMany("Recipes")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("CookMethod");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Backend_SDH.Models.RecipeIngredient", b =>
@@ -234,21 +205,6 @@ namespace Backend_SDH.Migrations
                     b.Navigation("UserRole");
                 });
 
-            modelBuilder.Entity("UsersFavouriteRecipes", b =>
-                {
-                    b.HasOne("Backend_SDH.Models.Recipe", null)
-                        .WithMany()
-                        .HasForeignKey("FavouriteRecipesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Backend_SDH.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Backend_SDH.Models.Ingredient", b =>
                 {
                     b.Navigation("RecipeIngredients");
@@ -257,11 +213,6 @@ namespace Backend_SDH.Migrations
             modelBuilder.Entity("Backend_SDH.Models.Recipe", b =>
                 {
                     b.Navigation("RecipeIngredients");
-                });
-
-            modelBuilder.Entity("Backend_SDH.Models.User", b =>
-                {
-                    b.Navigation("Recipes");
                 });
 #pragma warning restore 612, 618
         }
