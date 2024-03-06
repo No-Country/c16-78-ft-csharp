@@ -81,5 +81,16 @@ namespace Backend_SDH.Controllers
             }
             return Ok(response);
         }
+
+        [HttpDelete]
+        public async Task<ActionResult<ServiceResponse<List<RecipePreviewDto>>>> DeleteRecipe(int id)
+        {
+            var response = await _recipeService.DeleteRecipe(id);
+            if(response.Data is null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
     }
 }

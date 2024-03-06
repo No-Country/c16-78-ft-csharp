@@ -45,6 +45,32 @@ namespace Backend_SDH.Services
             return serviceResponse;
         }
 
+        public async Task<ServiceResponse<List<RecipePreviewDto>>> DeleteRecipe(int id)
+        {
+            var serviceResponse = new ServiceResponse<List<RecipePreviewDto>>();
+
+            try
+            {
+                var dbRecipe = await _dataContext.Recipes.FirstOrDefaultAsync(r => r.Id == id);
+                if (dbRecipe == null)
+                {
+                    throw new Exception($"Recipe Id '{id}' not found.");
+                }
+
+                _dataContext.Recipes.Remove(dbRecipe);
+
+                await _dataContext.SaveChangesAsync();
+
+                serviceResponse.Data = await _dataContext.Recipes.ProjectTo<RecipePreviewDto>(_mapper.ConfigurationProvider).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            return serviceResponse;
+        }
+
         public async Task<ServiceResponse<GetRecipeDto>> GetRecipeById(int id)
         {
             var serviceResponse = new ServiceResponse<GetRecipeDto>();

@@ -9,5 +9,6 @@ namespace Backend_SDH.Services.Interfaces
         Task<ServiceResponse<GetRecipeDto>> GetRecipeById(int id);
         Task<ServiceResponse<GetRecipeDto>> AddRecipe(AddRecipeDto newRecipe);
         Task<ServiceResponse<GetRecipeDto>> UpdateRecipe(int id, AddRecipeDto updatedRecipe);
+        Task<ServiceResponse<List<RecipePreviewDto>>> DeleteRecipe(int id);
     }
 }
