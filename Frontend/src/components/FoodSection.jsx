@@ -95,6 +95,18 @@ const FoodSection = ({
   const [filteredInformationSlice, setFilteredInformationSlice] = useState([]);
 
   useEffect(() => {
+    fetch('http://www.saboresdelhogar.somee.com/Api/ingredient')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Error de red: ${response.status}`);
+        }
+        return response.json(); // o response.text() dependiendo del formato de la respuesta
+      })
+      .then(data => console.log(data))
+      .catch(error => console.error('Error:', error));
+  }, []);
+
+  useEffect(() => {
     if (addMenu && Object.keys(addMenu).length > 0) {
       const formattedAddMenu = {
         id: uuidv4(),
