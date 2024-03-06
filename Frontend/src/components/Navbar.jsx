@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { easeIn, motion } from "framer-motion";
 
 const Navbar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -10,7 +11,16 @@ const Navbar = () => {
 
   return (
     <header className="bg-primary border-b">
-      <nav className="text-lg max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto py-2 md:py-8 px-4 2xl:px-16">
+      <motion.nav
+        animate={{
+          y: [-100, -50, 0],
+        }}
+        transition={{
+          duration: 0.2,
+          ease: easeIn,
+        }}
+        className="text-lg max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto py-2 md:py-8 px-4 2xl:px-16"
+      >
         <Link
           to="/"
           className="flex items-center space-x-3 rtl:space-x-reverse border-b-2 border-transparent hover:border-white transition-all delay-150 duration-200"
@@ -69,7 +79,7 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-      </nav>
+      </motion.nav>
     </header>
   );
 };

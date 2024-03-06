@@ -1,5 +1,5 @@
-// HeroSection.js
 import React from "react";
+import { easeInOut, motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
 import taco from "../assets/taco.png";
 import cereza from "../assets/cereza.png";
@@ -35,11 +35,40 @@ const previewItems = [
   },
 ];
 
+//Animaciones
+const containerAnimation = {
+  hidden: { opacity: 1, scale: 0 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delayChildren: 0.2,
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const itemAnimation = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+  },
+};
+
 const HeroSection = () => {
   return (
     <section className="bg-primary flex flex-col md:flex-row md:justify-between max-w-screen-2xl mx-auto px-4 2xl:px-16 my-8 md:my-12 lg:my-16 2xl:my-20">
       {/* Titulo a la izquierda */}
-      <article className="md:mt-12 flex flex-col md:w-1/2 text-center md:text-start">
+      <motion.article
+        initial={{ opacity: 0, x: -100 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{
+          duration: 0.9,
+          ease: [0, 0.71, 0.2, 1.01],
+        }}
+        className="md:mt-12 flex flex-col md:w-1/2 text-center md:text-start"
+      >
         <h2 className="text-white text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-bold">
           Crea platillos con los
         </h2>
@@ -55,12 +84,21 @@ const HeroSection = () => {
             <FaArrowRight />
           </span>
         </a>
-      </article>
+      </motion.article>
       {/* Columna de cards a la derecha */}
-      <article className="mt-12 md:mt-0 grid grid-cols-6 md:grid-cols-2 gap-2 md:gap-4">
+      <motion.article
+        variants={containerAnimation}
+        initial="hidden"
+        animate="visible"
+        className="mt-12 md:mt-0 grid grid-cols-6 md:grid-cols-2 gap-2 md:gap-4"
+      >
         {previewItems.map((item, index) => {
           return (
-            <div key={item.title} className="bg-white rounded-xl shadow-xl">
+            <motion.div
+              variants={itemAnimation}
+              key={item.title}
+              className="bg-white rounded-xl shadow-xl"
+            >
               <img
                 src={item.icon}
                 alt={item.title}
@@ -68,10 +106,10 @@ const HeroSection = () => {
                   index === 4 ? "scale-150" : ""
                 }`}
               />
-            </div>
+            </motion.div>
           );
         })}
-      </article>
+      </motion.article>
     </section>
   );
 };

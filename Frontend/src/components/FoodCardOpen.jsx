@@ -23,13 +23,13 @@ const FoodCardOpen = ({ item, cardOpen, closeCard, setInformationSlice }) => {
             alt={item.name}
           />
           <button
-            className="text-2xl xsm:text-3xl absolute top-2 xsm:top-4 left-2 xsm:left-4 text-white hover:text-red-500 ease-in-out transition-all"
+            className="text-2xl xsm:text-3xl absolute top-2 xsm:top-4 left-2 xsm:left-4 text-black bg-slate-100 p-1 rounded-md hover:text-red-500 ease-in-out transition-all"
             onClick={closeCard}
           >
             <TfiClose />
           </button>
           <button
-            className={`text-2xl xsm:text-4xl absolute top-1 xsm:top-4 right-1 xsm:right-4 ${
+            className={`text-2xl xsm:text-4xl absolute top-1 xsm:top-4 right-1 xsm:right-4 text-black bg-slate-100 p-1 rounded-md ${
               favorite ? "text-red-600" : "text-white"
             }  hover:text-red-400 ease-in-out transition-all`}
             onClick={() => {

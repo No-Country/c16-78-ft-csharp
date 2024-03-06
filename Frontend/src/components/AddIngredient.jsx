@@ -37,7 +37,7 @@ function AddIngredient({ handleAddIngredients, recipeIngredients }) {
   };
 
   const handleDeleteRow = (e, index) => {
-    e.preventDefault()
+    e.preventDefault();
     if (index !== 0) {
       setIngredients((prevIngredients) =>
         prevIngredients.filter((_, i) => i !== index)
@@ -46,7 +46,14 @@ function AddIngredient({ handleAddIngredients, recipeIngredients }) {
   };
 
   return (
-    <div className="px-2 py-1 rounded-lg bg-gray-100 w-11/12 text-sm sm:text-base mx-auto h-[450px] overflow-y-auto">
+    <div
+      className="px-2 py-1 rounded-lg bg-gray-100 w-11/12 text-sm sm:text-base mx-auto h-[450px] overflow-y-auto"
+      onMouseLeave={(event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        handleAddIngredients(event, ingredients);
+      }}
+    >
       <div className="flex justify-center gap-4 items-center mb-2">
         <p>Selecciona los ingredientes</p>
         <button
