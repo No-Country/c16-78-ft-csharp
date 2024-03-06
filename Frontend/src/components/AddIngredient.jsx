@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaPlus, FaTrash } from "react-icons/fa";
 
-function AddIngredient({ handleAddIngredients, recipeIngredients }) {
+function AddIngredient({ recipeIngredients }) {
   const defaultIngredient = {
     ingredientName: "",
     isMain: false,

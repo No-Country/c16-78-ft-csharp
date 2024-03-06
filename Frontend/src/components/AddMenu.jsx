@@ -9,7 +9,7 @@ const AddMenu = ({ handleAddMenu }) => {
         name: "",
         description: "",
         cookMethodName: "",
-        recipeIngredients: [],
+        recipeIngredients: "",
         portion: "",
         imgUrl: "",
         minutes: "",
@@ -41,16 +41,11 @@ const AddMenu = ({ handleAddMenu }) => {
 
     function handleSubmit(e) {
         e.preventDefault();
-        const {
-            name,
-            description,
-            cookMethodName,
-            recipeIngredients,
-            portion,
-            imgUrl,
-            minutes,
-        } = formData;
-        handleAddMenu(formData)
+        const { name, description, cookMethodName, recipeIngredients, portion, imgUrl, minutes, id } = formData;
+        // if (!name.trim() || !description.trim() || !cookMethodName.trim() || recipeIngredients === "" || !portion || !imgUrl.trim() || !minutes.trim()) {
+        //     alert("Completa todos los campos antes de enviar el formulario.");
+        //     return;
+        // }
 
         const isValidUrl = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(
             formData.imgUrl
@@ -60,6 +55,7 @@ const AddMenu = ({ handleAddMenu }) => {
             return;
         }
 
+        handleAddMenu(formData)
         // const ingredientsValid = /^[^,]+(, [^,]+)*$/.test(formData.recipeIngredients);
 
         // if (!ingredientsValid) {
@@ -73,7 +69,7 @@ const AddMenu = ({ handleAddMenu }) => {
             name: "",
             description: "",
             cookMethodName: "",
-            recipeIngredients: [],
+            recipeIngredients: "",
             portion: "",
             imgUrl: "",
         });

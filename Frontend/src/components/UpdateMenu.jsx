@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ButtonFill from "./ButtonFill";
 import FormMenu from "./FormMenu";
 
-const UpdateMenu = ({ item }) => {
+const UpdateMenu = ({ item, handleUpdateMenu }) => {
 
     const [showAddMenuPopup, setShowAddMenuPopup] = useState(false);
     const [text, setText] = useState("");
@@ -13,7 +13,8 @@ const UpdateMenu = ({ item }) => {
         recipeIngredients: "",
         portion: "",
         imgUrl: "",
-        minutes: ""
+        minutes: "",
+        id: ""
     })
 
     useEffect(() => {
@@ -25,6 +26,7 @@ const UpdateMenu = ({ item }) => {
             portion: item.portion,
             imgUrl: item.imgUrl || "",
             minutes: item.minutes,
+            id: item.id
         })
     }, [showAddMenuPopup])
 
@@ -57,7 +59,7 @@ const UpdateMenu = ({ item }) => {
 
     function handleSubmit(e) {
         e.preventDefault()
-        const { name, description, cookMethodName, recipeIngredients, portion, imgUrl, minutes } = formData;
+        const { name, description, cookMethodName, recipeIngredients, portion, imgUrl, minutes, id } = formData;
         if (!name.trim() || !description.trim() || !cookMethodName.trim() || recipeIngredients === "" || !portion || !imgUrl.trim() || !minutes.trim()) {
             alert("Completa todos los campos antes de enviar el formulario.");
             return;
@@ -74,9 +76,8 @@ const UpdateMenu = ({ item }) => {
             alert("Ingresa una URL válida que comience con 'http://' o 'https://'.");
             return;
         }
-
+        handleUpdateMenu(formData)
         setShowAddMenuPopup(false)
-        console.log(formData)
         setFormData({
             name: "",
             description: "",
@@ -84,7 +85,8 @@ const UpdateMenu = ({ item }) => {
             recipeIngredients: "",
             portion: "",
             imgUrl: "",
-            minutes: ""
+            minutes: "",
+            id: ""
 
         })
     }

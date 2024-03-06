@@ -3,8 +3,9 @@ import FoodCard from "./FoodCard";
 import ImageExample from "../assets/platillo-ejemplo.png";
 import Pager from "./Pager";
 import FoodCardOpen from "./FoodCardOpen";
+import { v4 as uuidv4 } from 'uuid';
 
-const FoodSection = ({ ingredientsFilter, addMenu }) => {
+const FoodSection = ({ ingredientsFilter, addMenu, handleUpdateMenu, updateMenu, handleDeleteMenu, deleteMenu }) => {
   const title = useRef(null);
   const [cardOpen, setCardOpen] = useState(false);
   const [itemSelected, setItemSelected] = useState({});
@@ -89,7 +90,7 @@ const FoodSection = ({ ingredientsFilter, addMenu }) => {
   useEffect(() => {
     if (addMenu && Object.keys(addMenu).length > 0) {
       const formattedAddMenu = {
-        id: information.length + 1,
+        id: uuidv4(),
         imgUrl: addMenu.imgUrl || "",
         name: addMenu.name || "",
         description: addMenu.description || "",
@@ -102,6 +103,24 @@ const FoodSection = ({ ingredientsFilter, addMenu }) => {
       setInformation((prev) => [...prev, formattedAddMenu]);
     }
   }, [addMenu]);
+
+  useEffect(() => {
+    setInformation((prev) => {
+      const updatedInformation = prev.map((item) =>
+        item.id === updateMenu.id ? updateMenu : item
+      );
+      setCardOpen(false);
+
+      return updatedInformation;
+    });
+  }, [updateMenu]);
+
+  useEffect(() => {
+    setInformation((prev) =>
+      prev.filter((menu) => menu.id !== deleteMenu)
+    );
+    setCardOpen(false);
+  }, [deleteMenu]);
 
   useEffect(() => {
     const filteredSlice = informationSlice.filter((item) => {
@@ -123,12 +142,12 @@ const FoodSection = ({ ingredientsFilter, addMenu }) => {
 
     setFilteredInformationSlice(filteredSlice);
     setInformationLength(filteredSlice.length);
-  }, [ingredientsFilter, informationSlice, addMenu, information]);
+  }, [ingredientsFilter, informationSlice, addMenu, information, deleteMenu]);
 
   useEffect(() => {
     const numberOfInformationPages = Math.ceil(information.length / 20);
     setNumberOfPages(numberOfInformationPages);
-  }, [information, addMenu]);
+  }, [information, addMenu, deleteMenu]);
 
   useEffect(() => {
     if (currentPage <= numberOfPages) {
@@ -155,7 +174,7 @@ const FoodSection = ({ ingredientsFilter, addMenu }) => {
       setDisableNext(true);
       setDisablePrevious(false);
     }
-  }, [currentPage, numberOfPages, addMenu, information]);
+  }, [currentPage, numberOfPages, addMenu, information, deleteMenu]);
 
   const prevPage = () => {
     setCurrentPage((prev) => prev - 1);
@@ -217,6 +236,8 @@ const FoodSection = ({ ingredientsFilter, addMenu }) => {
         cardOpen={cardOpen}
         closeCard={closeCard}
         setInformationSlice={setInformationSlice}
+        handleUpdateMenu={handleUpdateMenu}
+        handleDeleteMenu={handleDeleteMenu}
       />
     </section>
   );

@@ -6,14 +6,13 @@ import Toster from "../assets/cooking-icons/toaster.png";
 import UpdateMenu from "./UpdateMenu";
 import DeleteMenu from "./DeleteMenu";
 
-const FoodCardOpen = ({ item, cardOpen, closeCard, setInformationSlice }) => {
+const FoodCardOpen = ({ item, cardOpen, closeCard, setInformationSlice, handleUpdateMenu, handleDeleteMenu }) => {
   const [favorite, setFavorite] = useState(false);
 
   return (
     <section
-      className={`fixed top-0 left-0 lg:p-4 w-full h-svh overflow-scroll xsm:h-full xsm:justify-center xsm:items-center bg-background-modal ${
-        cardOpen ? "flex" : "hidden"
-      }`}
+      className={`fixed top-0 left-0 lg:p-4 w-full h-svh overflow-scroll xsm:h-full xsm:justify-center xsm:items-center bg-background-modal ${cardOpen ? "flex" : "hidden"
+        }`}
     >
       <article className="bg-white w-full h-svh lg:h-auto overflow-scroll flex flex-col max-w-screen-xl lg:flex-row lg:m-4 lg:rounded-3xl lg:overflow-hidden">
         <figure className="relative h-56 xsm:h-64 sm:h-80 md:h-96 lg:h-128 lg:w-128">
@@ -29,9 +28,8 @@ const FoodCardOpen = ({ item, cardOpen, closeCard, setInformationSlice }) => {
             <TfiClose />
           </button>
           <button
-            className={`text-2xl xsm:text-4xl absolute top-1 xsm:top-4 right-1 xsm:right-4 ${
-              favorite ? "text-red-600" : "text-white"
-            }  hover:text-red-400 ease-in-out transition-all`}
+            className={`text-2xl xsm:text-4xl absolute top-1 xsm:top-4 right-1 xsm:right-4 ${favorite ? "text-red-600" : "text-white"
+              }  hover:text-red-400 ease-in-out transition-all`}
             onClick={() => {
               setFavorite((prev) => !prev);
             }}
@@ -81,11 +79,12 @@ const FoodCardOpen = ({ item, cardOpen, closeCard, setInformationSlice }) => {
             {cardOpen && <Ingredients list={item.recipeIngredients} />}
           </div>
           <div className="flex justify-around">
-            <UpdateMenu item={item} />
+            <UpdateMenu item={item} handleUpdateMenu={handleUpdateMenu} />
             <DeleteMenu
               setInformationSlice={setInformationSlice}
               closeCard={closeCard}
               item={item}
+              handleDeleteMenu={handleDeleteMenu}
             />
           </div>
         </div>
