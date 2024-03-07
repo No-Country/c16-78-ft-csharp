@@ -4,6 +4,7 @@ import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
 import { TfiClose } from "react-icons/tfi";
 import Toster from "../assets/cooking-icons/toaster.png";
 import UpdateMenu from "./UpdateMenu";
+import ButtonFill from "./ButtonFill";
 import DeleteMenu from "./DeleteMenu";
 
 const FoodCardOpen = ({
@@ -11,8 +12,9 @@ const FoodCardOpen = ({
   cardOpen,
   closeCard,
   setInformationSlice,
-  handleUpdateMenu,
   handleDeleteMenu,
+  apiCallDelete,
+  apiCallUpdate,
 }) => {
   const [favorite, setFavorite] = useState(false);
 
@@ -90,13 +92,21 @@ const FoodCardOpen = ({
             {cardOpen && <Ingredients list={item.recipeIngredients} />}
           </div>
           <div className="flex justify-around">
-            <UpdateMenu item={item} handleUpdateMenu={handleUpdateMenu} />
-            <DeleteMenu
+            <UpdateMenu item={item} apiCallUpdate={apiCallUpdate} />
+            <ButtonFill
+              onClick={() => {
+                apiCallDelete(item.id);
+              }}
+            >
+              Delete
+            </ButtonFill>
+
+            {/* <DeleteMenu
               setInformationSlice={setInformationSlice}
               closeCard={closeCard}
               item={item}
               handleDeleteMenu={handleDeleteMenu}
-            />
+            /> */}
           </div>
         </div>
       </article>

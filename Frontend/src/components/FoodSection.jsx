@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import FoodCard from "./FoodCard";
-import ImageExample from "../assets/platillo-ejemplo.png";
 import Pager from "./Pager";
 import FoodCardOpen from "./FoodCardOpen";
 import { v4 as uuidv4 } from "uuid";
@@ -14,7 +13,6 @@ const FoodSection = ({
   handleDeleteMenu,
   deleteMenu,
 }) => {
-
   const url = "http://www.saboresdelhogar.somee.com/Api/recipe";
   const { data, loading, error } = useFetch(url);
   const title = useRef(null);
@@ -30,10 +28,12 @@ const FoodSection = ({
 
   const [filteredInformationSlice, setFilteredInformationSlice] = useState([]);
 
+  //Obtiene los datos para mostrar
   useEffect(() => {
     setInformation(data?.data || []);
   }, [data]);
 
+  //Crea un nuevo dato, lo agrega a la lista y llama a post
   useEffect(() => {
     if (addMenu && Object.keys(addMenu).length > 0) {
       const formattedAddMenu = {
@@ -54,6 +54,7 @@ const FoodSection = ({
     }
   }, [addMenu]);
 
+  //Actualiza los datos
   useEffect(() => {
     setInformation((prev) =>
       prev.map((item) => (item.id === updateMenu.id ? updateMenu : item))
@@ -61,30 +62,31 @@ const FoodSection = ({
     setCardOpen(false);
   }, [updateMenu]);
 
-  useEffect(() => {
-    const deleteApi = async (deleteMenu) => {
-      console.log(deleteMenu)
-      try {
-        const requestOptions = {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(deleteMenu),
-        };
-        const res = await fetch(url, requestOptions);
-        if (!res.ok) {
-          throw new Error(`Error de red: ${res.status}`);
-        }
-        const data = await res.json();
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    deleteApi(deleteMenu);
-    setInformation((prev) => prev.filter((menu) => menu.id !== deleteMenu));
-    setCardOpen(false);
-    document.body.style.overflow = "auto";
-  }, [deleteMenu]);
+  // Delete
+  // useEffect(() => {
+  //   const deleteApi = async (deleteMenu) => {
+  //     console.log(deleteMenu);
+  //     try {
+  //       const requestOptions = {
+  //         method: "DELETE",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify(deleteMenu),
+  //       };
+  //       const res = await fetch(url, requestOptions);
+  //       if (!res.ok) {
+  //         throw new Error(`Error de red: ${res.status}`);
+  //       }
+  //       const data = await res.json();
+  //       console.log(data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   deleteApi(deleteMenu);
+  //   setInformation((prev) => prev.filter((menu) => menu.id !== deleteMenu));
+  //   setCardOpen(false);
+  //   document.body.style.overflow = "auto";
+  // }, [deleteMenu]);
 
   useEffect(() => {
     const filteredSlice = informationSlice.filter((item) => {
@@ -175,33 +177,85 @@ const FoodSection = ({
     console.log(formattedAddMenu);
 
     const pruebaIngredient = {
-      id: 654654,
-      imgUrl: "https://www.google.com",
-      name: "fsdfsfsf",
-      description: "rfegtregre",
+      id: 0,
+      name: "UpdatedTest",
+      description: "UpdateDescriptionTest",
       cookMethodId: 1,
-      portion: "1",
-      cookingMinutes: 10,
+      portion: 9,
+      cookingMinutes: 60,
+      imgUrl: "stringUpdated",
       recipeIngredients: [
         {
-          ingredientName: "Queso",
-          isMain: true,
-          ingredientQuantity: "A gusto",
+          ingredientId: 1,
+          ingredientQuantity: "2",
         },
         {
-          ingredientName: "Huevo",
-          isMain: true,
-          ingredientQuantity: "2",
+          ingredientId: 2,
+          ingredientQuantity: "1",
+        },
+        {
+          ingredientId: 3,
+          ingredientQuantity: "NUpdated",
         },
       ],
     };
+
     try {
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formattedAddMenu),
+        body: JSON.stringify(pruebaIngredient),
       };
-      const res = await fetch(`${url}/${idToDelete}`, requestOptions);
+      const res = await fetch(`${url}`, requestOptions);
+      const data = await res.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const apiCallDelete = async (idForDelete) => {
+    //Delete Backend
+    try {
+      const response = await fetch(
+        `http://www.saboresdelhogar.somee.com/Api/recipe?id=${idForDelete}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (response.ok) {
+        console.log(`Elemento con ID ${idForDelete} eliminado exitosamente`);
+      } else {
+        console.error("Error al eliminar el elemento:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error de red:", error);
+      return;
+    }
+
+    //UpdDate FrontEnd
+    const newElements = information?.filter(
+      (element) => element.id !== idForDelete
+    );
+    setInformation(newElements);
+    setCardOpen(false);
+    document.body.style.overflow = "auto";
+  };
+
+  const apiCallUpdate = async (item) => {
+    console.log(item);
+    handleUpdateMenu(item);
+    try {
+      const requestOptions = {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(item),
+      };
+      const res = await fetch(`${url}/${item.id}`, requestOptions);
+      if (!res.ok) {
+        throw new Error(`Error de red: ${res.status}`);
+      }
       const data = await res.json();
       console.log(data);
     } catch (error) {
@@ -238,8 +292,9 @@ const FoodSection = ({
         cardOpen={cardOpen}
         closeCard={closeCard}
         setInformationSlice={setInformationSlice}
-        handleUpdateMenu={handleUpdateMenu}
         handleDeleteMenu={handleDeleteMenu}
+        apiCallDelete={apiCallDelete}
+        apiCallUpdate={apiCallUpdate}
       />
     </section>
   );

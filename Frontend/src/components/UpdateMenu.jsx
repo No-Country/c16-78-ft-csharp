@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ButtonFill from "./ButtonFill";
 import FormMenu from "./FormMenu";
 
-const UpdateMenu = ({ item, handleUpdateMenu }) => {
+const UpdateMenu = ({ item, apiCallUpdate }) => {
   const [showAddMenuPopup, setShowAddMenuPopup] = useState(false);
   const [text, setText] = useState("");
   const [formData, setFormData] = useState({
@@ -78,7 +78,7 @@ const UpdateMenu = ({ item, handleUpdateMenu }) => {
       alert("Ingresa una URL válida que comience con 'http://' o 'https://'.");
       return;
     }
-    handleUpdateMenu(formData);
+    apiCallUpdate(formData);
     setFormData({
       name: "",
       description: "",
@@ -106,6 +106,7 @@ const UpdateMenu = ({ item, handleUpdateMenu }) => {
         handleSubmit={handleSubmit}
         item={item}
         text={text}
+        apiCallUpdate={apiCallUpdate}
       />
     </>
   );
