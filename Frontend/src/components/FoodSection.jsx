@@ -14,9 +14,8 @@ const FoodSection = ({
   handleDeleteMenu,
   deleteMenu,
 }) => {
-  const { data, loading, error } = useFetch(
-    "http://www.saboresdelhogar.somee.com/Api/recipe"
-  );
+  const url = "http://www.saboresdelhogar.somee.com/Api/recipe";
+  const { data, loading, error } = useFetch(url);
   const title = useRef(null);
   const [cardOpen, setCardOpen] = useState(false);
   const [itemSelected, setItemSelected] = useState({});
@@ -37,7 +36,7 @@ const FoodSection = ({
   useEffect(() => {
     if (addMenu && Object.keys(addMenu).length > 0) {
       const formattedAddMenu = {
-        id: uuidv4(),
+        id: 0,
         imgUrl: addMenu.imgUrl || "",
         name: addMenu.name || "",
         description: addMenu.description || "",
@@ -48,6 +47,9 @@ const FoodSection = ({
       };
 
       setInformation((prev) => [...prev, formattedAddMenu]);
+
+      //llamada a la api
+      apiCallPost(formattedAddMenu);
     }
   }, [addMenu]);
 
@@ -147,6 +149,44 @@ const FoodSection = ({
     setCardOpen(false);
     setItemSelected({});
     document.body.style.overflow = "auto";
+  };
+
+  const apiCallPost = async (formattedAddMenu) => {
+    console.log(formattedAddMenu);
+
+    const pruebaIngredient = {
+      id: 654654,
+      imgUrl: "https://www.google.com",
+      name: "fsdfsfsf",
+      description: "rfegtregre",
+      cookMethodId: 1,
+      portion: "1",
+      cookingMinutes: 10,
+      recipeIngredients: [
+        {
+          ingredientName: "Queso",
+          isMain: true,
+          ingredientQuantity: "A gusto",
+        },
+        {
+          ingredientName: "Huevo",
+          isMain: true,
+          ingredientQuantity: "2",
+        },
+      ],
+    };
+    try {
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formattedAddMenu),
+      };
+      const res = await fetch(url, requestOptions);
+      const data = await res.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
