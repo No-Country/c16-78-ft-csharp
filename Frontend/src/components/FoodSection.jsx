@@ -13,6 +13,7 @@ const FoodSection = ({
   handleDeleteMenu,
   deleteMenu,
 }) => {
+  //fetch
   const url = "http://www.saboresdelhogar.somee.com/Api/recipe";
   const { data, loading, error } = useFetch(url);
   const title = useRef(null);
@@ -51,32 +52,6 @@ const FoodSection = ({
       apiCallPost(formattedAddMenu);
     }
   }, [addMenu]);
-
-  //Actualiza los datos
-  useEffect(() => {
-    const updateApi = async (updatedMenu) => {
-      try {
-        const requestOptions = {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(updatedMenu),
-        };
-        const res = await fetch(`${url}/${updatedMenu.id}`, requestOptions);
-        if (!res.ok) {
-          throw new Error(`Error de red: ${res.status}`);
-        }
-        const data = await res.json();
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    updateApi(updateMenu);
-    setInformation((prev) =>
-      prev.map((item) => (item.id === updateMenu.id ? updateMenu : item))
-    );
-    setCardOpen(false);
-  }, [updateMenu]);
 
   useEffect(() => {
     const filteredSlice = informationSlice.filter((item) => {
@@ -164,43 +139,19 @@ const FoodSection = ({
   };
 
   const apiCallPost = async (formattedAddMenu) => {
-    console.log(formattedAddMenu);
-
-    const pruebaIngredient = {
-      id: 0,
-      name: "UpdatedTest",
-      description: "UpdateDescriptionTest",
-      cookMethodId: 1,
-      portion: 9,
-      cookingMinutes: 60,
-      imgUrl: "stringUpdated",
-      recipeIngredients: [
-        {
-          ingredientId: 1,
-          ingredientQuantity: "2",
-        },
-        {
-          ingredientId: 2,
-          ingredientQuantity: "1",
-        },
-        {
-          ingredientId: 3,
-          ingredientQuantity: "NUpdated",
-        },
-      ],
-    };
-
     try {
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(pruebaIngredient),
+        body: JSON.stringify(formattedAddMenu),
       };
       const res = await fetch(`${url}`, requestOptions);
       const data = await res.json();
       console.log(data);
+      return;
     } catch (error) {
       console.log(error);
+      return;
     }
   };
 

@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { FaPlus, FaTrash } from "react-icons/fa";
+import useFetch from "../hooks/useFetch";
 
 function AddIngredient({ handleAddIngredients, recipeIngredients }) {
   const defaultIngredient = {
-    ingredientName: "",
-    isMain: false,
+    ingredientId: "0",
     ingredientQuantity: "",
   };
 
   const [ingredients, setIngredients] = useState([defaultIngredient]);
+
+  // Fetch de los ingredientes
+  const url = "https://www.saboresdelhogar.somee.com/Api/ingredient";
+  const { data: ingredientsData, loading, error } = useFetch(url);
 
   useEffect(() => {
     if (recipeIngredients?.length > 0) {
@@ -18,7 +22,7 @@ function AddIngredient({ handleAddIngredients, recipeIngredients }) {
 
   const handleInputChange = (index, key, value) => {
     const newIngredients = [...ingredients];
-    newIngredients[index][key] = value;
+    newIngredients[index] = { ...newIngredients[index], [key]: value };
     setIngredients(newIngredients);
   };
 
@@ -26,22 +30,19 @@ function AddIngredient({ handleAddIngredients, recipeIngredients }) {
     e.preventDefault();
     const lastIngredient = ingredients[ingredients.length - 1];
     if (
-      lastIngredient.ingredientName !== "" &&
+      lastIngredient.ingredientId !== "" &&
       lastIngredient.ingredientQuantity !== ""
     ) {
-      setIngredients((prevIngredients) => [
-        ...prevIngredients,
-        { ...defaultIngredient },
-      ]);
+      setIngredients([...ingredients, { ...defaultIngredient }]);
     }
   };
 
   const handleDeleteRow = (e, index) => {
     e.preventDefault();
     if (index !== 0) {
-      setIngredients((prevIngredients) =>
-        prevIngredients.filter((_, i) => i !== index)
-      );
+      const newIngredients = [...ingredients];
+      newIngredients.splice(index, 1);
+      setIngredients(newIngredients);
     }
   };
 
@@ -66,7 +67,6 @@ function AddIngredient({ handleAddIngredients, recipeIngredients }) {
       <table className="w-full">
         <thead>
           <tr>
-            <th className="w-1/4 text-center">Principal</th>
             <th className="w-1/4 text-center">Ingrediente</th>
             <th className="w-1/4 text-center">Cantidad</th>
             <th className="w-1/4 text-center">Eliminar</th>
@@ -76,23 +76,19 @@ function AddIngredient({ handleAddIngredients, recipeIngredients }) {
           {ingredients.map((ingredient, index) => (
             <tr key={index}>
               <td className="w-1/4 text-center">
-                <input
-                  type="checkbox"
-                  checked={ingredient.isMain}
+                <select
+                  value={ingredient.ingredientId}
                   onChange={(e) =>
-                    handleInputChange(index, "isMain", e.target.checked)
-                  }
-                />
-              </td>
-              <td className="w-1/4 text-center">
-                <input
-                  type="text"
-                  value={ingredient.ingredientName}
-                  onChange={(e) =>
-                    handleInputChange(index, "ingredientName", e.target.value)
+                    handleInputChange(index, "ingredientId", e.target.value)
                   }
                   className="pl-1"
-                />
+                >
+                  {ingredientsData?.data?.map((ingredientData) => (
+                    <option key={ingredientData.id} value={ingredientData.id}>
+                      {ingredientData.name}
+                    </option>
+                  ))}
+                </select>
               </td>
               <td className="w-1/4 text-center">
                 <input
@@ -122,16 +118,6 @@ function AddIngredient({ handleAddIngredients, recipeIngredients }) {
           ))}
         </tbody>
       </table>
-      {/* <div className="w-full flex justify-center">
-        <button
-          className="mt-4"
-          onClick={(event) => {
-            handleAddIngredients(event, ingredients);
-          }}
-        >
-          Aceptar cambios
-        </button>
-      </div> */}
     </div>
   );
 }

@@ -2,6 +2,7 @@ import ButtonFill from "./ButtonFill";
 import { TfiClose } from "react-icons/tfi";
 import AddIngredient from "./AddIngredient";
 import { useState, useEffect } from "react";
+import useFetch from "../hooks/useFetch";
 
 const Form = ({
   showAddMenuPopup,
@@ -13,49 +14,27 @@ const Form = ({
   handleSubmit,
   text,
 }) => {
-
   const [cookMethods, setCookMethods] = useState([]);
-  //   const formatIngredients = () => {
-  //     const ingredients = formData?.recipeIngredients;
-  //     if (Array.isArray(ingredients)) {
-  //       return ingredients
-  //         .map((ingredient) => ingredient.ingredientName)
-  //         .join(", ");
-  //     }
-  //     return;
-  //   };
+
+  const url = "https://www.saboresdelhogar.somee.com/Api/CookMethod";
+  const { data, isLoading, error } = useFetch(url);
 
   useEffect(() => {
-    const fetchCookMethods = async () => {
-      try {
-        const response = await fetch("https://www.saboresdelhogar.somee.com/Api/CookMethod");
-        if (!response.ok) {
-          throw new Error(`Error de red: ${response.status}`);
-        }
-        const data = await response.json();
-        setCookMethods(data);
-      } catch (error) {
-        console.error("Error al obtener métodos de cocción:", error);
-      }
-    };
-
-    fetchCookMethods();
-  }, []);
-  console.log(cookMethods);
+    setCookMethods(data);
+  }, [data]);
 
   const handleAddIngredients = (e, ingredients) => {
     e.preventDefault();
+    console.log(ingredients);
 
     // Filtrar los ingredientes que tienen el nombre o la cantidad vacíos
     const filteredIngredients = ingredients.filter(
-      (ingredient) =>
-        ingredient.ingredientName.trim() !== "" &&
-        ingredient.ingredientQuantity.trim() !== ""
+      (ingredient) => ingredient.ingredientQuantity.trim() !== ""
     );
 
     // Verificar si al menos un ingrediente tiene nombre y cantidad no vacíos
     if (filteredIngredients.length === 0) {
-      alert("Ingresa al menos un ingrediente");
+      console.log("Ingresa un ingrediente");
     } else {
       setFormData((prev) => ({
         ...prev,
