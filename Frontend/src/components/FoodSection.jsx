@@ -4,6 +4,7 @@ import ImageExample from "../assets/platillo-ejemplo.png";
 import Pager from "./Pager";
 import FoodCardOpen from "./FoodCardOpen";
 import { v4 as uuidv4 } from "uuid";
+import useFetch from "../hooks/useFetch";
 
 const FoodSection = ({
   ingredientsFilter,
@@ -13,6 +14,9 @@ const FoodSection = ({
   handleDeleteMenu,
   deleteMenu,
 }) => {
+  const { data, loading, error } = useFetch(
+    "http://www.saboresdelhogar.somee.com/Api/recipe"
+  );
   const title = useRef(null);
   const [cardOpen, setCardOpen] = useState(false);
   const [itemSelected, setItemSelected] = useState({});
@@ -22,77 +26,13 @@ const FoodSection = ({
   const [disableNext, setDisableNext] = useState(false);
   const [informationSlice, setInformationSlice] = useState([]);
   const [informationLength, setInformationLength] = useState(0);
-  const [information, setInformation] = useState([
-    {
-      id: 3,
-      imgUrl: ImageExample,
-      name: "Ensalada",
-      description: "Lavar las verduras, cortarlas y condimentar a gusto",
-      cookMethodName: "No requiere cocción",
-      portion: 1,
-      minutes: "15 - 20 min",
-      recipeIngredients: [
-        {
-          ingredientName: "Tomate",
-          isMain: true,
-          ingredientQuantity: "1",
-        },
-        {
-          ingredientName: "Aceite de oliva",
-          isMain: false,
-          ingredientQuantity: "A gusto",
-        },
-        {
-          ingredientName: "Lechuga",
-          isMain: true,
-          ingredientQuantity: "450gr",
-        },
-        {
-          ingredientName: "Sal",
-          isMain: false,
-          ingredientQuantity: "A gusto",
-        },
-        {
-          ingredientName: "Pimienta",
-          isMain: false,
-          ingredientQuantity: "A gusto",
-        },
-      ],
-    },
-    {
-      id: 4,
-      imgUrl: ImageExample,
-      name: "Ensalada",
-      description: "Lavar las verduras, cortarlas y condimentar a gusto",
-      cookMethodName: "No requiere cocción",
-      portion: 1,
-      minutes: "15 - 20 min",
-      recipeIngredients: [
-        {
-          ingredientName: "Aceite de oliva",
-          isMain: false,
-          ingredientQuantity: "A gusto",
-        },
-        {
-          ingredientName: "Lechuga",
-          isMain: true,
-          ingredientQuantity: "450gr",
-        },
-        {
-          ingredientName: "Sal",
-          isMain: false,
-          ingredientQuantity: "A gusto",
-        },
-        {
-          ingredientName: "Pimienta",
-          isMain: false,
-          ingredientQuantity: "A gusto",
-        },
-      ],
-    },
-  ]);
+  const [information, setInformation] = useState([]);
 
   const [filteredInformationSlice, setFilteredInformationSlice] = useState([]);
+
+  useEffect(() => {
+    setInformation(data?.data || []);
+  }, [data]);
 
   useEffect(() => {
     if (addMenu && Object.keys(addMenu).length > 0) {
@@ -103,7 +43,7 @@ const FoodSection = ({
         description: addMenu.description || "",
         cookMethodName: addMenu.cookMethodName || "",
         portion: addMenu.portion || "",
-        minutes: addMenu.minutes || "",
+        cookingMinutes: addMenu.cookingMinutes || "",
         recipeIngredients: addMenu.recipeIngredients || [],
       };
 
@@ -112,14 +52,10 @@ const FoodSection = ({
   }, [addMenu]);
 
   useEffect(() => {
-    setInformation((prev) => {
-      const updatedInformation = prev.map((item) =>
-        item.id === updateMenu.id ? updateMenu : item
-      );
-      setCardOpen(false);
-
-      return updatedInformation;
-    });
+    setInformation((prev) =>
+      prev.map((item) => (item.id === updateMenu.id ? updateMenu : item))
+    );
+    setCardOpen(false);
   }, [updateMenu]);
 
   useEffect(() => {
@@ -130,8 +66,8 @@ const FoodSection = ({
 
   useEffect(() => {
     const filteredSlice = informationSlice.filter((item) => {
-      const recipeIngredientNames = item.recipeIngredients.map((ingredient) =>
-        ingredient.ingredientName.toLowerCase()
+      const recipeIngredientNames = item.recipeIngredients?.map((ingredient) =>
+        ingredient.ingredientName?.toLowerCase()
       );
 
       const ingredientsFilterLower = ingredientsFilter.map((ingredient) =>
@@ -214,7 +150,7 @@ const FoodSection = ({
   };
 
   return (
-    <section className=" flex-1 2xl:flex 2xl:flex-col 2xl:items-center 2xl:justify-start p-4 overflow-hidden lg:rounded-tr-3xl bg-white">
+    <section className="flex-1 2xl:flex 2xl:flex-col 2xl:items-center 2xl:justify-start p-4 overflow-hidden lg:rounded-tr-3xl bg-white">
       <h1
         ref={title}
         className="text-base md:text-3xl text-center pb-4 font-medium lg:text-xl lg:text-start"
@@ -222,9 +158,9 @@ const FoodSection = ({
         Puedes crear {informationLength} platillos
       </h1>
       <div className="flex flex-row flex-wrap gap-4 justify-center lg:flex-col lg:max-w-screen-xl w-full">
-        {filteredInformationSlice.map((item, index) => {
-          return <FoodCard key={index + 1} item={item} openCard={openCard} />;
-        })}
+        {filteredInformationSlice.map((item, index) => (
+          <FoodCard key={index + 1} item={item} openCard={openCard} />
+        ))}
         <div className="w-full">
           <Pager
             numberOfPages={numberOfPages}

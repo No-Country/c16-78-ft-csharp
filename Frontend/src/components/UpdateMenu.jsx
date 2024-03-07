@@ -12,7 +12,7 @@ const UpdateMenu = ({ item, handleUpdateMenu }) => {
     recipeIngredients: [],
     portion: "",
     imgUrl: "",
-    minutes: "",
+    cookingMinutes: "",
     id: "",
   });
 
@@ -24,7 +24,7 @@ const UpdateMenu = ({ item, handleUpdateMenu }) => {
       recipeIngredients: item.recipeIngredients,
       portion: item.portion,
       imgUrl: item.imgUrl || "",
-      minutes: item.minutes,
+      cookingMinutes: item.cookingMinutes,
       id: item.id,
     });
   }, [showAddMenuPopup]);
@@ -33,16 +33,6 @@ const UpdateMenu = ({ item, handleUpdateMenu }) => {
     setShowAddMenuPopup(true);
     document.body.style.overflow = "hidden";
   }
-
-  // function handleIngredientChange(e) {
-  //     const ingredientInput = e.target.value;
-  //     if (ingredientInput) {
-  //         setFormData({ ...formData, recipeIngredients: ingredientInput });
-  //     } else {
-  //         setFormData({ ...formData, recipeIngredients: ingredientInput });
-  //         alert("Ingresa los ingredientes separados por coma y espacio.");
-  //     }
-  // }
 
   function handleUrlChange(e) {
     const urlInput = e.target.value;
@@ -65,7 +55,7 @@ const UpdateMenu = ({ item, handleUpdateMenu }) => {
       recipeIngredients,
       portion,
       imgUrl,
-      minutes,
+      cookingMinutes,
       id,
     } = formData;
     if (
@@ -75,18 +65,12 @@ const UpdateMenu = ({ item, handleUpdateMenu }) => {
       recipeIngredients === "" ||
       !portion ||
       !imgUrl.trim() ||
-      !minutes.trim()
+      !cookingMinutes
     ) {
       alert("Completa todos los campos antes de enviar el formulario.");
       return;
     }
-    // const ingredientsValid = /^[^,]+(, [^,]+)*$/.test(formData.recipeIngredients);
-    // console.log(formData.recipeIngredients)
-    // if (!ingredientsValid) {
-    //     alert("Ingresa los ingredientes separados por coma y espacio correctamente.");
-    //     e.target.recipeIngredients.focus();
-    //     return;
-    // }
+
     const isValidUrl = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(
       formData.imgUrl
     );
@@ -102,7 +86,7 @@ const UpdateMenu = ({ item, handleUpdateMenu }) => {
       recipeIngredients: [],
       portion: "",
       imgUrl: "",
-      minutes: "",
+      cookingMinutes: "",
       id: "",
     });
     setShowAddMenuPopup(false);

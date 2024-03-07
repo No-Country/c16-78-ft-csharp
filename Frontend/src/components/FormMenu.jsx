@@ -61,7 +61,7 @@ const Form = ({
                   recipeIngredients: "",
                   portion: "",
                   imgUrl: "",
-                  minutes: "",
+                  cookingMinutes: "",
                 });
                 setShowAddMenuPopup(false);
                 document.body.style.overflow = "auto";
@@ -129,9 +129,9 @@ const Form = ({
             <input
               className="px-2 py-1 rounded-lg bg-gray-100 w-11/12 mx-auto text-sm sm:text-base"
               placeholder="Tiempo"
-              value={formData.minutes}
+              value={formData.cookingMinutes}
               onChange={(e) =>
-                setFormData({ ...formData, minutes: e.target.value })
+                setFormData({ ...formData, cookingMinutes: e.target.value })
               }
               required
             />

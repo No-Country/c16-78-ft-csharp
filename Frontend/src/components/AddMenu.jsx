@@ -12,7 +12,7 @@ const AddMenu = ({ handleAddMenu }) => {
     recipeIngredients: [],
     portion: "",
     imgUrl: "",
-    minutes: "",
+    cookingMinutes: "",
   });
 
   function handleOpenAddMenuPopup() {
@@ -33,9 +33,6 @@ const AddMenu = ({ handleAddMenu }) => {
   function handleUrlChange(e) {
     const urlInput = e.target.value;
     const isValidUrl = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(urlInput);
-    console.log(isValidUrl);
-    console.log(formData.imgUrl);
-
     if (!isValidUrl) {
       alert("Ingresa una URL válida que comience con 'http://' o 'https://'.");
       return;
@@ -51,7 +48,7 @@ const AddMenu = ({ handleAddMenu }) => {
       recipeIngredients,
       portion,
       imgUrl,
-      minutes,
+      cookingMinutes,
       id,
     } = formData;
     const isValidUrl = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(

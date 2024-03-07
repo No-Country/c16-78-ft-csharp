@@ -68,7 +68,9 @@ const FoodCardOpen = ({
                 </li>
               </ul>
             </div>
-            <time className="text-textHint text-base ml-2">{item.minutes}</time>
+            <time className="text-textHint text-base ml-2">
+              {item.cookingMinutes}
+            </time>
           </header>
           <div className="flex flex-col lg:pb-0 flex-1 justify-start">
             <p className="text-base font-light xsm:line-clamp-2 xl:line-clamp-none">
