@@ -14,6 +14,7 @@ const FoodSection = ({
   handleDeleteMenu,
   deleteMenu,
 }) => {
+
   const url = "http://www.saboresdelhogar.somee.com/Api/recipe";
   const { data, loading, error } = useFetch(url);
   const title = useRef(null);
@@ -61,6 +62,25 @@ const FoodSection = ({
   }, [updateMenu]);
 
   useEffect(() => {
+    const deleteApi = async (deleteMenu) => {
+      console.log(deleteMenu)
+      try {
+        const requestOptions = {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(deleteMenu),
+        };
+        const res = await fetch(url, requestOptions);
+        if (!res.ok) {
+          throw new Error(`Error de red: ${res.status}`);
+        }
+        const data = await res.json();
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    deleteApi(deleteMenu);
     setInformation((prev) => prev.filter((menu) => menu.id !== deleteMenu));
     setCardOpen(false);
     document.body.style.overflow = "auto";
@@ -181,7 +201,7 @@ const FoodSection = ({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formattedAddMenu),
       };
-      const res = await fetch(url, requestOptions);
+      const res = await fetch(`${url}/${idToDelete}`, requestOptions);
       const data = await res.json();
       console.log(data);
     } catch (error) {
