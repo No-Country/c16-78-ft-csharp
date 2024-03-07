@@ -41,7 +41,7 @@ const FoodSection = ({
         imgUrl: addMenu.imgUrl || "",
         name: addMenu.name || "",
         description: addMenu.description || "",
-        cookMethodName: addMenu.cookMethodName || "",
+        cookMethodId: addMenu.cookMethodId || "",
         portion: addMenu.portion || "",
         cookingMinutes: addMenu.cookingMinutes || "",
         recipeIngredients: addMenu.recipeIngredients || [],

@@ -8,7 +8,7 @@ const UpdateMenu = ({ item, apiCallUpdate }) => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    cookMethodName: "",
+    cookMethodId: "",
     recipeIngredients: [],
     portion: "",
     imgUrl: "",
@@ -20,7 +20,7 @@ const UpdateMenu = ({ item, apiCallUpdate }) => {
     setFormData({
       name: item.name,
       description: item.description,
-      cookMethodName: item.cookMethodName,
+      cookMethodId: item.cookMethodId,
       recipeIngredients: item.recipeIngredients,
       portion: item.portion,
       imgUrl: item.imgUrl || "",
@@ -51,7 +51,7 @@ const UpdateMenu = ({ item, apiCallUpdate }) => {
     const {
       name,
       description,
-      cookMethodName,
+      cookMethodId,
       recipeIngredients,
       portion,
       imgUrl,
@@ -61,7 +61,7 @@ const UpdateMenu = ({ item, apiCallUpdate }) => {
     if (
       !name.trim() ||
       !description.trim() ||
-      !cookMethodName.trim() ||
+      !cookMethodId.trim() ||
       recipeIngredients === "" ||
       !portion ||
       !imgUrl.trim() ||
@@ -82,7 +82,7 @@ const UpdateMenu = ({ item, apiCallUpdate }) => {
     setFormData({
       name: "",
       description: "",
-      cookMethodName: "",
+      cookMethodId: "",
       recipeIngredients: [],
       portion: "",
       imgUrl: "",

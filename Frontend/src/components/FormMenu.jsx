@@ -1,6 +1,7 @@
 import ButtonFill from "./ButtonFill";
 import { TfiClose } from "react-icons/tfi";
 import AddIngredient from "./AddIngredient";
+import { useState, useEffect } from "react";
 
 const Form = ({
   showAddMenuPopup,
@@ -12,6 +13,8 @@ const Form = ({
   handleSubmit,
   text,
 }) => {
+
+  const [cookMethods, setCookMethods] = useState([]);
   //   const formatIngredients = () => {
   //     const ingredients = formData?.recipeIngredients;
   //     if (Array.isArray(ingredients)) {
@@ -21,6 +24,24 @@ const Form = ({
   //     }
   //     return;
   //   };
+
+  useEffect(() => {
+    const fetchCookMethods = async () => {
+      try {
+        const response = await fetch("https://www.saboresdelhogar.somee.com/Api/CookMethod");
+        if (!response.ok) {
+          throw new Error(`Error de red: ${response.status}`);
+        }
+        const data = await response.json();
+        setCookMethods(data);
+      } catch (error) {
+        console.error("Error al obtener métodos de cocción:", error);
+      }
+    };
+
+    fetchCookMethods();
+  }, []);
+  console.log(cookMethods);
 
   const handleAddIngredients = (e, ingredients) => {
     e.preventDefault();
@@ -57,7 +78,7 @@ const Form = ({
                 setFormData({
                   name: "",
                   description: "",
-                  cookMethodName: "",
+                  cookMethodId: "",
                   recipeIngredients: "",
                   portion: "",
                   imgUrl: "",
@@ -94,16 +115,21 @@ const Form = ({
               minLength={2}
               required
             ></textarea>
-            <input
+            <select
               className="px-2 py-1 rounded-lg bg-gray-100 w-11/12 mx-auto text-sm sm:text-base"
-              placeholder="Metodo de cocción del menu"
-              value={formData.cookMethodName}
+              value={formData.cookMethodId}
               onChange={(e) =>
-                setFormData({ ...formData, cookMethodName: e.target.value })
+                setFormData({ ...formData, cookMethodId: e.target.value })
               }
-              minLength={2}
               required
-            />
+            >
+              <option value="">Selecciona un método de cocción</option>
+              {cookMethods?.data.map((method) => (
+                <option key={method.id} value={method.id}>
+                  {method.name}
+                </option>
+              ))}
+            </select>
             {/* <textarea
               className="h-1/2 px-2 py-1 rounded-lg bg-gray-100 w-11/12 mx-auto text-sm sm:text-base"
               placeholder="Escribe los ingredientes separados por comas"

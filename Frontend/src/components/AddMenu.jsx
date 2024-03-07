@@ -8,7 +8,7 @@ const AddMenu = ({ handleAddMenu }) => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    cookMethodName: "",
+    cookMethodId: "",
     recipeIngredients: [],
     portion: "",
     imgUrl: "",
@@ -34,13 +34,14 @@ const AddMenu = ({ handleAddMenu }) => {
     const {
       name,
       description,
-      cookMethodName,
+      cookMethodId,
       recipeIngredients,
       portion,
       imgUrl,
       cookingMinutes,
       id,
     } = formData;
+    const parsedCookMethodId = parseInt(cookMethodId, 10);
     const isValidUrl = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(
       formData.imgUrl
     );
@@ -48,11 +49,13 @@ const AddMenu = ({ handleAddMenu }) => {
       alert("Ingresa una URL válida que comience con 'http://' o 'https://'.");
       return;
     }
-    handleAddMenu(formData);
+
+    const updatedFormData = { ...formData, cookMethodId: parsedCookMethodId };
+    handleAddMenu(updatedFormData);
     setFormData({
       name: "",
       description: "",
-      cookMethodName: "",
+      cookMethodId: "",
       recipeIngredients: [],
       portion: "",
       imgUrl: "",
