@@ -48,45 +48,35 @@ const FoodSection = ({
       };
 
       setInformation((prev) => [...prev, formattedAddMenu]);
-
-      //llamada a la api
       apiCallPost(formattedAddMenu);
     }
   }, [addMenu]);
 
   //Actualiza los datos
   useEffect(() => {
+    const updateApi = async (updatedMenu) => {
+      try {
+        const requestOptions = {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedMenu),
+        };
+        const res = await fetch(`${url}/${updatedMenu.id}`, requestOptions);
+        if (!res.ok) {
+          throw new Error(`Error de red: ${res.status}`);
+        }
+        const data = await res.json();
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    updateApi(updateMenu);
     setInformation((prev) =>
       prev.map((item) => (item.id === updateMenu.id ? updateMenu : item))
     );
     setCardOpen(false);
   }, [updateMenu]);
-
-  // Delete
-  // useEffect(() => {
-  //   const deleteApi = async (deleteMenu) => {
-  //     console.log(deleteMenu);
-  //     try {
-  //       const requestOptions = {
-  //         method: "DELETE",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify(deleteMenu),
-  //       };
-  //       const res = await fetch(url, requestOptions);
-  //       if (!res.ok) {
-  //         throw new Error(`Error de red: ${res.status}`);
-  //       }
-  //       const data = await res.json();
-  //       console.log(data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   deleteApi(deleteMenu);
-  //   setInformation((prev) => prev.filter((menu) => menu.id !== deleteMenu));
-  //   setCardOpen(false);
-  //   document.body.style.overflow = "auto";
-  // }, [deleteMenu]);
 
   useEffect(() => {
     const filteredSlice = informationSlice.filter((item) => {

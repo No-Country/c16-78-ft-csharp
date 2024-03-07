@@ -20,16 +20,6 @@ const AddMenu = ({ handleAddMenu }) => {
     document.body.style.overflow = "hidden";
   }
 
-  // function handleIngredientChange(e) {
-  //     const ingredientInput = e.target.value;
-  //     if (ingredientInput) {
-  //         setFormData({ ...formData, recipeIngredients: ingredientInput });
-  //     } else {
-  //         setFormData({ ...formData, recipeIngredients: ingredientInput });
-  //         alert("Ingresa los ingredientes separados por coma y espacio.");
-  //     }
-  // }
-
   function handleUrlChange(e) {
     const urlInput = e.target.value;
     const isValidUrl = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(urlInput);
