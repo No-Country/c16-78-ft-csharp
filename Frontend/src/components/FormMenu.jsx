@@ -25,13 +25,13 @@ const Form = ({
 
   const handleAddIngredients = (e, ingredients) => {
     e.preventDefault();
-    // Verificar si al menos un ingrediente tiene nombre y cantidad no vacíos
-    if (filteredIngredients.length === 0) {
-      console.log("Ingresa un ingrediente");
+
+    if (ingredients[0].ingredientQuantity === "") {
+      console.log("Ingresa al menos un ingrediente");
     } else {
       setFormData((prev) => ({
         ...prev,
-        recipeIngredients: filteredIngredients,
+        recipeIngredients: ingredients,
       }));
     }
   };
@@ -79,7 +79,7 @@ const Form = ({
             />
             <textarea
               className="h-1/2 px-2 py-1 rounded-lg bg-gray-100 w-11/12 text-sm sm:text-base mx-auto"
-              placeholder="Descripción y pasos a seguir"
+              placeholder="Descripción breve del menu"
               value={formData.description}
               onChange={(e) =>
                 setFormData({ ...formData, description: e.target.value })
@@ -118,7 +118,7 @@ const Form = ({
             />
             <input
               className="px-2 py-1 rounded-lg bg-gray-100 w-11/12 mx-auto text-sm sm:text-base"
-              placeholder="Tiempo en minutos"
+              placeholder="Tiempo"
               value={formData.cookingMinutes}
               onChange={(e) =>
                 setFormData({ ...formData, cookingMinutes: e.target.value })
@@ -136,7 +136,7 @@ const Form = ({
               minLength={2}
               required
             />
-            <ButtonFill type="buttom" addClass="mx-auto mb-4">
+            <ButtonFill type="button" addClass="mx-auto mb-4">
               {text === "agregar" ? "Agregar" : "Actualizar"}
             </ButtonFill>
           </form>

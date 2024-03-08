@@ -1,8 +1,24 @@
 import { useEffect, useState } from "react";
 import ButtonFill from "./ButtonFill";
 import FormMenu from "./FormMenu";
+import useFetch from "../hooks/useFetch";
 
 const UpdateMenu = ({ item, apiCallUpdate }) => {
+  // Fetch de los ingredientes
+  const url = "https://www.saboresdelhogar.somee.com/Api/ingredient";
+  const {
+    data: ingredientsData,
+    loading: loadingIngredients,
+    error: errorIngredients,
+  } = useFetch(url);
+  //Fetch de los cookmethods
+  const url2 = "https://www.saboresdelhogar.somee.com/Api/CookMethod";
+  const {
+    data: cookData,
+    isLoading: loadingCook,
+    error: errorCook,
+  } = useFetch(url2);
+
   const [showAddMenuPopup, setShowAddMenuPopup] = useState(false);
   const [text, setText] = useState("");
   const [formData, setFormData] = useState({
@@ -17,17 +33,34 @@ const UpdateMenu = ({ item, apiCallUpdate }) => {
   });
 
   useEffect(() => {
-    setFormData({
-      name: item.name,
-      description: item.description,
-      cookMethodId: item.cookMethodId,
-      recipeIngredients: item.recipeIngredients,
-      portion: item.portion,
-      imgUrl: item.imgUrl || "",
-      cookingMinutes: item.cookingMinutes,
-      id: item.id,
-    });
-  }, [showAddMenuPopup]);
+    if (cookData.data && cookData.data.length > 0) {
+      const cookingFull = cookData.data.filter(
+        (cookMethod) => cookMethod.name === item.cookMethodName && cookMethod.id
+      );
+
+      const ingredientsId = item.recipeIngredients?.map((ingredient) => {
+        const foundIngredient = ingredientsData.data?.find(
+          (item) => item.name === ingredient.ingredientName
+        );
+        return {
+          ...ingredient,
+          ingredientId: foundIngredient ? foundIngredient.id : null,
+        };
+      });
+
+      setFormData((prevData) => ({
+        ...prevData,
+        name: item.name,
+        description: item.description,
+        cookMethodId: cookingFull[0]?.id || "",
+        recipeIngredients: ingredientsId || [],
+        portion: item.portion,
+        imgUrl: item.imgUrl || "",
+        cookingMinutes: item.cookingMinutes,
+        id: item.id,
+      }));
+    }
+  }, [showAddMenuPopup, ingredientsData, cookData, item]);
 
   function handleOpenAddMenuPopup() {
     setShowAddMenuPopup(true);
@@ -61,7 +94,6 @@ const UpdateMenu = ({ item, apiCallUpdate }) => {
     if (
       !name.trim() ||
       !description.trim() ||
-      !cookMethodId.trim() ||
       recipeIngredients === "" ||
       !portion ||
       !imgUrl.trim() ||

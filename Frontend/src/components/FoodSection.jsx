@@ -170,13 +170,12 @@ const FoodSection = ({
       console.log(data);
       return;
     } catch (error) {
-      console.log(error);
-      return;
+      console.error(error);
+      throw new Error("Error al realizar la solicitud POST");
     }
   };
 
   const apiCallDelete = async (idForDelete) => {
-    //Delete Backend
     try {
       const response = await fetch(
         `https://www.saboresdelhogar.somee.com/Api/recipe?id=${idForDelete}`,
@@ -192,11 +191,10 @@ const FoodSection = ({
       }
     } catch (error) {
       console.error("Error de red:", error);
-      return;
+      throw new Error("Error al eliminar el elemento");
     }
 
-    //UpdDate FrontEnd
-
+    // Actualización en el frontend
     const newElements = information?.filter(
       (element) => element.id !== idForDelete
     );
@@ -207,7 +205,6 @@ const FoodSection = ({
 
   const apiCallUpdate = async (item) => {
     console.log(item);
-    handleUpdateMenu(item);
     try {
       const requestOptions = {
         method: "PUT",
@@ -223,8 +220,10 @@ const FoodSection = ({
       }
       const data = await res.json();
       console.log(data);
+      handleUpdateMenu(item);
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      throw new Error("Error al realizar la solicitud PUT");
     }
   };
 

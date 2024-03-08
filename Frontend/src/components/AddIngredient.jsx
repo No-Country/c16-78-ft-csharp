@@ -108,6 +108,7 @@ function AddIngredient({ handleAddIngredients, recipeIngredients }) {
               <td className="w-1/4 text-center">
                 {index !== 0 && (
                   <button
+                    type="button"
                     className="hover:text-primary duration-150 ease-in-out"
                     onClick={(e) => handleDeleteRow(e, index)}
                   >
