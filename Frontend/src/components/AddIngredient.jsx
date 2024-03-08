@@ -41,6 +41,7 @@ function AddIngredient({ handleAddIngredients, recipeIngredients }) {
     e.preventDefault();
     if (index !== 0) {
       const newIngredients = [...ingredients];
+      console.log("Deleting Row: ", newIngredients[index]);
       newIngredients.splice(index, 1);
       setIngredients(newIngredients);
     }
@@ -77,7 +78,7 @@ function AddIngredient({ handleAddIngredients, recipeIngredients }) {
             <tr key={index}>
               <td className="w-1/4 text-center">
                 <select
-                  value={ingredient.ingredientId}
+                  value={ingredient?.ingredientId}
                   onChange={(e) =>
                     handleInputChange(index, "ingredientId", e.target.value)
                   }

@@ -16,6 +16,8 @@ const FoodSection = ({
   //fetch
   const url = "http://www.saboresdelhogar.somee.com/Api/recipe";
   const { data, loading, error } = useFetch(url);
+  const cookMethodsUrl = "https://www.saboresdelhogar.somee.com/Api/CookMethod";
+  const { data: cookMethodsData, isLoading: cookMethodsLoading, error: cookMethodsError } = useFetch(cookMethodsUrl);
   const title = useRef(null);
   const [cardOpen, setCardOpen] = useState(false);
   const [itemSelected, setItemSelected] = useState({});
@@ -26,7 +28,6 @@ const FoodSection = ({
   const [informationSlice, setInformationSlice] = useState([]);
   const [informationLength, setInformationLength] = useState(0);
   const [information, setInformation] = useState([]);
-
   const [filteredInformationSlice, setFilteredInformationSlice] = useState([]);
 
   //Obtiene los datos para mostrar
@@ -34,9 +35,14 @@ const FoodSection = ({
     setInformation(data?.data || []);
   }, [data]);
 
-  //Crea un nuevo dato, lo agrega a la lista y llama a post
   useEffect(() => {
+    console.log("solucionar", addMenu);
     if (addMenu && Object.keys(addMenu).length > 0) {
+      console.log("mierda", cookMethodsData);
+      const selectedCookMethod = cookMethodsData.data.find(
+        (method) => method.id === addMenu.cookMethodId
+      );
+
       const formattedAddMenu = {
         id: 0,
         imgUrl: addMenu.imgUrl || "",
@@ -47,11 +53,22 @@ const FoodSection = ({
         cookingMinutes: addMenu.cookingMinutes || "",
         recipeIngredients: addMenu.recipeIngredients || [],
       };
+      const formattedAddMenuFront = {
+        id: 0,
+        imgUrl: addMenu.imgUrl || "",
+        name: addMenu.name || "",
+        description: addMenu.description || "",
+        cookMethodName: selectedCookMethod?.name || "",
+        portion: addMenu.portion || "",
+        cookingMinutes: addMenu.cookingMinutes || "",
+        recipeIngredients: addMenu.recipeIngredients || [],
+      };
 
-      setInformation((prev) => [...prev, formattedAddMenu]);
       apiCallPost(formattedAddMenu);
+      setInformation((prev) => [...prev, formattedAddMenuFront]);
     }
   }, [addMenu]);
+
 
   useEffect(() => {
     const filteredSlice = informationSlice.filter((item) => {
@@ -176,6 +193,7 @@ const FoodSection = ({
     }
 
     //UpdDate FrontEnd
+
     const newElements = information?.filter(
       (element) => element.id !== idForDelete
     );
@@ -193,7 +211,7 @@ const FoodSection = ({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(item),
       };
-      const res = await fetch(`${url}/${item.id}`, requestOptions);
+      const res = await fetch(`http://www.saboresdelhogar.somee.com/Api/recipe?id=${item.id}`, requestOptions);
       if (!res.ok) {
         throw new Error(`Error de red: ${res.status}`);
       }
@@ -203,6 +221,35 @@ const FoodSection = ({
       console.log(error);
     }
   };
+
+
+  useEffect(() => {
+    if (updateMenu && Object.keys(updateMenu).length > 0) {
+
+
+      const formattedUpdateMenu = {
+        id: updateMenu.id || "",
+        imgUrl: updateMenu.imgUrl || "",
+        name: updateMenu.name || "",
+        description: updateMenu.description || "",
+        cookMethodId: updateMenu.cookMethodId || "",
+        portion: updateMenu.portion || "",
+        cookingMinutes: updateMenu.cookingMinutes || "",
+        recipeIngredients: updateMenu.recipeIngredients || [],
+      };
+      console.log("update", formattedUpdateMenu);
+
+      const updatedElements = information?.map((element) => {
+        if (element.id === formattedUpdateMenu.id) {
+          return formattedUpdateMenu;
+        }
+        return element;
+      });
+
+      setInformation(updatedElements);
+      closeCard()
+    }
+  }, [updateMenu]);
 
   return (
     <section className="flex-1 2xl:flex 2xl:flex-col 2xl:items-center 2xl:justify-start p-4 overflow-hidden lg:rounded-tr-3xl bg-white">
@@ -236,6 +283,7 @@ const FoodSection = ({
         handleDeleteMenu={handleDeleteMenu}
         apiCallDelete={apiCallDelete}
         apiCallUpdate={apiCallUpdate}
+        updateMenu={updateMenu}
       />
     </section>
   );
