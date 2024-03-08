@@ -118,7 +118,7 @@ const Form = ({
             />
             <input
               className="px-2 py-1 rounded-lg bg-gray-100 w-11/12 mx-auto text-sm sm:text-base"
-              placeholder="Tiempo"
+              placeholder="Tiempo en minutos"
               value={formData.cookingMinutes}
               onChange={(e) =>
                 setFormData({ ...formData, cookingMinutes: e.target.value })
