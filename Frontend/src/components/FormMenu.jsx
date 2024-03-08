@@ -25,12 +25,6 @@ const Form = ({
 
   const handleAddIngredients = (e, ingredients) => {
     e.preventDefault();
-
-    // Filtrar los ingredientes que tienen el nombre o la cantidad vacíos
-    const filteredIngredients = ingredients.filter(
-      (ingredient) => ingredient.ingredientQuantity.trim() !== ""
-    );
-
     // Verificar si al menos un ingrediente tiene nombre y cantidad no vacíos
     if (filteredIngredients.length === 0) {
       console.log("Ingresa un ingrediente");
@@ -85,7 +79,7 @@ const Form = ({
             />
             <textarea
               className="h-1/2 px-2 py-1 rounded-lg bg-gray-100 w-11/12 text-sm sm:text-base mx-auto"
-              placeholder="Descripción breve del menu"
+              placeholder="Descripción y pasos a seguir"
               value={formData.description}
               onChange={(e) =>
                 setFormData({ ...formData, description: e.target.value })
@@ -108,14 +102,6 @@ const Form = ({
                 </option>
               ))}
             </select>
-            {/* <textarea
-              className="h-1/2 px-2 py-1 rounded-lg bg-gray-100 w-11/12 mx-auto text-sm sm:text-base"
-              placeholder="Escribe los ingredientes separados por comas"
-              value={formatIngredients()}
-              onChange={handleIngredientChange}
-              minLength={2}
-              required
-            ></textarea> */}
             <AddIngredient
               handleAddIngredients={handleAddIngredients}
               recipeIngredients={formData.recipeIngredients}
@@ -132,7 +118,7 @@ const Form = ({
             />
             <input
               className="px-2 py-1 rounded-lg bg-gray-100 w-11/12 mx-auto text-sm sm:text-base"
-              placeholder="Tiempo"
+              placeholder="Tiempo en minutos"
               value={formData.cookingMinutes}
               onChange={(e) =>
                 setFormData({ ...formData, cookingMinutes: e.target.value })

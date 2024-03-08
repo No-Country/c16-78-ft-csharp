@@ -14,7 +14,7 @@ const FoodSection = ({
   deleteMenu,
 }) => {
   //fetch
-  const url = "http://www.saboresdelhogar.somee.com/Api/recipe";
+  const url = "https://www.saboresdelhogar.somee.com/Api/recipe";
   const { data, loading, error } = useFetch(url);
   const cookMethodsUrl = "https://www.saboresdelhogar.somee.com/Api/CookMethod";
   const {
@@ -179,7 +179,7 @@ const FoodSection = ({
     //Delete Backend
     try {
       const response = await fetch(
-        `http://www.saboresdelhogar.somee.com/Api/recipe?id=${idForDelete}`,
+        `https://www.saboresdelhogar.somee.com/Api/recipe?id=${idForDelete}`,
         {
           method: "DELETE",
         }
@@ -215,7 +215,7 @@ const FoodSection = ({
         body: JSON.stringify(item),
       };
       const res = await fetch(
-        `http://www.saboresdelhogar.somee.com/Api/recipe?id=${item.id}`,
+        `https://www.saboresdelhogar.somee.com/Api/recipe?id=${item.id}`,
         requestOptions
       );
       if (!res.ok) {

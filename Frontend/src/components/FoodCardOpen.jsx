@@ -14,14 +14,15 @@ const FoodCardOpen = ({
   setInformationSlice,
   handleDeleteMenu,
   apiCallDelete,
-  apiCallUpdate
+  apiCallUpdate,
 }) => {
   const [favorite, setFavorite] = useState(false);
 
   return (
     <section
-      className={`fixed top-0 left-0 lg:p-4 w-full h-svh overflow-scroll xsm:h-full xsm:justify-center xsm:items-center bg-background-modal ${cardOpen ? "flex" : "hidden"
-        }`}
+      className={`fixed top-0 left-0 lg:p-4 w-full h-svh overflow-scroll xsm:h-full xsm:justify-center xsm:items-center bg-background-modal ${
+        cardOpen ? "flex" : "hidden"
+      }`}
     >
       <article className="bg-white w-full h-svh lg:h-auto overflow-scroll flex flex-col max-w-screen-xl lg:flex-row lg:m-4 lg:rounded-3xl lg:overflow-hidden">
         <figure className="relative h-56 xsm:h-64 sm:h-80 md:h-96 lg:h-[32rem] lg:w-[32rem]">
@@ -37,8 +38,9 @@ const FoodCardOpen = ({
             <TfiClose />
           </button>
           <button
-            className={`text-2xl xsm:text-4xl absolute top-1 xsm:top-4 right-1 xsm:right-4 text-black bg-slate-100 p-1 rounded-md ${favorite ? "text-red-600" : "text-black"
-              }  hover:text-red-400 ease-in-out transition-all`}
+            className={`text-2xl xsm:text-4xl absolute top-1 xsm:top-4 right-1 xsm:right-4 text-black bg-slate-100 p-1 rounded-md ${
+              favorite ? "text-red-600" : "text-black"
+            }  hover:text-red-400 ease-in-out transition-all`}
             onClick={() => {
               setFavorite((prev) => !prev);
             }}
@@ -73,9 +75,11 @@ const FoodCardOpen = ({
             </time>
           </header>
           <div className="flex flex-col lg:pb-0 flex-1 justify-start">
-            <p className="text-base font-light xsm:line-clamp-2 xl:line-clamp-none">
-              {item.description}
-            </p>
+            <textarea
+              className="text-base font-light xsm:line-clamp-2 xl:line-clamp-none"
+              value={item.description}
+              disabled
+            ></textarea>
             <span className="h-0.5 bg-textHint mt-2"></span>
             <div className="flex flex-col pt-2">
               <p className="ml-2 text-lg italic">
