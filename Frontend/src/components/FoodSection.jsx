@@ -17,7 +17,11 @@ const FoodSection = ({
   const url = "http://www.saboresdelhogar.somee.com/Api/recipe";
   const { data, loading, error } = useFetch(url);
   const cookMethodsUrl = "https://www.saboresdelhogar.somee.com/Api/CookMethod";
-  const { data: cookMethodsData, isLoading: cookMethodsLoading, error: cookMethodsError } = useFetch(cookMethodsUrl);
+  const {
+    data: cookMethodsData,
+    isLoading: cookMethodsLoading,
+    error: cookMethodsError,
+  } = useFetch(cookMethodsUrl);
   const title = useRef(null);
   const [cardOpen, setCardOpen] = useState(false);
   const [itemSelected, setItemSelected] = useState({});
@@ -68,7 +72,6 @@ const FoodSection = ({
       setInformation((prev) => [...prev, formattedAddMenuFront]);
     }
   }, [addMenu]);
-
 
   useEffect(() => {
     const filteredSlice = informationSlice.filter((item) => {
@@ -211,7 +214,10 @@ const FoodSection = ({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(item),
       };
-      const res = await fetch(`http://www.saboresdelhogar.somee.com/Api/recipe?id=${item.id}`, requestOptions);
+      const res = await fetch(
+        `http://www.saboresdelhogar.somee.com/Api/recipe?id=${item.id}`,
+        requestOptions
+      );
       if (!res.ok) {
         throw new Error(`Error de red: ${res.status}`);
       }
@@ -222,11 +228,8 @@ const FoodSection = ({
     }
   };
 
-
   useEffect(() => {
     if (updateMenu && Object.keys(updateMenu).length > 0) {
-
-
       const formattedUpdateMenu = {
         id: updateMenu.id || "",
         imgUrl: updateMenu.imgUrl || "",
@@ -247,7 +250,7 @@ const FoodSection = ({
       });
 
       setInformation(updatedElements);
-      closeCard()
+      closeCard();
     }
   }, [updateMenu]);
 

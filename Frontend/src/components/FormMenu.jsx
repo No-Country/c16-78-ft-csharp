@@ -25,7 +25,6 @@ const Form = ({
 
   const handleAddIngredients = (e, ingredients) => {
     e.preventDefault();
-    console.log(ingredients);
 
     // Filtrar los ingredientes que tienen el nombre o la cantidad vacíos
     const filteredIngredients = ingredients.filter(
