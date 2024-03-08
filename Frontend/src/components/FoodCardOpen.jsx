@@ -24,7 +24,7 @@ const FoodCardOpen = ({
         cardOpen ? "flex" : "hidden"
       }`}
     >
-      <article className="bg-white w-full h-svh lg:h-auto overflow-scroll flex flex-col max-w-screen-xl lg:flex-row lg:m-4 lg:rounded-3xl lg:overflow-hidden">
+      <article className="bg-white w-full h-dvh lg:h-auto overflow-scroll flex flex-col max-w-screen-xl lg:flex-row lg:m-4 lg:rounded-3xl lg:overflow-hidden">
         <figure className="relative h-56 xsm:h-64 sm:h-80 md:h-96 lg:h-[32rem] lg:w-[32rem]">
           <img
             className="h-full w-full object-cover lg:rounded-3xl"
