@@ -3,6 +3,7 @@ import ButtonFill from "./ButtonFill";
 import FormMenu from "./FormMenu";
 
 const AddMenu = ({ handleAddMenu }) => {
+  const url = "https://www.saboresdelhogar.somee.com/Api/recipe";
   const [showAddMenuPopup, setShowAddMenuPopup] = useState(false);
   const [text, setText] = useState("agregar");
   const [formData, setFormData] = useState({
@@ -51,7 +52,9 @@ const AddMenu = ({ handleAddMenu }) => {
     }
 
     const updatedFormData = { ...formData, cookMethodId: parsedCookMethodId };
+    apiCallPost(updatedFormData);
     handleAddMenu(updatedFormData);
+
     setFormData({
       name: "",
       description: "",
@@ -63,6 +66,23 @@ const AddMenu = ({ handleAddMenu }) => {
     setShowAddMenuPopup(false);
     document.body.style.overflow = "auto";
   }
+
+  const apiCallPost = async (newItem) => {
+    try {
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newItem),
+      };
+      const res = await fetch(`${url}`, requestOptions);
+      const data = await res.json();
+      console.log(data);
+      return;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error al realizar la solicitud POST");
+    }
+  };
 
   return (
     <>

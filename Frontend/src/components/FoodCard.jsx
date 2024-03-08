@@ -1,13 +1,7 @@
 import React from "react";
 import ButtonFill from "./ButtonFill";
-// import { useHistory } from "react-router-dom";
-
-
 
 const FoodCard = ({ item, openCard }) => {
-
-  // const history = useHistory()
-
   return (
     <article className="w-auto sm:w-72 bg-white border border-textHint rounded-3xl overflow-hidden lg:flex lg:w-full">
       <figure className="w-full h-48 overflow-hidden flex items-center lg:w-64 lg:h-36 lg:rounded-3xl">
@@ -31,7 +25,6 @@ const FoodCard = ({ item, openCard }) => {
           onClick={() => {
             {
               openCard(item);
-              // history.push(`/${item.id}`);
             }
           }}
           addClass="mt-auto"

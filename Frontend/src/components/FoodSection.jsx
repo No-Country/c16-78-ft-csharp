@@ -40,23 +40,11 @@ const FoodSection = ({
   }, [data]);
 
   useEffect(() => {
-    console.log("solucionar", addMenu);
     if (addMenu && Object.keys(addMenu).length > 0) {
-      console.log("mierda", cookMethodsData);
       const selectedCookMethod = cookMethodsData.data.find(
         (method) => method.id === addMenu.cookMethodId
       );
 
-      const formattedAddMenu = {
-        id: 0,
-        imgUrl: addMenu.imgUrl || "",
-        name: addMenu.name || "",
-        description: addMenu.description || "",
-        cookMethodId: addMenu.cookMethodId || "",
-        portion: addMenu.portion || "",
-        cookingMinutes: addMenu.cookingMinutes || "",
-        recipeIngredients: addMenu.recipeIngredients || [],
-      };
       const formattedAddMenuFront = {
         id: 0,
         imgUrl: addMenu.imgUrl || "",
@@ -68,7 +56,6 @@ const FoodSection = ({
         recipeIngredients: addMenu.recipeIngredients || [],
       };
 
-      apiCallPost(formattedAddMenu);
       setInformation((prev) => [...prev, formattedAddMenuFront]);
     }
   }, [addMenu]);
@@ -158,12 +145,12 @@ const FoodSection = ({
     document.body.style.overflow = "auto";
   };
 
-  const apiCallPost = async (formattedAddMenu) => {
+  const apiCallPost = async (newItem) => {
     try {
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formattedAddMenu),
+        body: JSON.stringify(newItem),
       };
       const res = await fetch(`${url}`, requestOptions);
       const data = await res.json();
