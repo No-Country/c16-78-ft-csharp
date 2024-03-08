@@ -68,6 +68,7 @@ const AddMenu = ({ handleAddMenu }) => {
   }
 
   const apiCallPost = async (newItem) => {
+    newItem.id = 0;
     try {
       const requestOptions = {
         method: "POST",

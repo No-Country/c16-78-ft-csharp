@@ -20,7 +20,7 @@ const FoodCardOpen = ({
 
   return (
     <section
-      className={`fixed top-0 left-0 lg:p-4 w-full h-svh overflow-scroll xsm:h-full xsm:justify-center xsm:items-center bg-background-modal ${
+      className={`fixed top-0 left-0 lg:p-4 w-full h-dvh overflow-scroll xsm:h-full xsm:justify-center xsm:items-center bg-background-modal ${
         cardOpen ? "flex" : "hidden"
       }`}
     >
