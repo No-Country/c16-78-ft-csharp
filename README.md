@@ -24,7 +24,9 @@ para planificar y preparar comidas deliciosas utilizando lo que ya tienen en su 
 - Tailwind
 
 **Back-end**: 
-- ...
+- .NET 7
+- Entity Framework Core
+- MSSQL
 
 ## Expectativas
 
@@ -34,13 +36,9 @@ para planificar y preparar comidas deliciosas utilizando lo que ya tienen en su 
 ## Equipo: c16-78-ft-csharp
 | Diciplina               | Nombre                                                                                 |País |
 |:------------------------ |:------------------------------------------------------------------------------------------- |:---|
-|UX/UI| [Javier Campos](https://github.com/...)| Mexico|
 |FrontEnd - React| [Jason Morales](https://github.com/jasonmrr)| Mexico|
-|FrontEnd - React| [Nahuel Benitez](https://github.com/...)| Argentina|
 |FrontEnd - React| [Matias Campos](https://github.com/2022matias)| Argentina|
-|Fullstack - .NET + React| [Samuel Herrera](https://github.com/samuelfelip)| Argentina|
 |BackEnd - .NET| [Agustina Balcarcel](https://github.com/agusbcl)| Argentina|
-|BackEnd - .NET| [Joaquín Saavedra](https://github.com/josaav )| Argentina|
 
 ### Instrucciones de Instalación
 
@@ -63,5 +61,5 @@ dotnet run
 ```
 
 3. **Acceder a la Aplicación:**
-Abre tu navegador y visita http://localhost:3000 
+Abre tu navegador y visita https://zero-waste-497f3.web.app/
 
