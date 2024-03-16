@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import FoodCard from "./FoodCard";
-import ImageExample from "../assets/platillo-ejemplo.png";
 import Pager from "./Pager";
 import FoodCardOpen from "./FoodCardOpen";
 import { v4 as uuidv4 } from "uuid";
+import useFetch from "../hooks/useFetch";
 
 const FoodSection = ({
   ingredientsFilter,
@@ -13,6 +13,15 @@ const FoodSection = ({
   handleDeleteMenu,
   deleteMenu,
 }) => {
+  //fetch
+  const url = "https://www.saboresdelhogar.somee.com/Api/recipe";
+  const { data, loading, error } = useFetch(url);
+  const cookMethodsUrl = "https://www.saboresdelhogar.somee.com/Api/CookMethod";
+  const {
+    data: cookMethodsData,
+    isLoading: cookMethodsLoading,
+    error: cookMethodsError,
+  } = useFetch(cookMethodsUrl);
   const title = useRef(null);
   const [cardOpen, setCardOpen] = useState(false);
   const [itemSelected, setItemSelected] = useState({});
@@ -22,116 +31,39 @@ const FoodSection = ({
   const [disableNext, setDisableNext] = useState(false);
   const [informationSlice, setInformationSlice] = useState([]);
   const [informationLength, setInformationLength] = useState(0);
-  const [information, setInformation] = useState([
-    {
-      id: 3,
-      imgUrl: ImageExample,
-      name: "Ensalada",
-      description: "Lavar las verduras, cortarlas y condimentar a gusto",
-      cookMethodName: "No requiere cocción",
-      portion: 1,
-      minutes: "15 - 20 min",
-      recipeIngredients: [
-        {
-          ingredientName: "Tomate",
-          isMain: true,
-          ingredientQuantity: "1",
-        },
-        {
-          ingredientName: "Aceite de oliva",
-          isMain: false,
-          ingredientQuantity: "A gusto",
-        },
-        {
-          ingredientName: "Lechuga",
-          isMain: true,
-          ingredientQuantity: "450gr",
-        },
-        {
-          ingredientName: "Sal",
-          isMain: false,
-          ingredientQuantity: "A gusto",
-        },
-        {
-          ingredientName: "Pimienta",
-          isMain: false,
-          ingredientQuantity: "A gusto",
-        },
-      ],
-    },
-    {
-      id: 4,
-      imgUrl: ImageExample,
-      name: "Ensalada",
-      description: "Lavar las verduras, cortarlas y condimentar a gusto",
-      cookMethodName: "No requiere cocción",
-      portion: 1,
-      minutes: "15 - 20 min",
-      recipeIngredients: [
-        {
-          ingredientName: "Aceite de oliva",
-          isMain: false,
-          ingredientQuantity: "A gusto",
-        },
-        {
-          ingredientName: "Lechuga",
-          isMain: true,
-          ingredientQuantity: "450gr",
-        },
-        {
-          ingredientName: "Sal",
-          isMain: false,
-          ingredientQuantity: "A gusto",
-        },
-        {
-          ingredientName: "Pimienta",
-          isMain: false,
-          ingredientQuantity: "A gusto",
-        },
-      ],
-    },
-  ]);
-
+  const [information, setInformation] = useState([]);
   const [filteredInformationSlice, setFilteredInformationSlice] = useState([]);
+
+  //Obtiene los datos para mostrar
+  useEffect(() => {
+    setInformation(data?.data || []);
+  }, [data]);
 
   useEffect(() => {
     if (addMenu && Object.keys(addMenu).length > 0) {
-      const formattedAddMenu = {
-        id: uuidv4(),
+      const selectedCookMethod = cookMethodsData.data.find(
+        (method) => method.id === addMenu.cookMethodId
+      );
+
+      const formattedAddMenuFront = {
+        id: 0,
         imgUrl: addMenu.imgUrl || "",
         name: addMenu.name || "",
         description: addMenu.description || "",
-        cookMethodName: addMenu.cookMethodName || "",
+        cookMethodName: selectedCookMethod?.name || "",
         portion: addMenu.portion || "",
-        minutes: addMenu.minutes || "",
+        cookingMinutes: addMenu.cookingMinutes || "",
         recipeIngredients: addMenu.recipeIngredients || [],
       };
 
-      setInformation((prev) => [...prev, formattedAddMenu]);
+      setInformation((prev) => [...prev, formattedAddMenuFront]);
     }
   }, [addMenu]);
 
   useEffect(() => {
-    setInformation((prev) => {
-      const updatedInformation = prev.map((item) =>
-        item.id === updateMenu.id ? updateMenu : item
-      );
-      setCardOpen(false);
-
-      return updatedInformation;
-    });
-  }, [updateMenu]);
-
-  useEffect(() => {
-    setInformation((prev) => prev.filter((menu) => menu.id !== deleteMenu));
-    setCardOpen(false);
-    document.body.style.overflow = "auto";
-  }, [deleteMenu]);
-
-  useEffect(() => {
     const filteredSlice = informationSlice.filter((item) => {
-      const recipeIngredientNames = item.recipeIngredients.map((ingredient) =>
-        ingredient.ingredientName.toLowerCase()
+      const recipeIngredientNames = item.recipeIngredients?.map((ingredient) =>
+        ingredient.ingredientName?.toLowerCase()
       );
 
       const ingredientsFilterLower = ingredientsFilter.map((ingredient) =>
@@ -213,8 +145,103 @@ const FoodSection = ({
     document.body.style.overflow = "auto";
   };
 
+  const apiCallPost = async (newItem) => {
+    try {
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newItem),
+      };
+      const res = await fetch(`${url}`, requestOptions);
+      const data = await res.json();
+      console.log(data);
+      return;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error al realizar la solicitud POST");
+    }
+  };
+
+  const apiCallDelete = async (idForDelete) => {
+    try {
+      const response = await fetch(
+        `https://www.saboresdelhogar.somee.com/Api/recipe?id=${idForDelete}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (response.ok) {
+        console.log(`Elemento con ID ${idForDelete} eliminado exitosamente`);
+      } else {
+        console.error("Error al eliminar el elemento:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error de red:", error);
+      throw new Error("Error al eliminar el elemento");
+    }
+
+    // Actualización en el frontend
+    const newElements = information?.filter(
+      (element) => element.id !== idForDelete
+    );
+    setInformation(newElements);
+    setCardOpen(false);
+    document.body.style.overflow = "auto";
+  };
+
+  const apiCallUpdate = async (item) => {
+    console.log(item);
+    try {
+      const requestOptions = {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(item),
+      };
+      const res = await fetch(
+        `https://www.saboresdelhogar.somee.com/Api/recipe?id=${item.id}`,
+        requestOptions
+      );
+      if (!res.ok) {
+        throw new Error(`Error de red: ${res.status}`);
+      }
+      const data = await res.json();
+      console.log(data);
+      handleUpdateMenu(item);
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error al realizar la solicitud PUT");
+    }
+  };
+
+  useEffect(() => {
+    if (updateMenu && Object.keys(updateMenu).length > 0) {
+      const formattedUpdateMenu = {
+        id: updateMenu.id || "",
+        imgUrl: updateMenu.imgUrl || "",
+        name: updateMenu.name || "",
+        description: updateMenu.description || "",
+        cookMethodId: updateMenu.cookMethodId || "",
+        portion: updateMenu.portion || "",
+        cookingMinutes: updateMenu.cookingMinutes || "",
+        recipeIngredients: updateMenu.recipeIngredients || [],
+      };
+      console.log("update", formattedUpdateMenu);
+
+      const updatedElements = information?.map((element) => {
+        if (element.id === formattedUpdateMenu.id) {
+          return formattedUpdateMenu;
+        }
+        return element;
+      });
+
+      setInformation(updatedElements);
+      closeCard();
+    }
+  }, [updateMenu]);
+
   return (
-    <section className=" flex-1 2xl:flex 2xl:flex-col 2xl:items-center 2xl:justify-start p-4 overflow-hidden lg:rounded-tr-3xl bg-white">
+    <section className="flex-1 2xl:flex 2xl:flex-col 2xl:items-center 2xl:justify-start p-4 overflow-hidden lg:rounded-tr-3xl bg-white">
       <h1
         ref={title}
         className="text-base md:text-3xl text-center pb-4 font-medium lg:text-xl lg:text-start"
@@ -222,9 +249,9 @@ const FoodSection = ({
         Puedes crear {informationLength} platillos
       </h1>
       <div className="flex flex-row flex-wrap gap-4 justify-center lg:flex-col lg:max-w-screen-xl w-full">
-        {filteredInformationSlice.map((item, index) => {
-          return <FoodCard key={index + 1} item={item} openCard={openCard} />;
-        })}
+        {filteredInformationSlice.map((item, index) => (
+          <FoodCard key={index + 1} item={item} openCard={openCard} />
+        ))}
         <div className="w-full">
           <Pager
             numberOfPages={numberOfPages}
@@ -242,8 +269,10 @@ const FoodSection = ({
         cardOpen={cardOpen}
         closeCard={closeCard}
         setInformationSlice={setInformationSlice}
-        handleUpdateMenu={handleUpdateMenu}
         handleDeleteMenu={handleDeleteMenu}
+        apiCallDelete={apiCallDelete}
+        apiCallUpdate={apiCallUpdate}
+        updateMenu={updateMenu}
       />
     </section>
   );

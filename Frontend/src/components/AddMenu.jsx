@@ -3,16 +3,17 @@ import ButtonFill from "./ButtonFill";
 import FormMenu from "./FormMenu";
 
 const AddMenu = ({ handleAddMenu }) => {
+  const url = "https://www.saboresdelhogar.somee.com/Api/recipe";
   const [showAddMenuPopup, setShowAddMenuPopup] = useState(false);
   const [text, setText] = useState("agregar");
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    cookMethodName: "",
+    cookMethodId: "",
     recipeIngredients: [],
     portion: "",
     imgUrl: "",
-    minutes: "",
+    cookingMinutes: "",
   });
 
   function handleOpenAddMenuPopup() {
@@ -20,22 +21,9 @@ const AddMenu = ({ handleAddMenu }) => {
     document.body.style.overflow = "hidden";
   }
 
-  // function handleIngredientChange(e) {
-  //     const ingredientInput = e.target.value;
-  //     if (ingredientInput) {
-  //         setFormData({ ...formData, recipeIngredients: ingredientInput });
-  //     } else {
-  //         setFormData({ ...formData, recipeIngredients: ingredientInput });
-  //         alert("Ingresa los ingredientes separados por coma y espacio.");
-  //     }
-  // }
-
   function handleUrlChange(e) {
     const urlInput = e.target.value;
     const isValidUrl = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(urlInput);
-    console.log(isValidUrl);
-    console.log(formData.imgUrl);
-
     if (!isValidUrl) {
       alert("Ingresa una URL válida que comience con 'http://' o 'https://'.");
       return;
@@ -47,13 +35,14 @@ const AddMenu = ({ handleAddMenu }) => {
     const {
       name,
       description,
-      cookMethodName,
+      cookMethodId,
       recipeIngredients,
       portion,
       imgUrl,
-      minutes,
+      cookingMinutes,
       id,
     } = formData;
+    const parsedCookMethodId = parseInt(cookMethodId, 10);
     const isValidUrl = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(
       formData.imgUrl
     );
@@ -61,11 +50,15 @@ const AddMenu = ({ handleAddMenu }) => {
       alert("Ingresa una URL válida que comience con 'http://' o 'https://'.");
       return;
     }
-    handleAddMenu(formData);
+
+    const updatedFormData = { ...formData, cookMethodId: parsedCookMethodId };
+    apiCallPost(updatedFormData);
+    handleAddMenu(updatedFormData);
+
     setFormData({
       name: "",
       description: "",
-      cookMethodName: "",
+      cookMethodId: "",
       recipeIngredients: [],
       portion: "",
       imgUrl: "",
@@ -73,6 +66,24 @@ const AddMenu = ({ handleAddMenu }) => {
     setShowAddMenuPopup(false);
     document.body.style.overflow = "auto";
   }
+
+  const apiCallPost = async (newItem) => {
+    newItem.id = 0;
+    try {
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newItem),
+      };
+      const res = await fetch(`${url}`, requestOptions);
+      const data = await res.json();
+      console.log(data);
+      return;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error al realizar la solicitud POST");
+    }
+  };
 
   return (
     <>

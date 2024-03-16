@@ -1,48 +1,71 @@
 import { useEffect, useState } from "react";
 import ButtonFill from "./ButtonFill";
 import FormMenu from "./FormMenu";
+import useFetch from "../hooks/useFetch";
 
-const UpdateMenu = ({ item, handleUpdateMenu }) => {
+const UpdateMenu = ({ item, apiCallUpdate }) => {
+  // Fetch de los ingredientes
+  const url = "https://www.saboresdelhogar.somee.com/Api/ingredient";
+  const {
+    data: ingredientsData,
+    loading: loadingIngredients,
+    error: errorIngredients,
+  } = useFetch(url);
+  //Fetch de los cookmethods
+  const url2 = "https://www.saboresdelhogar.somee.com/Api/CookMethod";
+  const {
+    data: cookData,
+    isLoading: loadingCook,
+    error: errorCook,
+  } = useFetch(url2);
+
   const [showAddMenuPopup, setShowAddMenuPopup] = useState(false);
   const [text, setText] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    cookMethodName: "",
+    cookMethodId: "",
     recipeIngredients: [],
     portion: "",
     imgUrl: "",
-    minutes: "",
+    cookingMinutes: "",
     id: "",
   });
 
   useEffect(() => {
-    setFormData({
-      name: item.name,
-      description: item.description,
-      cookMethodName: item.cookMethodName,
-      recipeIngredients: item.recipeIngredients,
-      portion: item.portion,
-      imgUrl: item.imgUrl || "",
-      minutes: item.minutes,
-      id: item.id,
-    });
-  }, [showAddMenuPopup]);
+    if (cookData.data && cookData.data.length > 0) {
+      const cookingFull = cookData.data.filter(
+        (cookMethod) => cookMethod.name === item.cookMethodName && cookMethod.id
+      );
+
+      const ingredientsId = item.recipeIngredients?.map((ingredient) => {
+        const foundIngredient = ingredientsData.data?.find(
+          (item) => item.name === ingredient.ingredientName
+        );
+        return {
+          ...ingredient,
+          ingredientId: foundIngredient ? foundIngredient.id : null,
+        };
+      });
+
+      setFormData((prevData) => ({
+        ...prevData,
+        name: item.name,
+        description: item.description,
+        cookMethodId: cookingFull[0]?.id || "",
+        recipeIngredients: ingredientsId || [],
+        portion: item.portion,
+        imgUrl: item.imgUrl || "",
+        cookingMinutes: item.cookingMinutes,
+        id: item.id,
+      }));
+    }
+  }, [showAddMenuPopup, ingredientsData, cookData, item]);
 
   function handleOpenAddMenuPopup() {
     setShowAddMenuPopup(true);
     document.body.style.overflow = "hidden";
   }
-
-  // function handleIngredientChange(e) {
-  //     const ingredientInput = e.target.value;
-  //     if (ingredientInput) {
-  //         setFormData({ ...formData, recipeIngredients: ingredientInput });
-  //     } else {
-  //         setFormData({ ...formData, recipeIngredients: ingredientInput });
-  //         alert("Ingresa los ingredientes separados por coma y espacio.");
-  //     }
-  // }
 
   function handleUrlChange(e) {
     const urlInput = e.target.value;
@@ -61,32 +84,25 @@ const UpdateMenu = ({ item, handleUpdateMenu }) => {
     const {
       name,
       description,
-      cookMethodName,
+      cookMethodId,
       recipeIngredients,
       portion,
       imgUrl,
-      minutes,
+      cookingMinutes,
       id,
     } = formData;
     if (
       !name.trim() ||
       !description.trim() ||
-      !cookMethodName.trim() ||
       recipeIngredients === "" ||
       !portion ||
       !imgUrl.trim() ||
-      !minutes.trim()
+      !cookingMinutes
     ) {
       alert("Completa todos los campos antes de enviar el formulario.");
       return;
     }
-    // const ingredientsValid = /^[^,]+(, [^,]+)*$/.test(formData.recipeIngredients);
-    // console.log(formData.recipeIngredients)
-    // if (!ingredientsValid) {
-    //     alert("Ingresa los ingredientes separados por coma y espacio correctamente.");
-    //     e.target.recipeIngredients.focus();
-    //     return;
-    // }
+
     const isValidUrl = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(
       formData.imgUrl
     );
@@ -94,15 +110,15 @@ const UpdateMenu = ({ item, handleUpdateMenu }) => {
       alert("Ingresa una URL válida que comience con 'http://' o 'https://'.");
       return;
     }
-    handleUpdateMenu(formData);
+    apiCallUpdate(formData);
     setFormData({
       name: "",
       description: "",
-      cookMethodName: "",
+      cookMethodId: "",
       recipeIngredients: [],
       portion: "",
       imgUrl: "",
-      minutes: "",
+      cookingMinutes: "",
       id: "",
     });
     setShowAddMenuPopup(false);
@@ -122,6 +138,7 @@ const UpdateMenu = ({ item, handleUpdateMenu }) => {
         handleSubmit={handleSubmit}
         item={item}
         text={text}
+        apiCallUpdate={apiCallUpdate}
       />
     </>
   );

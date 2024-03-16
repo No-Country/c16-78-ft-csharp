@@ -1,6 +1,8 @@
 import ButtonFill from "./ButtonFill";
 import { TfiClose } from "react-icons/tfi";
 import AddIngredient from "./AddIngredient";
+import { useState, useEffect } from "react";
+import useFetch from "../hooks/useFetch";
 
 const Form = ({
   showAddMenuPopup,
@@ -12,33 +14,24 @@ const Form = ({
   handleSubmit,
   text,
 }) => {
-  //   const formatIngredients = () => {
-  //     const ingredients = formData?.recipeIngredients;
-  //     if (Array.isArray(ingredients)) {
-  //       return ingredients
-  //         .map((ingredient) => ingredient.ingredientName)
-  //         .join(", ");
-  //     }
-  //     return;
-  //   };
+  const [cookMethods, setCookMethods] = useState([]);
+
+  const url = "https://www.saboresdelhogar.somee.com/Api/CookMethod";
+  const { data, isLoading, error } = useFetch(url);
+
+  useEffect(() => {
+    setCookMethods(data);
+  }, [data]);
 
   const handleAddIngredients = (e, ingredients) => {
     e.preventDefault();
 
-    // Filtrar los ingredientes que tienen el nombre o la cantidad vacíos
-    const filteredIngredients = ingredients.filter(
-      (ingredient) =>
-        ingredient.ingredientName.trim() !== "" &&
-        ingredient.ingredientQuantity.trim() !== ""
-    );
-
-    // Verificar si al menos un ingrediente tiene nombre y cantidad no vacíos
-    if (filteredIngredients.length === 0) {
-      alert("Ingresa al menos un ingrediente");
+    if (ingredients[0].ingredientQuantity === "") {
+      console.log("Ingresa al menos un ingrediente");
     } else {
       setFormData((prev) => ({
         ...prev,
-        recipeIngredients: filteredIngredients,
+        recipeIngredients: ingredients,
       }));
     }
   };
@@ -57,11 +50,11 @@ const Form = ({
                 setFormData({
                   name: "",
                   description: "",
-                  cookMethodName: "",
+                  cookMethodId: "",
                   recipeIngredients: "",
                   portion: "",
                   imgUrl: "",
-                  minutes: "",
+                  cookingMinutes: "",
                 });
                 setShowAddMenuPopup(false);
                 document.body.style.overflow = "auto";
@@ -94,24 +87,21 @@ const Form = ({
               minLength={2}
               required
             ></textarea>
-            <input
+            <select
               className="px-2 py-1 rounded-lg bg-gray-100 w-11/12 mx-auto text-sm sm:text-base"
-              placeholder="Metodo de cocción del menu"
-              value={formData.cookMethodName}
+              value={formData.cookMethodId}
               onChange={(e) =>
-                setFormData({ ...formData, cookMethodName: e.target.value })
+                setFormData({ ...formData, cookMethodId: e.target.value })
               }
-              minLength={2}
               required
-            />
-            {/* <textarea
-              className="h-1/2 px-2 py-1 rounded-lg bg-gray-100 w-11/12 mx-auto text-sm sm:text-base"
-              placeholder="Escribe los ingredientes separados por comas"
-              value={formatIngredients()}
-              onChange={handleIngredientChange}
-              minLength={2}
-              required
-            ></textarea> */}
+            >
+              <option value="">Selecciona un método de cocción</option>
+              {cookMethods?.data.map((method) => (
+                <option key={method.id} value={method.id}>
+                  {method.name}
+                </option>
+              ))}
+            </select>
             <AddIngredient
               handleAddIngredients={handleAddIngredients}
               recipeIngredients={formData.recipeIngredients}
@@ -128,10 +118,10 @@ const Form = ({
             />
             <input
               className="px-2 py-1 rounded-lg bg-gray-100 w-11/12 mx-auto text-sm sm:text-base"
-              placeholder="Tiempo"
-              value={formData.minutes}
+              placeholder="Tiempo en minutos"
+              value={formData.cookingMinutes}
               onChange={(e) =>
-                setFormData({ ...formData, minutes: e.target.value })
+                setFormData({ ...formData, cookingMinutes: e.target.value })
               }
               required
             />
@@ -146,7 +136,7 @@ const Form = ({
               minLength={2}
               required
             />
-            <ButtonFill type="buttom" addClass="mx-auto mb-4">
+            <ButtonFill type="button" addClass="mx-auto mb-4">
               {text === "agregar" ? "Agregar" : "Actualizar"}
             </ButtonFill>
           </form>

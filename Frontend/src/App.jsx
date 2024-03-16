@@ -27,8 +27,6 @@ function App() {
     setDeleteMenu(id);
   }
 
-
-
   return (
     <main className="bg-primary font-plus-jakarta-sans">
       <Navbar />
@@ -37,13 +35,18 @@ function App() {
         id="cooking-section"
         className="lg:w-full mx-auto lg:flex lg:flex-row"
       >
-        <IngredientFilter handleIngredientsFilter={handleIngredientsFilter} handleAddMenu={handleAddMenu} />
-        <FoodSection ingredientsFilter={ingredientsFilter}
+        <IngredientFilter
+          handleIngredientsFilter={handleIngredientsFilter}
+          handleAddMenu={handleAddMenu}
+        />
+        <FoodSection
+          ingredientsFilter={ingredientsFilter}
           addMenu={addMenu}
           handleUpdateMenu={handleUpdateMenu}
           updateMenu={updateMenu}
           handleDeleteMenu={handleDeleteMenu}
-          deleteMenu={deleteMenu} />
+          deleteMenu={deleteMenu}
+        />
       </section>
       <Footer />
     </main>

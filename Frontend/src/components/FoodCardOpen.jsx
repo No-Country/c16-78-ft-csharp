@@ -4,6 +4,7 @@ import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
 import { TfiClose } from "react-icons/tfi";
 import Toster from "../assets/cooking-icons/toaster.png";
 import UpdateMenu from "./UpdateMenu";
+import ButtonFill from "./ButtonFill";
 import DeleteMenu from "./DeleteMenu";
 
 const FoodCardOpen = ({
@@ -11,18 +12,19 @@ const FoodCardOpen = ({
   cardOpen,
   closeCard,
   setInformationSlice,
-  handleUpdateMenu,
   handleDeleteMenu,
+  apiCallDelete,
+  apiCallUpdate,
 }) => {
   const [favorite, setFavorite] = useState(false);
 
   return (
     <section
-      className={`fixed top-0 left-0 lg:p-4 w-full h-svh overflow-scroll xsm:h-full xsm:justify-center xsm:items-center bg-background-modal ${
+      className={`fixed top-0 left-0 lg:p-4 w-full h-dvh overflow-scroll xsm:h-full xsm:justify-center xsm:items-center bg-background-modal ${
         cardOpen ? "flex" : "hidden"
       }`}
     >
-      <article className="bg-white w-full h-svh lg:h-auto overflow-scroll flex flex-col max-w-screen-xl lg:flex-row lg:m-4 lg:rounded-3xl lg:overflow-hidden">
+      <article className="bg-white w-full h-dvh lg:h-auto overflow-scroll flex flex-col max-w-screen-xl lg:flex-row lg:m-4 lg:rounded-3xl lg:overflow-hidden">
         <figure className="relative h-56 xsm:h-64 sm:h-80 md:h-96 lg:h-[32rem] lg:w-[32rem]">
           <img
             className="h-full w-full object-cover lg:rounded-3xl"
@@ -68,12 +70,16 @@ const FoodCardOpen = ({
                 </li>
               </ul>
             </div>
-            <time className="text-textHint text-base ml-2">{item.minutes}</time>
+            <time className="text-textHint text-base ml-2">
+              {item.cookingMinutes}
+            </time>
           </header>
           <div className="flex flex-col lg:pb-0 flex-1 justify-start">
-            <p className="text-base font-light xsm:line-clamp-2 xl:line-clamp-none">
-              {item.description}
-            </p>
+            <textarea
+              className="text-base font-light xsm:line-clamp-2 xl:line-clamp-none"
+              value={item.description}
+              disabled
+            ></textarea>
             <span className="h-0.5 bg-textHint mt-2"></span>
             <div className="flex flex-col pt-2">
               <p className="ml-2 text-lg italic">
@@ -88,13 +94,21 @@ const FoodCardOpen = ({
             {cardOpen && <Ingredients list={item.recipeIngredients} />}
           </div>
           <div className="flex justify-around">
-            <UpdateMenu item={item} handleUpdateMenu={handleUpdateMenu} />
-            <DeleteMenu
+            <UpdateMenu item={item} apiCallUpdate={apiCallUpdate} />
+            <ButtonFill
+              onClick={() => {
+                apiCallDelete(item.id);
+              }}
+            >
+              Delete
+            </ButtonFill>
+
+            {/* <DeleteMenu
               setInformationSlice={setInformationSlice}
               closeCard={closeCard}
               item={item}
               handleDeleteMenu={handleDeleteMenu}
-            />
+            /> */}
           </div>
         </div>
       </article>
@@ -107,8 +121,8 @@ const Ingredients = ({ list }) => {
   const [secondaries, setSecondaries] = useState([]);
 
   useEffect(() => {
-    const primaries = list.filter((item) => item.isMain);
-    const secondaries = list.filter((item) => !item.isMain);
+    const primaries = list?.filter((item) => item.isMain);
+    const secondaries = list?.filter((item) => !item.isMain);
     setPrimaries(primaries);
     setSecondaries(secondaries);
   }, []);
