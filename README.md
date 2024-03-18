@@ -38,7 +38,7 @@ para planificar y preparar comidas deliciosas utilizando lo que ya tienen en su 
 1. **Clonar el Repositorio:**
 
    ```bash
-   git clone https://github.com/nombre/tu-proyecto.git
+   git clone https://github.com/No-Country/c16-78-ft-csharp.git
 
    ```
 
